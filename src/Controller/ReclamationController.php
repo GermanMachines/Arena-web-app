@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 /**
  * @Route("/reclamation")
  */
@@ -26,6 +27,19 @@ class ReclamationController extends AbstractController
             ->findAll();
 
         return $this->render('reclamation/index.html.twig', [
+            'reclamations' => $reclamations,
+        ]);
+    }
+    /**
+     * @Route("/front", name="app_reclamation_index_front", methods={"GET"})
+     */
+    public function indexFront(EntityManagerInterface $entityManager): Response
+    {
+        $reclamations = $entityManager
+            ->getRepository(Reclamation::class)
+            ->findAll();
+
+        return $this->render('reclamation/index-front.html.twig', [
             'reclamations' => $reclamations,
         ]);
     }

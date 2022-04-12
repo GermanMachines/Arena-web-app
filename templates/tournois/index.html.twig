@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tournois index{% endblock %}
+
+{% block body %}
+    <h1>Tournois index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Idtournois</th>
+                <th>Titre</th>
+                <th>DateDebut</th>
+                <th>DateFin</th>
+                <th>Descriptiontournois</th>
+                <th>Type</th>
+                <th>Nbrparticipants</th>
+                <th>Idjeux</th>
+                <th>Winner</th>
+                <th>Status</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tournoi in tournois %}
+            <tr>
+                <td>{{ tournoi.idtournois }}</td>
+                <td>{{ tournoi.titre }}</td>
+                <td>{{ tournoi.dateDebut ? tournoi.dateDebut|date('Y-m-d') : '' }}</td>
+                <td>{{ tournoi.dateFin ? tournoi.dateFin|date('Y-m-d') : '' }}</td>
+                <td>{{ tournoi.descriptiontournois }}</td>
+                <td>{{ tournoi.type }}</td>
+                <td>{{ tournoi.nbrparticipants }}</td>
+                <td>{{ tournoi.idjeux }}</td>
+                <td>{{ tournoi.winner }}</td>
+                <td>{{ tournoi.status }}</td>
+                <td>
+                    <a href="{{ path('app_tournois_show', {'idtournois': tournoi.idtournois}) }}">show</a>
+                    <a href="{{ path('app_tournois_edit', {'idtournois': tournoi.idtournois}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_tournois_new') }}">Create new</a>
+{% endblock %}

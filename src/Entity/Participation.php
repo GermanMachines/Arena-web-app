@@ -39,6 +39,4 @@ class Participation
     {
         return $this->idtournois;
     }
-
-
 }

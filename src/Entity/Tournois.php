@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Tournois
  *
- * @ORM\Table(name="tournois", uniqueConstraints={@ORM\UniqueConstraint(name="Titre", columns={"Titre"})}, indexes={@ORM\Index(name="fk_J", columns={"IdJeux"})})
+ * @ORM\Table(name="tournois", indexes={@ORM\Index(name="fk_J", columns={"IdJeux"})})
  * @ORM\Entity
  */
 class Tournois
@@ -83,6 +85,21 @@ class Tournois
      * @ORM\Column(name="Status", type="string", length=255, nullable=true)
      */
     private $status;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Equipe", mappedBy="idtournois")
+     */
+    private $idequipe;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idequipe = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     public function getIdtournois(): ?int
     {
@@ -197,5 +214,31 @@ class Tournois
         return $this;
     }
 
+    /**
+     * @return Collection<int, Equipe>
+     */
+    public function getIdequipe(): Collection
+    {
+        return $this->idequipe;
+    }
+
+    public function addIdequipe(Equipe $idequipe): self
+    {
+        if (!$this->idequipe->contains($idequipe)) {
+            $this->idequipe[] = $idequipe;
+            $idequipe->addIdtournoi($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdequipe(Equipe $idequipe): self
+    {
+        if ($this->idequipe->removeElement($idequipe)) {
+            $idequipe->removeIdtournoi($this);
+        }
+
+        return $this;
+    }
 
 }

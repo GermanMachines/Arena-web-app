@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Avis
  *
- * @ORM\Table(name="avis", indexes={@ORM\Index(name="fkkk_id_utulisateur", columns={"idUtulisateur"}), @ORM\Index(name="fkkk_id_jeux", columns={"idJeux"})})
+ * @ORM\Table(name="avis", indexes={@ORM\Index(name="fkkk_id_jeux", columns={"idJeux"}), @ORM\Index(name="fkkk_id_utulisateur", columns={"idUtulisateur"})})
  * @ORM\Entity
  */
 class Avis
@@ -36,16 +36,6 @@ class Avis
     private $commentaire;
 
     /**
-     * @var \Jeux
-     *
-     * @ORM\ManyToOne(targetEntity="Jeux")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idJeux", referencedColumnName="IdJeux")
-     * })
-     */
-    private $idjeux;
-
-    /**
      * @var \User
      *
      * @ORM\ManyToOne(targetEntity="User")
@@ -54,6 +44,16 @@ class Avis
      * })
      */
     private $idutulisateur;
+
+    /**
+     * @var \Jeux
+     *
+     * @ORM\ManyToOne(targetEntity="Jeux")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idJeux", referencedColumnName="IdJeux")
+     * })
+     */
+    private $idjeux;
 
     public function getId(): ?int
     {
@@ -84,18 +84,6 @@ class Avis
         return $this;
     }
 
-    public function getIdjeux(): ?Jeux
-    {
-        return $this->idjeux;
-    }
-
-    public function setIdjeux(?Jeux $idjeux): self
-    {
-        $this->idjeux = $idjeux;
-
-        return $this;
-    }
-
     public function getIdutulisateur(): ?User
     {
         return $this->idutulisateur;
@@ -104,6 +92,18 @@ class Avis
     public function setIdutulisateur(?User $idutulisateur): self
     {
         $this->idutulisateur = $idutulisateur;
+
+        return $this;
+    }
+
+    public function getIdjeux(): ?Jeux
+    {
+        return $this->idjeux;
+    }
+
+    public function setIdjeux(?Jeux $idjeux): self
+    {
+        $this->idjeux = $idjeux;
 
         return $this;
     }
