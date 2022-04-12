@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Categoryreclamation{% endblock %}
+
+{% block body %}
+    <h1>Create new Categoryreclamation</h1>
+
+    {{ include('categoryreclamation/_form.html.twig') }}
+
+    <a href="{{ path('app_categoryreclamation_index') }}">back to list</a>
+{% endblock %}
