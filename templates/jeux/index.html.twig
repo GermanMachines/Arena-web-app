@@ -1,0 +1,91 @@
+{# {% extends 'base.html.twig' %}
+
+{% block title %}Jeux index{% endblock %}
+
+{% block body %}
+    <h1>Jeux index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Idjeux</th>
+                <th>Nomjeux</th>
+                <th>Imagejeux</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for jeux in jeuxes %}
+            <tr>
+                <td>{{ jeux.idjeux }}</td>
+                <td>{{ jeux.nomjeux }}</td>
+                <td>{{ jeux.imagejeux }}</td>
+                <td>
+                    <a href="{{ path('app_jeux_show', {'idjeux': jeux.idjeux}) }}">show</a>
+                    <a href="{{ path('app_jeux_edit', {'idjeux': jeux.idjeux}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_jeux_new') }}">Create new</a>
+{% endblock %}
+#}
+
+ {% extends 'base-admin.html.twig' %}
+{% block body %}
+<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="table-wrap">
+
+
+
+    <table class="table table-bordered border-primary">
+         <thead class="thead-dark">
+            <tr>
+                <th>Idjeux</th>
+                <th>Nomjeux</th>
+                <th>Imagejeux</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody >
+        {% for jeux in jeuxes %}
+            <tr>
+                <td>{{ jeux.idjeux }}</td>
+                <td>{{ jeux.nomjeux }}</td>
+                <td><img src="{{ asset('uploads/' ~ jeux.imagejeux) }}"
+                alt="" width="100" height="100">
+                </td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('app_jeux_show', {'idjeux': jeux.idjeux}) }}">show</a>
+                    <a class="btn btn-success" href="{{ path('app_jeux_edit', {'idjeux': jeux.idjeux}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_jeux_new') }}">Create new</a>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
