@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Orders
  *
- * @ORM\Table(name="orders", indexes={@ORM\Index(name="fk_id_product", columns={"idProduct"})})
+ * @ORM\Table(name="orders", indexes={@ORM\Index(name="fk_id_product", columns={"idProduct"}), @ORM\Index(name="fk_id_user", columns={"idUser"})})
  * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
  */
 class Orders
@@ -29,9 +29,12 @@ class Orders
     private $num;
 
     /**
-     * @var int
+     * @var \Users
      *
-     * @ORM\Column(name="idUser", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Users")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idUser", referencedColumnName="id")
+     * })
      */
     private $iduser;
 
@@ -76,12 +79,12 @@ class Orders
         return $this;
     }
 
-    public function getIduser(): ?int
+    public function getIduser(): ?Users
     {
         return $this->iduser;
     }
 
-    public function setIduser(int $iduser): self
+    public function setIduser(Users $iduser): self
     {
         $this->iduser = $iduser;
 

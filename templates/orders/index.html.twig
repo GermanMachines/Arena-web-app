@@ -12,7 +12,8 @@ block stylesheets %}
     <thead>
       <tr>
         <th>Num</th>
-        <th>Iduser</th>
+        <th>Product</th>
+        <th>Client</th>
         <th>Productqty</th>
         <th>Createdat</th>
         <th>actions</th>
@@ -22,7 +23,8 @@ block stylesheets %}
       {% for order in orders %}
       <tr>
         <td>{{ order.num }}</td>
-        <td>{{ order.iduser }}</td>
+        <td>{{ order.idproduct.name }}</td>
+        <td>{{ order.iduser.name }}</td>
         <td>{{ order.productqty }}</td>
         <td>{{ order.createdat ? order.createdat|date('Y-m-d') : '' }}</td>
         <td>
