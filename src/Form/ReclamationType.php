@@ -18,6 +18,7 @@ class ReclamationType extends AbstractType
             ->add('titre')
             ->add('message')
             ->add('idUser', EntityType::class, array(
+                'label' => 'user ',
                 'class' => 'App\Entity\User',
                 'choice_label' => function ($user) {
 
@@ -25,6 +26,7 @@ class ReclamationType extends AbstractType
                 }
             ))
             ->add('idcategoryreclamation', EntityType::class, array(
+                'label' => 'category reclamation',
                 'class' => 'App\Entity\Categoryreclamation',
                 'choice_label' => function ($cat) {
 

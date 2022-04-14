@@ -25,6 +25,12 @@ class Categoryreclamation
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=30, nullable=false)
+     * @Assert\NotBlank(message="name is required")
+     * @Assert\Length(
+     *      min = 4,
+     *      minMessage=" Name must be at least 4 characters long"
+     *
+     *     )
      */
     private $nom;
 

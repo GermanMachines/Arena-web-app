@@ -1,14 +1,12 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-admin.html.twig' %}
 
 {% block title %}Categoryreclamation index{% endblock %}
 
 {% block body %}
-    <h1>Categoryreclamation index</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
                 <th>actions</th>
             </tr>
@@ -16,10 +14,9 @@
         <tbody>
         {% for categoryreclamation in categoryreclamations %}
             <tr>
-                <td>{{ categoryreclamation.id }}</td>
                 <td>{{ categoryreclamation.nom }}</td>
                 <td>
-                    <a href="{{ path('app_categoryreclamation_show', {'id': categoryreclamation.id}) }}">show</a>
+                    <a href="{{ path('app_categoryreclamation_show', {'id': categoryreclamation.id}) }}" class="btn btn-success">show</a>
                     <a href="{{ path('app_categoryreclamation_edit', {'id': categoryreclamation.id}) }}">edit</a>
                 </td>
             </tr>

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,6 +26,11 @@ class Avis
      * @var int
      *
      * @ORM\Column(name="score", type="integer", nullable=false)
+     *  @Assert\Range(
+     *      min = 1,
+     *      max = 5,
+     *      notInRangeMessage = "You must rate between 1 and 5.",
+     * )
      */
     private $score;
 
@@ -32,6 +38,11 @@ class Avis
      * @var string
      *
      * @ORM\Column(name="commentaire", type="text", length=65535, nullable=false)
+     * @Assert\Length(
+     *      min = 5,
+     *      minMessage=" Commentaire must be at least 5 characters long"
+     *
+     *     )
      */
     private $commentaire;
 

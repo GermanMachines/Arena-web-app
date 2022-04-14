@@ -1,14 +1,24 @@
 {% extends 'base-front.html.twig' %}
 
-{% block title %}Reclamation index{% endblock %}
+{% block title %}vos réclamation{% endblock %}
 
 {% block body %}
-    <h1>Reclamation index</h1>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    <h1>vos réclamation </h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Titre</th>
                 <th>Message</th>
                 <th>Iduser</th>
@@ -21,7 +31,6 @@
         <tbody>
         {% for reclamation in reclamations %}
             <tr>
-                <td>{{ reclamation.id }}</td>
                 <td>{{ reclamation.titre }}</td>
                 <td>{{ reclamation.message }}</td>
                 <td>{{ reclamation.iduser.nom }}</td>
@@ -29,8 +38,8 @@
                 <td>{{ reclamation.etat ? 'Yes' : 'No' }}</td>
                 <td>{{ reclamation.date ? reclamation.date|date('Y-m-d') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_reclamation_show', {'id': reclamation.id}) }}">show</a>
-                    <a href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}">edit</a>
+                    <a href="{{ path('app_reclamation_show_front', {'id': reclamation.id}) }}">show</a>
+                    <a href="{{ path('app_reclamation_edit_front', {'id': reclamation.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -41,5 +50,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_reclamation_new') }}">Create new</a>
+    <a href="{{ path('app_reclamation_new_front') }}">Create new</a>
 {% endblock %}

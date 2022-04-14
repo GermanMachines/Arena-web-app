@@ -1,8 +1,18 @@
-{% extends 'base-admin.html.twig' %}
+{% extends 'base-front.html.twig' %}
 
 {% block title %}Avis index{% endblock %}
 
 {% block body %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
     <h1>Avis index</h1>
 
     <table class="table">
@@ -24,8 +34,8 @@
                 <td>{{ avi.idutulisateur.nom }}</td>
                 <td>{{ avi.idjeux.nomjeux }}</td>
                 <td>
-                    <a href="{{ path('app_avis_show', {'id': avi.id}) }}">show</a>
-                    <a href="{{ path('app_avis_edit', {'id': avi.id}) }}">edit</a>
+                    <a href="{{ path('app_avis_show_front', {'id': avi.id}) }}">show</a>
+                    <a href="{{ path('app_avis_edit_front', {'id': avi.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -36,5 +46,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_avis_new') }}">Create new</a>
+    <a href="{{ path('app_avis_new_front') }}">Create new</a>
 {% endblock %}

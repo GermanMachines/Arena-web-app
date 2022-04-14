@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Reclamation
@@ -25,6 +26,12 @@ class Reclamation
      * @var string
      *
      * @ORM\Column(name="titre", type="string", length=30, nullable=false)
+     * @Assert\NotBlank(message="Title is required")
+     * @Assert\Length(
+     *      min = 5,
+     *      minMessage=" title must be at least 5 characters long"
+     *
+     *     )
      */
     private $titre;
 
@@ -32,6 +39,12 @@ class Reclamation
      * @var string
      *
      * @ORM\Column(name="message", type="text", length=65535, nullable=false)
+     * @Assert\NotBlank(message="Message is required")
+     * @Assert\Length(
+     *      min = 5,
+     *      minMessage=" Message must be at least 255 characters long"
+     *
+     *     )
      */
     private $message;
 

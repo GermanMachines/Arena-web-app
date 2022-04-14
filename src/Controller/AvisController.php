@@ -30,6 +30,20 @@ class AvisController extends AbstractController
     }
 
     /**
+     * @Route("/front", name="app_avis_index_front", methods={"GET"})
+     */
+    public function indexFront(EntityManagerInterface $entityManager): Response
+    {
+        $avis = $entityManager
+            ->getRepository(Avis::class)
+            ->findAll();
+
+        return $this->render('avis/index-front.html.twig', [
+            'avis' => $avis,
+        ]);
+    }
+
+    /**
      * @Route("/new", name="app_avis_new", methods={"GET", "POST"})
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -51,12 +65,49 @@ class AvisController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("front/new", name="app_avis_new_front", methods={"GET", "POST"})
+     */
+    public function newFront(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $avi = new Avis();
+        $form = $this->createForm(AvisType::class, $avi);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($avi);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_avis_index_front', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('avis/new-front.html.twig', [
+            'avi' => $avi,
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+
+
     /**
      * @Route("/{id}", name="app_avis_show", methods={"GET"})
      */
     public function show(Avis $avi): Response
     {
         return $this->render('avis/show.html.twig', [
+            'avi' => $avi,
+        ]);
+    }
+
+
+    /**
+     * @Route("front/{id}", name="app_avis_show_front", methods={"GET"})
+     */
+    public function showFront(Avis $avi): Response
+    {
+        return $this->render('avis/show-front.html.twig', [
             'avi' => $avi,
         ]);
     }
@@ -82,15 +133,48 @@ class AvisController extends AbstractController
     }
 
     /**
+     * @Route("front/{id}/edit", name="app_avis_edit_front", methods={"GET", "POST"})
+     */
+    public function editFront(Request $request, Avis $avi, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(AvisType::class, $avi);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_avis_index_front', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('avis/edit-front.html.twig', [
+            'avi' => $avi,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/{id}", name="app_avis_delete", methods={"POST"})
      */
     public function delete(Request $request, Avis $avi, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$avi->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $avi->getId(), $request->request->get('_token'))) {
             $entityManager->remove($avi);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('app_avis_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("front/{id}", name="app_avis_delete_front", methods={"POST"})
+     */
+    public function deleteFront(Request $request, Avis $avi, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $avi->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($avi);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_avis_index_front', [], Response::HTTP_SEE_OTHER);
     }
 }
