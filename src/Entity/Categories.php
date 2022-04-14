@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Categories
@@ -23,6 +24,7 @@ class Categories
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Name is required")
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
@@ -30,6 +32,7 @@ class Categories
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Description is required")
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=false)
      */

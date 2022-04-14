@@ -18,7 +18,7 @@ class ProductsType extends AbstractType
             ->add('qty')
             ->add('description')
             ->add('image', FileType::class, ['mapped' => false])
-            ->add('rate')
+            // ->add('rate')
             ->add('idcat');
     }
 

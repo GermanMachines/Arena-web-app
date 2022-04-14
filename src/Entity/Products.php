@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Products
@@ -23,6 +24,7 @@ class Products
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Name is required")
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
@@ -30,6 +32,7 @@ class Products
 
     /**
      * @var int
+     * @Assert\NotBlank(message="Price is required")
      *
      * @ORM\Column(name="price", type="integer", nullable=false)
      */
@@ -37,6 +40,7 @@ class Products
 
     /**
      * @var int
+     * @Assert\NotBlank(message="Quantity is required")
      *
      * @ORM\Column(name="qty", type="integer", nullable=false)
      */
@@ -44,6 +48,7 @@ class Products
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Description is required")
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=false)
      */
@@ -65,6 +70,7 @@ class Products
 
     /**
      * @var \Categories
+     * @Assert\NotBlank(message="Category is required")
      *
      * @ORM\ManyToOne(targetEntity="Categories")
      * @ORM\JoinColumns({
