@@ -68,13 +68,22 @@ class ProductsController extends AbstractController
     /**
      * @Route("/{id}/edit", name="app_products_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Products $product, ProductsRepository $productsRepository): Response
+    public function edit(Request $request, Products $product, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ProductsType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $productsRepository->add($product);
+            $file = $request->files->get('products')['image'];
+            $uploads_directory = $this->getParameter('uploads_directory');
+            $filename = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $uploads_directory,
+                $filename
+            );
+            $product->setImage($filename);
+            $entityManager->persist($product);
+            $entityManager->flush();
             return $this->redirectToRoute('app_products_index', [], Response::HTTP_SEE_OTHER);
         }
 

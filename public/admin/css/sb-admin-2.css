@@ -1488,6 +1488,10 @@ pre code {
   color: #858796;
 }
 
+.table-wrapper {
+  margin: 50px;
+}
+
 .table th,
 .table td {
   padding: 0.75rem;

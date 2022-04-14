@@ -1,35 +1,44 @@
-{% extends 'base-admin.html.twig' %}
+{% extends 'base-admin.html.twig' %} {% block title %}Categories{% endblock %}
+{% block stylesheets %}
 
-{% block title %}Categories{% endblock %}
+<!-- Custom styles for this template-->
+<link href="{{ asset('admin/css/sb-admin-2.css') }}" rel="stylesheet">
 
+{% endblock %}
 {% block body %}
-    <h1>Categories</h1>
+<div class="table-wrapper">
+  <h1>Categories</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for category in categories %}
-            <tr>
-                <td>{{ category.name }}</td>
-                <td>{{ category.description }}</td>
-                <td>
-                    <a href="{{ path('app_categories_show', {'id': category.id}) }}">show</a>
-                    <a href="{{ path('app_categories_edit', {'id': category.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for category in categories %}
+      <tr>
+        <td>{{ category.name }}</td>
+        <td>{{ category.description }}</td>
+        <td>
+          <a href="{{ path('app_categories_show', { id: category.id }) }}"
+            >show</a
+          >
+          <a href="{{ path('app_categories_edit', { id: category.id }) }}"
+            >edit</a
+          >
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="4">no categories found</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
-    <a href="{{ path('app_categories_new') }}">Create new</a>
+  <a href="{{ path('app_categories_new') }}">Create new</a>
+</div>
 {% endblock %}
