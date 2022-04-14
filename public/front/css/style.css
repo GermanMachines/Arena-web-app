@@ -339,6 +339,21 @@ ol {
 	display: block;
 }
 
+.site-logo-img-admin {
+	height: 100px;
+	width: 160px;
+	margin: 20px auto;
+	display: block;
+}
+
+.logo-wrapper {
+	margin: 50px auto;
+}
+
+.logo-container {
+	margin: 20px auto;
+}
+
 .user-panel {
 	float: right;
 	font-size: 16px;

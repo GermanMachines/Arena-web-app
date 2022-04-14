@@ -15,6 +15,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('admin/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('front/css/style.css') }}" />
 
         {% endblock %}
 
@@ -55,11 +56,10 @@
      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
          <!-- Sidebar - Brand -->
-         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
-             <div class="sidebar-brand-icon rotate-n-15">
-                 <i class="fas fa-laugh-wink"></i>
-             </div>
-             <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+         <a class="sidebar-brand d-flex align-items-center justify-content-center logo-container" href="index.php">
+            <div class="sidebar-brand-text mx-3 logo-wrapper">
+                {# <img class="site-logo-img-admin" src="{{ asset('front/./img/logo.png') }}" alt="" /> #}
+            </div>
          </a>
 
          <!-- Divider -->
@@ -123,18 +123,17 @@
          <!--Go Gestion Categories-->
 
          <li class="nav-item">
-            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseCategories" aria-expanded="true" aria-controls="collapseCategories">
+            <a class="nav-link collapsed" href="{{ path('app_categories_index') }}">
                 <i class=""></i>
                 <span>Categories</span>
             </a>
-            <div id="collapseCategories" class="collapse" aria-labelledby="headingCategories" data-parent="#accordionSidebar">
+            {# <div id="collapseCategories" class="collapse" aria-labelledby="headingCategories" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Custom Categories:</h6>
-                    <a class="collapse-item" href="">Ajouter Categories</a>
-                    <a class="collapse-item" href="admincategories">Consulter Categories</a>
-
+                    <a class="collapse-item" href="{{ path('app_categories_index') }}">Ajouter Categories</a>
+                    <a class="collapse-item" href="{{ path('app_categories_index') }}">Consulter Categories</a>
                 </div>
-            </div>
+            </div> #}
         </li>
         <!--//end Go Gestion Categories-->
 
@@ -142,18 +141,17 @@
          <!--Go Gestion Products-->
 
          <li class="nav-item">
-            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseProducts" aria-expanded="true" aria-controls="collapseProducts">
+            <a class="nav-link collapsed" href="{{ path('app_products_index') }}">
                 <i class=""></i>
                 <span>Products</span>
             </a>
-            <div id="collapseProducts" class="collapse" aria-labelledby="headingProducts" data-parent="#accordionSidebar">
+            {# <div id="collapseProducts" class="collapse" aria-labelledby="headingProducts" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Custom Products:</h6>
-                    <a class="collapse-item" href="">Ajouter Products</a>
-                    <a class="collapse-item" href="adminproducts">Consulter Products</a>
-
+                    <a class="collapse-item" href="{{ path('app_products_index') }}">Ajouter Products</a>
+                    <a class="collapse-item" href="{{ path('app_products_index') }}">Consulter Products</a>
                 </div>
-            </div>
+            </div> #}
         </li>
         <!--//end Go Gestion Products-->
 
@@ -161,18 +159,18 @@
          <!--Go Gestion Orders-->
 
          <li class="nav-item">
-            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseOrders" aria-expanded="true" aria-controls="collapseOrders">
+            {# <a class="nav-link collapsed" href="{{ path('app_orders_index') }}" data-toggle="collapse" data-target="#collapseOrders" aria-expanded="true" aria-controls="collapseOrders"> #}
+            <a class="nav-link collapsed" href="{{ path('app_orders_index') }}">
                 <i class=""></i>
                 <span>Orders</span>
             </a>
-            <div id="collapseOrders" class="collapse" aria-labelledby="headingOrders" data-parent="#accordionSidebar">
+            {# <div id="collapseOrders" class="collapse" aria-labelledby="headingOrders" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Custom Orders:</h6>
-                    <a class="collapse-item" href="">Ajouter Orders</a>
-                    <a class="collapse-item" href="adminorders">Consulter Orders</a>
-
+                    <a class="collapse-item" href="{{ path('app_orders_index') }}">Ajouter Orders</a>
+                    <a class="collapse-item" href="{{ path('app_orders_index') }}">Consulter Orders</a>
                 </div>
-            </div>
+            </div> #}
         </li>
         <!--//end Go Gestion Orders-->
 

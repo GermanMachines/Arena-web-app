@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class FrontProductController extends AbstractController
 {
     /**
-     * @Route("/front/product", name="app_front")
+     * @Route("/front/product", name="app_front_product")
      */
     public function index(ProductsRepository $productsRepository): Response
     {
