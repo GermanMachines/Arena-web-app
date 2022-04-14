@@ -12,8 +12,7 @@ class CategoryreclamationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom')
-        ;
+            ->add('nom');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

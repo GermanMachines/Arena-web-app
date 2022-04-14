@@ -5,7 +5,11 @@
 {{ form_start(form) }} 
    
     {{ form_row(form.titre) }}
-    {{ form_row(form.message) }}
+    <div class="form-group">
+
+      {{ form_row(form.message,{ 'attr' : { 'class': 'form-control' } }) }}
+
+    </div>
     {{ form_row(form.idUser) }}
     {{ form_row(form.idcategoryreclamation) }}
     {{ form_row(form.etat) }}
