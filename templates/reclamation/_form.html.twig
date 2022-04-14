@@ -2,7 +2,7 @@
 
 {% block body %}
 
-{{ form_start(form) }} 
+{{ form_start(form,{attr:{novalidate:'novalide'}}) }} 
    
     {{ form_row(form.titre) }}
     {{ form_row(form.message) }}
