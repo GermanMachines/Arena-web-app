@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Jeux
@@ -25,12 +24,6 @@ class Jeux
     /**
      * @var string
      *
-     * @Assert\NotBlank(message=" Nom doit etre non vide")
-     * @Assert\Length(
-     *      min = 5,
-     *      minMessage=" Entrer un Nom au mini de 5 caracteres"
-     *
-     *     )
      * @ORM\Column(name="NomJeux", type="string", length=500, nullable=false)
      */
     private $nomjeux;
@@ -69,6 +62,10 @@ class Jeux
         $this->imagejeux = $imagejeux;
 
         return $this;
+    }
+
+    public function __toString() {
+        return strval($this->idjeux);
     }
 
 

@@ -26,7 +26,7 @@ class Matchs
      *
      * @ORM\Column(name="DateMatch", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $datematch = 'CURRENT_TIMESTAMP';
+    private $datematch = NULL;
 
     /**
      * @var string|null
@@ -52,7 +52,7 @@ class Matchs
 
     public function getDatematch(): ?\DateTimeInterface
     {
-        return $this->datematch=NULL;
+        return $this->datematch;
     }
 
     public function setDatematch(\DateTimeInterface $datematch): self

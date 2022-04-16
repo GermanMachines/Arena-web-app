@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Participation;
+use App\Entity\Equipe;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -75,12 +75,12 @@ class ParticipationRepository extends ServiceEntityRepository
     */
 
 
-    public function EquipeTournoisAction($idEquipe)
+   public function EquipeTournoisAction($idEquipe)
     {
-        $entityManager= $this->getEntityManager();
-        $query=$entityManager
-        ->createQuery('Select p from APP\Entity\Participation p where p.idequipe =:idequipe')
-        ->setParameter('idequipe',$idEquipe);
+      $entityManager= $this->getEntityManager();
+       $query=$entityManager
+      ->createQuery('Select E from APP\Entity\Equipe E where E.idequipe =:idequipe')
+       ->setParameter('idequipe',$idEquipe);
         return $query->getResult();
 
     }

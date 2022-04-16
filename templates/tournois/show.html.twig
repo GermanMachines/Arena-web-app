@@ -1,5 +1,4 @@
-{# 
-{% extends 'base.html.twig' %}
+{# {% extends 'base.html.twig' %}
 
 {% block title %}Tournois{% endblock %}
 
@@ -37,10 +36,6 @@
                 <td>{{ tournoi.nbrparticipants }}</td>
             </tr>
             <tr>
-                <th>Idjeux</th>
-                <td>{{ tournoi.idjeux }}</td>
-            </tr>
-            <tr>
                 <th>Winner</th>
                 <td>{{ tournoi.winner }}</td>
             </tr>
@@ -57,8 +52,11 @@
 
     {{ include('tournois/_delete_form.html.twig') }}
 {% endblock %}
+
 #}
- {% extends 'base-admin.html.twig' %}
+
+
+{% extends 'base-admin.html.twig' %}
 {% block body %}
     <h1>Tournois</h1>
 
@@ -93,8 +91,8 @@
                 <td>{{ tournoi.nbrparticipants }}</td>
             </tr>
             <tr>
-                <th>Idjeux</th>
-                <td>{{ tournoi.idjeux }}</td>
+                <th>NomJeux</th>
+                <td>{{ tournoi.idjeux.nomjeux }}</td>
             </tr>
             
             <tr>
@@ -105,6 +103,15 @@
                 <th>Status</th>
                 <td>{{ tournoi.status }}</td>
             </tr>
+
+                    <tr>
+                    <th>Equipes</th>
+                         <td>
+                     {% for tournoi in tournoi.idequipe %}
+                     {{ tournoi.nom }} <br>
+                     {% endfor %}
+                    </td>
+                    </tr>
         </tbody>
     </table>
 

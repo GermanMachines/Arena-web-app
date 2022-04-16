@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Tournois
  *
@@ -23,40 +25,35 @@ class Tournois
 
     /**
      * @var string
-     * @Assert\NotBlank(message=" Titre doit etre non vide")
+     *
      * @ORM\Column(name="Titre", type="string", length=100, nullable=false)
      */
     private $titre;
 
     /**
      * @var \DateTime
-     * @Assert\GreaterThan("today UTC")
+     *
      * @ORM\Column(name="Date_debut", type="date", nullable=false)
      */
     private $dateDebut;
 
     /**
      * @var \DateTime
-     * @Assert\GreaterThan(propertyPath="Date_debut")
+     *
      * @ORM\Column(name="Date_fin", type="date", nullable=false)
      */
     private $dateFin;
 
     /**
      * @var string
-     * @Assert\NotBlank(message="description  doit etre non vide")
-     * @Assert\Length(
-     *      min = 7,
-     *      max = 100,
-     *      minMessage = "doit etre >=7 ",
-     *      maxMessage = "doit etre <=100" )
+     *
      * @ORM\Column(name="DescriptionTournois", type="string", length=500, nullable=false)
      */
     private $descriptiontournois;
 
     /**
      * @var string
-     * @Assert\NotBlank(message=" Type doit etre non vide")
+     *
      * @ORM\Column(name="Type", type="string", length=100, nullable=false)
      */
     private $type;
@@ -64,23 +61,20 @@ class Tournois
     /**
      * @var int
      *
-     * @Assert\GreaterThan(
-     * value = 1
-     * )
      * @ORM\Column(name="NbrParticipants", type="integer", nullable=false)
      */
     private $nbrparticipants;
 
     /**
      * @var string|null
-     * @Assert\NotBlank(message=" Type doit etre non vide")
+     *
      * @ORM\Column(name="Winner", type="string", length=255, nullable=true)
      */
     private $winner;
 
     /**
      * @var string|null
-     * @Assert\NotBlank(message=" Type doit etre non vide")
+     *
      * @ORM\Column(name="Status", type="string", length=255, nullable=true)
      */
     private $status;
@@ -94,6 +88,21 @@ class Tournois
      * })
      */
     private $idjeux;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Equipe", mappedBy="idtournois")
+     */
+    private $idequipe;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idequipe = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     public function getIdtournois(): ?int
     {
@@ -208,10 +217,42 @@ class Tournois
         return $this;
     }
 
-    
+    /**
+     * @return Collection<int, Equipe>
+     */
+    public function getIdequipe(): Collection
+    {
+        return $this->idequipe;
+    }
+
+    public function addIdequipe(Equipe $idequipe): self
+    {
+        if (!$this->idequipe->contains($idequipe)) {
+            $this->idequipe[] = $idequipe;
+            $idequipe->addIdtournoi($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdequipe(Equipe $idequipe): self
+    {
+        if ($this->idequipe->removeElement($idequipe)) {
+            $idequipe->removeIdtournoi($this);
+        }
+
+        return $this;
+    }
+
     public function __toString() {
         return strval($this->idtournois);
     }
+    public function setIdtournois(?Tournois $idtournois): self
+    {
+        $this->idtournois = $idtournois;
 
+        return $this;
+    }
 
+    
 }

@@ -9,7 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Participation;
+use App\Repository\ParticipationRepository;
+use App\Entity\Equipe;
+
 /**
  * @Route("/tournois")
  */
@@ -29,6 +31,8 @@ class TournoisController extends AbstractController
         ]);
     }
 
+
+    
     /**
      * @Route("/front", name="app_tournois_indexfront", methods={"GET"})
      */
@@ -43,10 +47,8 @@ class TournoisController extends AbstractController
         ]);
     }
 
-
-
     /**
-     * @Route("/admin/new", name="app_tournois_new", methods={"GET", "POST"})
+     * @Route("/new", name="app_tournois_new", methods={"GET", "POST"})
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -113,31 +115,20 @@ class TournoisController extends AbstractController
 
 
 
+    
 
-
-
-    /**
-     * @Route("/addparticipation/{id}", name="add_participation_tournois")
-     */      
-    public function addparticipation(Request $request,$id): Response
+  /**
+     * @Route("/delete/{idtournois}", name="app_participation_delete", methods={"POST"})
+     */
+    public function deleteparticipation(Request $request, Tournois $tournoi, EntityManagerInterface $entityManager,$idtournois): Response
     {
-        $participation = new Participation();
-        $Tournois = $this->getDoctrine()->getRepository(Tournois::class)->find($id);
-        $participation->setIdtournois($Tournois->getIdtournois());
-        $participation->setIdequipe(59);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($participation);
-        $em->flush();
-        return $this->redirectToRoute("app_tournois_indexfront");
+        $Equipe = $this->getDoctrine()->getRepository(Equipe::class)->find(94);
+        $Tournois = $this->getDoctrine()->getRepository(Tournois::class)->find($idtournois);
+            $Tournois->removeIdequipe($Equipe);
+            $entityManager->flush();
+    
+        return $this->redirectToRoute('app_participation_indexq', [], Response::HTTP_SEE_OTHER);
     }
-    
-
-
-
-    
-
-
-
 
 
 

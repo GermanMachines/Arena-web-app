@@ -55,7 +55,7 @@
      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
          <!-- Sidebar - Brand -->
-         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
+         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ path('app_admin') }}">
              <div class="sidebar-brand-icon rotate-n-15">
                  <i class="fas fa-laugh-wink"></i>
              </div>
@@ -91,8 +91,8 @@
              <div id="collapseGames" class="collapse" aria-labelledby="headingGames" data-parent="#accordionSidebar">
                  <div class="bg-white py-2 collapse-inner rounded">
                      <h6 class="collapse-header">Custom Games:</h6>
-                     <a class="collapse-item" href="">Ajouter Game</a>
-                     <a class="collapse-item" href="">Consulter Games</a>
+                     <a class="collapse-item" href="{{ path('app_jeux_new') }}">Ajouter Game</a>
+                     <a class="collapse-item" href="{{ path('app_jeux_index') }}">Consulter Games</a>
 
                  </div>
              </div>
@@ -111,17 +111,67 @@
              <div id="collapseTournois" class="collapse" aria-labelledby="headingTournois" data-parent="#accordionSidebar">
                  <div class="bg-white py-2 collapse-inner rounded">
                      <h6 class="collapse-header">Custom Tournois:</h6>
-                     <a class="collapse-item" href="">Ajouter Tournois</a>
-                     <a class="collapse-item" href="">Consulter Tournois</a>
+                     <a class="collapse-item" href="{{ path('app_tournois_new') }}">Ajouter Tournois</a>
+                     <a class="collapse-item" href="{{ path('app_tournois_index') }}">Consulter Tournois</a>
 
                  </div>
              </div>
          </li>
          <!--//end Go Gestion Tournois-->
 
+         <!--Go Gestion Participation-->
 
+       {#  <li class="nav-item">
+             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseParticipation" aria-expanded="true" aria-controls="collapseParticipation">
+                 <i class=""></i>
+                 <span>Participation</span>
+             </a>
+             <div id="collapseParticipation" class="collapse" aria-labelledby="headingParticipation" data-parent="#accordionSidebar">
+                 <div class="bg-white py-2 collapse-inner rounded">
+                     <h6 class="collapse-header">Custom Participation:</h6>
+                    <a class="collapse-item" href="{{ path('app_participation_new') }}">Ajouter Participation</a>
+                     <a class="collapse-item" href="{{ path('app_participation_index') }}">Consulter participations</a> 
 
+                 </div>
+             </div>
+         </li>  #}
+         <!--//end Go Gestion Participation-->
 
+         <!--Go Gestion Matchs-->
+
+         <li class="nav-item">
+             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMatchs" aria-expanded="true" aria-controls="collapseMatchs">
+                 <i class=""></i>
+                 <span>Matchs</span>
+             </a>
+             <div id="collapseMatchs" class="collapse" aria-labelledby="headingMatchs" data-parent="#accordionSidebar">
+                 <div class="bg-white py-2 collapse-inner rounded">
+                     <h6 class="collapse-header">Custom Matchs:</h6>
+                     <a class="collapse-item" href="{{ path('app_matchs_new') }}">Ajouter Match</a>
+                     <a class="collapse-item" href="{{ path('app_matchs_index') }}">Consulter Matchs</a>
+
+                 </div>
+             </div>
+         </li>
+         <!--//end Go Gestion Matchs-->
+
+         <!--Go Gestion MatchsEquipe-->
+
+         <li class="nav-item">
+             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMatchsEquipe" aria-expanded="true" aria-controls="collapseMatchsEquipe">
+                 <i class=""></i>
+                 <span>Matchs Equipe</span>
+             </a>
+             <div id="collapseMatchsEquipe" class="collapse" aria-labelledby="headingMatchsEquipe" data-parent="#accordionSidebar">
+                 <div class="bg-white py-2 collapse-inner rounded">
+                     <h6 class="collapse-header">Custom Equipe Matchs:</h6>
+                     <a class="collapse-item" href="{{ path('app_match_eq_new') }}">Ajouter Equipe au match</a>
+                     <a class="collapse-item" href="{{ path('app_match_eq_index') }}">Consulter Equipe matchs</a>
+
+                 </div>
+             </div>
+         </li>
+         <!--//end Go Gestion MatchsEquipe-->
 
 
 

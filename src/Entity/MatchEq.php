@@ -60,17 +60,4 @@ class MatchEq
     }
 
 
-    public function setIdequipe(int $idequipe): ?self
-    {
-        $this->idequipe=$idequipe;
-        return $this;
-    }
-
-    public function setIdMatch(int $idmatch): ?self
-    {
-        $this->idmatch=$idmatch;
-        return $this;
-    }
-
-
 }

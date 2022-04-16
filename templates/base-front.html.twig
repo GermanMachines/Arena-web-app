@@ -82,13 +82,13 @@
 					</div>
 					<!-- Menu Bar -->
 					<ul class="main-menu primary-menu">
-						<li><a href="home.html">Home</a></li>
+						<li><a href="{{ path('app_front') }}">Home</a></li>
 
          <!--Go Gestion Games-->
 
-						<li><a href="">Games</a>
+						<li><a href="{{ path('app_jeux_indexfront') }}">Games</a>
 							<ul class="sub-menu">
-								<li><a href="">View Games</a></li>
+								<li><a href="{{ path('app_jeux_indexfront') }}">View Games</a></li>
 							</ul>
 						</li>
 
@@ -97,9 +97,10 @@
 
          <!--Go Gestion Tournois-->
 
-                        	<li><a href="">Tournois</a>
+                        	<li><a href="{{ path('app_tournois_indexfront') }}">Tournois</a>
 							<ul class="sub-menu">
-								<li><a href="">Tournois </a></li>
+								<li><a href="{{ path('app_tournois_indexfront') }}">Tournois </a></li>
+								<li><a href="{{ path('app_participation_indexq') }}">MyList </a></li>
 							</ul>
 						</li>
          <!--end Go Gestion Tournois-->

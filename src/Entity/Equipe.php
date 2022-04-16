@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,6 +50,29 @@ class Equipe
      * @ORM\Column(name="region", type="string", length=255, nullable=false)
      */
     private $region;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Tournois", inversedBy="idequipe")
+     * @ORM\JoinTable(name="participation",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="IdEquipe", referencedColumnName="idEquipe")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="IdTournois", referencedColumnName="IdTournois")
+     *   }
+     * )
+     */
+    private $idtournois;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idtournois = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     public function getIdequipe(): ?int
     {
@@ -101,9 +126,59 @@ class Equipe
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Tournois>
+     */
+    public function getIdtournois(): Collection
+    {
+        return $this->idtournois;
+    }
+
+
+    
+    public function setIdtournois(int $idtournois): self
+    {
+        $this->idtournois=$idtournois;
+        return $this;
+    }
+
+    public function addIdtournoi(Tournois $idtournoi): self
+    {
+        if (!$this->idtournois->contains($idtournoi)) {
+            $this->idtournois[] = $idtournoi;
+        }
+
+        return $this;
+    }
+
+
+
+
+    public function removeIdtournoi(Tournois $idtournoi): self
+    {
+        $this->idtournois->removeElement($idtournoi);
+
+        return $this;
+    }
+
+
+
+    public function setIdequipe(int $idequipe): ?self
+    {
+        $this->idequipe=$idequipe;
+        return $this;
+    }
+
+
+
+
+
+
+
+
     public function __toString() {
         return strval($this->idequipe);
     }
-
 
 }
