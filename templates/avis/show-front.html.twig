@@ -24,19 +24,19 @@
                 <td>{{ avi.commentaire }}</td>
             </tr>
             <tr>
-                <th>Idutulisateur</th>
+                <th>User</th>
                 <td>{{ avi.idutulisateur.nom }}</td>
             </tr>
             <tr>
-                <th>Idjeux</th>
+                <th>Jeux</th>
                 <td>{{ avi.idjeux.nomjeux }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_avis_index_front') }}">back to list</a>
+    <a href="{{ path('app_avis_index_front') }}" class="btn btn-secondary">back to list</a>
 
-    <a href="{{ path('app_avis_edit_front', {'id': avi.id}) }}">edit</a>
+    <a href="{{ path('app_avis_edit_front', {'id': avi.id}) }}" class="btn btn-primary">edit</a>
 
     {{ include('avis/_delete_form-front.html.twig') }}
 {% endblock %}

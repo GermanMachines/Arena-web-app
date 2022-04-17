@@ -21,8 +21,8 @@
 
                 <th>Score</th>
                 <th>Commentaire</th>
-                <th>Idutulisateur</th>
-                <th>Idjeux</th>
+                <th>User</th>
+                <th>Jeux</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -34,8 +34,8 @@
                 <td>{{ avi.idutulisateur.nom }}</td>
                 <td>{{ avi.idjeux.nomjeux }}</td>
                 <td>
-                    <a href="{{ path('app_avis_show_front', {'id': avi.id}) }}">show</a>
-                    <a href="{{ path('app_avis_edit_front', {'id': avi.id}) }}">edit</a>
+                    <a href="{{ path('app_avis_show_front', {'id': avi.id}) }}" class="btn btn-primary">show</a>
+                    <a href="{{ path('app_avis_edit_front', {'id': avi.id}) }}" class="btn btn-secondary" >edit</a>
                 </td>
             </tr>
         {% else %}
@@ -46,5 +46,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_avis_new_front') }}">Create new</a>
+    <a href="{{ path('app_avis_new_front') }}" class="btn btn-success">Create new</a>
 {% endblock %}

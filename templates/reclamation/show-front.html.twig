@@ -45,9 +45,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_reclamation_index_front') }}">back to list</a>
+    <a href="{{ path('app_reclamation_index_front') }}" class="btn btn-primary">back to list</a>
 
-    <a href="{{ path('app_reclamation_edit_front', {'id': reclamation.id}) }}">edit</a>
+    <a href="{{ path('app_reclamation_edit_front', {'id': reclamation.id}) }}" class="btn btn-secondary">edit</a>
 
     {{ include('reclamation/_delete_form-front.html.twig') }}
 {% endblock %}

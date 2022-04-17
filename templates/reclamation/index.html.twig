@@ -26,8 +26,8 @@
                 <td>{{ reclamation.etat ? 'Yes' : 'No' }}</td>
                 <td>{{ reclamation.date ? reclamation.date|date('Y-m-d') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_reclamation_show', {'id': reclamation.id}) }}">show</a>
-                    <a href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}">edit</a>
+                    <a href="{{ path('app_reclamation_show', {'id': reclamation.id}) }}" class="btn btn-secondary">show</a>
+                    <a href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}" class="btn btn-primary">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -38,5 +38,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_reclamation_new') }}">Create new</a>
+    <a href="{{ path('app_reclamation_new') }}" class="btn btn-success">Create new</a>
 {% endblock %}

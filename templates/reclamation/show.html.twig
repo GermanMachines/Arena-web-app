@@ -17,11 +17,11 @@
                 <td>{{ reclamation.message }}</td>
             </tr>
             <tr>
-                <th>Iduser</th>
+                <th>User</th>
                 <td>{{ reclamation.iduser.nom }}</td>
             </tr>
             <tr>
-                <th>Idcategoryreclamation</th>
+                <th>Category Reclamation</th>
                 <td>{{ reclamation.idcategoryreclamation.nom }}</td>
             </tr>
             <tr>
@@ -35,9 +35,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_reclamation_index') }}">back to list</a>
+    <a href="{{ path('app_reclamation_index') }}" class="btn btn-primary">back to list</a>
 
-    <a href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}">edit</a>
+    <a href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}" class="btn btn-secondary">edit</a>
 
     {{ include('reclamation/_delete_form.html.twig') }}
 {% endblock %}
