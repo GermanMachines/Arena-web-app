@@ -85,6 +85,9 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.7"
     },
+    "kartik-v/bootstrap-star-rating": {
+        "version": "v4.1.2"
+    },
     "laminas/laminas-code": {
         "version": "4.5.1"
     },

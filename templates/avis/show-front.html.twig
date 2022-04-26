@@ -2,6 +2,8 @@
 
 {% block title %}Avis{% endblock %}
 
+
+
 {% block body %}
 <br>
 <br>
@@ -13,11 +15,13 @@
 <br>
     <h1>Avis</h1>
 
+
+
     <table class="table">
         <tbody>
             <tr>
                 <th>Score</th>
-                <td>{{ avi.score }}</td>
+                <td><input id="input-id" type="text" class="rating" data-size="lg" value="{{ avi.score }}"> </td>
             </tr>
             <tr>
                 <th>Commentaire</th>

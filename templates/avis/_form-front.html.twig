@@ -28,8 +28,9 @@
                             <tr>
                                 <td>
                                     {{ form_label(form.score,"Score : ") }}
-                                </td><td>
-                                    {{ form_widget(form.score) }}
+                                </td>
+                                <td>
+                                     {{ form_widget(form.score, {'attr': {'class': 'rating','id':'input-id'}}) }}
                                 </td>
                                 <td>{{ form_errors(form.score,{'attr':{'class':'text-danger'}}) }}</td>
                             </tr>
