@@ -13,6 +13,7 @@
                     <table class="table nk-store-cart-products">
                         <tbody>
                         {% for p in dataCart %}
+                        {% if p.qty > 0 %}
                         <tr>
             
                             <td class="nk-product-cart-title">
@@ -27,7 +28,7 @@
                     />
             
                                 <h2 class="nk-post-title h4" style="color: #ffffff; font-weight: 900; text-decoration: none;">
-                                    <a href="#" style="color: #ffffff; font-weight: 900; text-decoration: none;">{{ p.product.name }}</a>
+                                    <a href="{{ path('app_product_show', { id:p.product.id })}}" style="color: #ffffff; font-weight: 900; text-decoration: none;">{{ p.product.name }}</a>
                                 </h2>
                             </td>
                             <td class="nk-product-cart-price">
@@ -53,17 +54,25 @@
                             <td>
             
                                 <a href="{{ path('add_cart', { 'id' :p.product.id }) }}" class="btn btn-success float-right">
-                                    <i class="fas fa-shopping-cart mr-1"></i>
+                                    <i class="fas fa-plus"></i>
                                 </a>
             
                             </td>
             
                             <td>
-                                <a href="{{ path('remove_cart', {'id': p.product.id}) }}" class="btn btn-sm btn-danger">
+                                <a href="{{ path('remove_cart', {'id': p.product.id}) }}" class="btn btn-danger">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
+                            <td>
+            
+                                <a href="{{ path('app_orders_new', { 'id' :p.product.id }) }}" class="btn btn-info float-right">
+                                    <i class="fas fa-check"></i>
+                                </a>
+            
+                            </td>
                         </tr>
+                        {% endif %}
                         {% endfor %}
             
             
@@ -111,7 +120,7 @@
 </section>
 
 <div class="nk-gap-2"></div>
-<a class="nk-btn nk-btn-rounded nk-btn-color-main-1 float-right" href="{{ path('Ajoutcommande') }}">Proceed to Checkout</a>
+{# <a class="nk-btn nk-btn-rounded nk-btn-color-main-1 float-right" href="{{ path('Ajoutcommande') }}">Proceed to Checkout</a> #}
 <div class="clearfix"></div>
 </div>
 {% endblock %}

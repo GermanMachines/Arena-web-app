@@ -2,9 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>
-      {% block title %}ARENA{% endblock %}
-    </title>
+    <title>{% block title %}ARENA{% endblock %}</title>
     <meta name="description" content="ARENA" />
     <meta name="keywords" content="gGaming, magazine, html" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,7 +24,7 @@
     />
 
     <!-- Stylesheets -->
-<link href="{{ asset('front/css/product.css') }}" rel="stylesheet">
+    <link href="{{ asset('front/css/product.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('front/css/bootstrap.min.css') }}" />
     <link
       rel="stylesheet"
@@ -42,17 +40,23 @@
 
     <!-- Main Stylesheets -->
     <link rel="stylesheet" href="{{ asset('front/css/style.css') }}" />
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+      rel="stylesheet"
+    />
 
     <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/shopstyle.css" rel="stylesheet">
+    <link href="css/shopstyle.css" rel="stylesheet" />
 
     {% endblock %} {% block javascripts %}
 
@@ -90,7 +94,11 @@
         <div class="header-bar-warp d-flex">
           <!-- site logo -->
           <a href="home.html" class="site-logo">
-            <img class="site-logo-img" src="{{ asset('front/./img/logo.png') }}" alt="" />
+            <img
+              class="site-logo-img"
+              src="{{ asset('front/./img/logo.png') }}"
+              alt=""
+            />
           </a>
           <nav class="top-nav-area w-100">
             <div class="user-panel">
@@ -134,6 +142,10 @@
               <li><a href="review.html">Reviews</a></li>
               <li><a href="blog.html">News</a></li>
               <li><a href="contact.html">Contact</a></li>
+
+                <a href="{{ path('displaycart') }}">
+                  <i class="fas fa-shopping-cart mr-1"></i>
+                </a>
             </ul>
           </nav>
         </div>
@@ -171,7 +183,11 @@
           <img src="{{ asset('front/img/footer-right-pic.png') }}" alt="" />
         </div>
         <a href="#" class="footer-logo">
-          <img class="site-logo-img" src="{{ asset('front/./img/logo.png') }}" alt="" />
+          <img
+            class="site-logo-img"
+            src="{{ asset('front/./img/logo.png') }}"
+            alt=""
+          />
         </a>
         <ul class="main-menu footer-menu">
           <li><a href="">Home</a></li>

@@ -22,7 +22,7 @@
             <!-- Product Description -->
             <div class="product-description">
               {# <span>Headphones</span> #}
-              <h1>{{product.name}}</h1>
+              <h1 style="color: #ffffff;">{{product.name}}</h1>
               <p>{{product.description}}</p>
             </div>
     
@@ -32,7 +32,7 @@
     
             <!-- Product Pricing -->
             <div class="product-price">
-              <span>{{product.price}} TND</span>
+              <span style="color: #ffffff;">{{product.price}} TND</span>
               <a href="{{ path('add_cart', { 'id' :product.id }) }}" class="btn btn-success float-right">
                   <i class="fas fa-shopping-cart mr-1"></i>
               </a>
