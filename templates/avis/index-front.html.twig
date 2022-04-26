@@ -29,7 +29,7 @@
         <tbody>
         {% for avi in avis %}
             <tr>
-                <td>{{ avi.score }}</td>
+                <td><input id="input-id" type="text" class="rating" data-size="lg" value={{  avi.score }} disabled></td>
                 <td>{{ avi.commentaire }}</td>
                 <td>{{ avi.idutulisateur.nom }}</td>
                 <td>{{ avi.idjeux.nomjeux }}</td>

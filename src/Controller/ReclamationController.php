@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Reclamation;
+use App\Entity\User;
+use App\Form\EmailType;
 use App\Form\ReclamationType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,7 +12,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 /**
  * @Route("/reclamation")
@@ -181,5 +184,50 @@ class ReclamationController extends AbstractController
         }
 
         return $this->redirectToRoute('app_reclamation_index_front', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("/reclamation/download", name="app_reclamation_download")
+     */
+    public function downloadPdf(EntityManagerInterface $entityManager): Response
+    {
+        $reclamations = $entityManager
+            ->getRepository(Reclamation::class)
+            ->findAll();
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('reclamation/download.html.twig', [
+            'reclamations' => $reclamations
+        ]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => true
+        ]);
+    }
+    /**
+     * @Route("respond/{id}", name="app_reclamation_respond")
+     */
+    public function respondEmail(EntityManagerInterface $entityManager, Reclamation $reclamation): Response
+    {
+        $reclamation = new Reclamation();
+        $form = $this->createForm(EmailType::class, $reclamation);
+        $form->handleRequest($request);
+
+        $this->render("/reclamation/respond.html.twig");
     }
 }

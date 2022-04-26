@@ -35,6 +35,8 @@
         </tbody>
     </table>
 
+    <a href="{{ path('app_reclamation_respond', {'id': reclamation.id}) }}" class="btn btn-success">Respond</a>
+
     <a href="{{ path('app_reclamation_index') }}" class="btn btn-primary">back to list</a>
 
     <a href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}" class="btn btn-secondary">edit</a>
