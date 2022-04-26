@@ -42,6 +42,7 @@ block stylesheets %}
         <td>
           <a href="{{ path('app_products_show', { id: product.id }) }}">show</a>
           <a href="{{ path('app_products_edit', { id: product.id }) }}">edit</a>
+          <a href="{{ path('print_product',{'id':product.id}) }}">print</a>
         </td>
       </tr>
       {% else %}
@@ -53,5 +54,6 @@ block stylesheets %}
   </table>
 
   <a href="{{ path('app_products_new') }}">Create new</a>
+  <a href="{{ path('print_products') }}">print</a>
 </div>
 {% endblock %}
