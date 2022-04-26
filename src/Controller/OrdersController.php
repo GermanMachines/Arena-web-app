@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\Orders;
 use App\Form\OrdersType;
 use App\Repository\OrdersRepository;
+use App\Repository\ProductsRepository;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -169,5 +171,48 @@ class OrdersController extends AbstractController
         $dompdf->stream($fn, [
             "Attachment" => true
         ]);
+    }
+
+
+    /**
+     * @param Request $request
+     * @param SessionInterface $session
+     * @return Response
+     * @Route ("/addorder", name="add_order", methods={"GET","POST"})
+     */
+
+    function addOrder(SessionInterface $session, ProductsRepository $repo)
+    {
+        $cart = $session->get("cart", []);
+        $dataCart = [];
+        $total = 0;
+        $products = [];
+        // $em = $this->getDoctrine()->getManager();
+
+        foreach ($cart as $id => $qty) {
+            $product = $repo->find($id);
+            if ($qty > 0) {
+                $dataCart[] = [
+                    "product" => $product,
+                    "qty" => $qty
+                ];
+            }
+            $total += $product->getPrice() * $qty;
+
+            $order = new Orders();
+            // $order->setTotal($product->getPrice() * $qty);
+            $order->setIdproduct($product);
+            // $order->setIduser(null);
+            $order->setProductqty($qty);
+
+            array_push($products, $order);
+        }
+
+        $s = 0;
+
+        for ($i = 0; $i < count($dataCart); $i++) {
+            $s = $s + 1;
+        }
+        return $this->render('order/order.html.twig', ['s', 'dataCart' => $dataCart, 'total' => $total]);
     }
 }
