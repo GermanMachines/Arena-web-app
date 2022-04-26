@@ -1,154 +1,266 @@
-{% extends 'base-front.html.twig' %}
-
-{% block body %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
+{% extends 'base-front.html.twig' %} {% block body %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <section class="cart-section spad">
-    <div class="container">
-        <main class="product-container">
-    <div class="nk-store nk-store-checkout">
-        <h3 class="nk-decorated-h-2"><span><span class="text-main-1">Billing</span> Details</span></h3>
-
-        <!-- START: Billing Details -->
-        <div class="nk-gap"></div>
-        {# {{ form_start(fo,{'attr': {novalidate: 'novalidate'}} ) }} #}
-
-        <div class="row vertical-gap">
-            <div class="col-lg-6">
-                <div class="row vertical-gap">
-                    {# <div class="col-sm-6">
-                        {{ form_label(fo.Nom, 'First Name', ) }}
-                        {{ form_widget(fo.Nom, {'attr': {'class': 'form-control','placeholder': 'First Name'}}) }}
-                        {{ form_errors(fo.Nom) }}
+  <div class="container">
+    <main class="product-container">
+      <div class="container">
+        <div class="row gutters">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card">
+              <div class="card-body p-0">
+                <div class="invoice-container">
+                  <div class="invoice-header">
+                    <!-- Row start -->
+                    <div class="row gutters">
+                      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <div class="custom-actions-btns mb-5">
+                          <a href="" class="btn btn-primary">
+                            <i class="icon-download"></i
+                            ><i class="fas fa-check"></i> Confirm
+                          </a>
+                        </div>
+                      </div>
                     </div>
-                    <div class="col-sm-6">
-                        {{ form_label(fo.Prenom, 'Last Name', ) }}
-                        {{ form_widget(fo.Prenom, {'attr': {'class': 'form-control','placeholder': 'Last Name'}}) }}
-                        {{ form_errors(fo.Prenom) }}
-                    </div> #}
-                </div>
+                    <!-- Row end -->
 
-
-
-                <div class="nk-gap-1"></div>
-                <div class="row vertical-gap">
-                    {# <div class="col-sm-6">
-                        {{ form_label(fo.Email, 'Email Adress', ) }}
-                        {{ form_widget(fo.Email, {'attr': {'class': 'form-control','placeholder': 'Email Adress'}}) }}
-                        {{ form_errors(fo.Email) }}
+                    <!-- Row start -->
+                    <div class="row gutters">
+                      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                        <span class="invoice-logo"> ARENA </span>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6">
+                        <address class="text-right">Address</address>
+                      </div>
                     </div>
-                    <div class="col-sm-6">
-                        {{ form_label(fo.Tel, 'Phone', ) }}
-                        {{ form_widget(fo.Tel, {'attr': {'class': 'form-control','placeholder': 'Phone'}}) }}
-                        {{ form_errors(fo.Tel) }}
-                    </div> #}
+                    <!-- Row end -->
+
+                    <!-- Row start -->
+                    <div class="row gutters">
+                      <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+                        <div class="invoice-details">
+                          <address>Address</address>
+                        </div>
+                      </div>
+                      {# <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                        <div class="invoice-details">
+                          <div class="invoice-num">
+                            <div>Invoice - #009</div>
+                            <div>January 10th 2020</div>
+                          </div>
+                        </div>
+                      </div> #}
+                    </div>
+                    <!-- Row end -->
+                  </div>
+
+                  <div class="invoice-body">
+                    <!-- Row start -->
+                    <div class="row gutters">
+                      <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="table-responsive">
+                          <table class="table custom-table m-0">
+                            <thead>
+                              <tr>
+                                <th>Products</th>
+                                <th>Quantity</th>
+                                <th>Sub Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for element in dataCart %}
+                              <tr>
+                                <td>
+                                  {{ element.product.name }}
+                                  <p class="m-0 text-muted">
+                                    {{ element.product.description }}
+                                  </p>
+                                </td>
+                                <td>{{ element.qty }}</td>
+                                <td>
+                                  {{ element.qty * element.product.price }} TND
+                                </td>
+                              </tr>
+
+                              {% endfor %}
+                              <tr>
+                                <td>&nbsp;</td>
+                                <td colspan="2">
+                                  <p>
+                                    Subtotal<br />
+                                    Shipping &amp; Handling<br />
+                                    Tax<br />
+                                  </p>
+                                  <h5 class="text-success">
+                                    <strong>Grand Total</strong>
+                                  </h5>
+                                </td>
+                                <td>
+                                  <p>
+                                    {{ total }} TND<br />
+                                    10.00 TND<br />
+                                    7.00 TND<br />
+                                  </p>
+                                  <h5 class="text-success">
+                                    <strong>
+                                      {{ total + 17 }}
+                                      TND</strong
+                                    >
+                                  </h5>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Row end -->
+                  </div>
+
+                  <div class="invoice-footer">Thank you for trusting us.</div>
                 </div>
-
-
+              </div>
             </div>
-            <div class="col-lg-6">
-
-                {# {{ form_label(fo.Adress, 'Address', ) }}
-                {{ form_widget(fo.Adress, {'attr': {'class': 'form-control','placeholder': 'Type Address...', 'id':'search_input'}}) }}
-                {{ form_errors(fo.Adress) }}
-                <input type="hidden" id="latitude_input">
-                <input type="hidden" id="longitude_input">
-
-                <div class="nk-gap-1"></div>
-                {{ form_label(fo.City, 'City', ) }}
-                {{ form_widget(fo.City, {'attr': {'class': 'form-control','placeholder': 'City'}}) }}
-                {{ form_errors(fo.City) }} #}
-
-                <div class="nk-gap-1"></div>
-                <div class="row vertical-gap">
-
-
-                </div>
-
-
-            </div>
-
+          </div>
         </div>
+      </div>
 
+      <style type="text/css">
+        body {
+          margin: 0;
+          padding: 0;
+          font: 400 0.875rem "Open Sans", sans-serif;
+          color: #bcd0f7;
+          background: #1a233a;
+          position: relative;
+          height: 100%;
+        }
+        .invoice-container {
+          padding: 1rem;
+        }
+        .invoice-container .invoice-header .invoice-logo {
+          margin: 0.8rem 0 0 0;
+          display: inline-block;
+          font-size: 1.6rem;
+          font-weight: 700;
+          color: #bcd0f7;
+        }
+        .invoice-container .invoice-header .invoice-logo img {
+          max-width: 130px;
+        }
+        .invoice-container .invoice-header address {
+          font-size: 0.8rem;
+          color: #8a99b5;
+          margin: 0;
+        }
+        .invoice-container .invoice-details {
+          margin: 1rem 0 0 0;
+          padding: 1rem;
+          line-height: 180%;
+          background: #1a233a;
+        }
+        .invoice-container .invoice-details .invoice-num {
+          text-align: right;
+          font-size: 0.8rem;
+        }
+        .invoice-container .invoice-body {
+          padding: 1rem 0 0 0;
+        }
+        .invoice-container .invoice-footer {
+          text-align: center;
+          font-size: 0.7rem;
+          margin: 5px 0 0 0;
+        }
 
+        .invoice-status {
+          text-align: center;
+          padding: 1rem;
+          background: #272e48;
+          -webkit-border-radius: 4px;
+          -moz-border-radius: 4px;
+          border-radius: 4px;
+          margin-bottom: 1rem;
+        }
+        .invoice-status h2.status {
+          margin: 0 0 0.8rem 0;
+        }
+        .invoice-status h5.status-title {
+          margin: 0 0 0.8rem 0;
+          color: #8a99b5;
+        }
+        .invoice-status p.status-type {
+          margin: 0.5rem 0 0 0;
+          padding: 0;
+          line-height: 150%;
+        }
+        .invoice-status i {
+          font-size: 1.5rem;
+          margin: 0 0 1rem 0;
+          display: inline-block;
+          padding: 1rem;
+          background: #1a233a;
+          -webkit-border-radius: 50px;
+          -moz-border-radius: 50px;
+          border-radius: 50px;
+        }
+        .invoice-status .badge {
+          text-transform: uppercase;
+        }
 
-    </div>
-    <div class="nk-store nk-store-checkout">
-        <h3 class="nk-decorated-h-2"><span><span class="text-main-1">Code</span> Promo</span></h3>
+        @media (max-width: 767px) {
+          .invoice-container {
+            padding: 1rem;
+          }
+        }
 
-        {# {{ form_label(fo.codepromo, 'Code Promo', ) }}
-        {{ form_widget(fo.codepromo, {'attr': {'class': 'form-control','placeholder': 'Code Promo'}}) }}
-        {{ form_errors(fo.codepromo) }} #}
-    </div>
-    <div class="nk-store nk-store-checkout">
-        <div class="nk-gap-3"></div>
-        <h3 class="nk-decorated-h-2"><span><span class="text-main-1">Your</span> Order</span></h3>
-        <div class="nk-gap"></div>
-        <div class="table-responsive">
+        .card {
+          background: #272e48;
+          -webkit-border-radius: 5px;
+          -moz-border-radius: 5px;
+          border-radius: 5px;
+          border: 0;
+          margin-bottom: 1rem;
+        }
 
-            <table class="nk-table nk-table-sm">
-                <thead class="thead-default">
-                <tr>
-                    <th class="nk-product-cart-title">Product</th>
-                    <th class="nk-product-cart-total">Total</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for element in dataCart %}
+        .custom-table {
+          border: 1px solid #2b3958;
+        }
+        .custom-table thead {
+          background: #2f71c1;
+        }
+        .custom-table thead th {
+          border: 0;
+          color: #ffffff;
+        }
+        .custom-table > tbody tr:hover {
+          background: #172033;
+        }
+        .custom-table > tbody tr:nth-of-type(even) {
+          background-color: #1a243a;
+        }
+        .custom-table > tbody td {
+          border: 1px solid #2e3d5f;
+        }
 
-                    <tr>
-                        <td class="nk-product-cart-title">
-                            {{ element.product.name }} * ({{ element.qty }})
-                        </td>
-                        <td class="nk-product-cart-total">
-                            {{ element.qty * element.product.price }}
-                        </td>
-                    </tr>
-
-                {% endfor %}
-
-
-                <tr class="nk-store-cart-totals-subtotal">
-                    <td>
-                        Subtotal
-                    </td>
-                    <td>
-                        {{ total }}
-                    </td>
-                </tr>
-                <tr class="nk-store-cart-totals-shipping">
-                    <td>
-                        Shipping
-                    </td>
-                    <td>
-                        Free Shipping
-                    </td>
-                </tr>
-                <tr class="nk-store-cart-totals-total">
-                    <td>
-                        Total
-                    </td>
-                    <td>
-                        {{ total }}
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <!-- END: Order Products -->
-
-        <div class="nk-gap-2"></div>
-        {# {{ form_widget(fo.submit, {'attr': {'class': 'form-control btn btn-primary mr-2' }}) }} #}
-
-        {# {{ form_end(fo) }} #}
-
-
-    </div>
-</main>
-</div>
+        .table {
+          background: #1a243a;
+          color: #bcd0f7;
+          font-size: 0.75rem;
+        }
+        .text-success {
+          color: #c0d64a !important;
+        }
+        .custom-actions-btns {
+          margin: auto;
+          display: flex;
+          justify-content: flex-end;
+        }
+        .custom-actions-btns .btn {
+          margin: 0.3rem 0 0.3rem 0.3rem;
+        }
+      </style>
+    </main>
+  </div>
 </section>
-
-
 
 {% endblock %}
