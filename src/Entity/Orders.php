@@ -128,5 +128,10 @@ class Orders
         return $this;
     }
 
+    public function __toString()
+    {
+        return (string) $this->createdat;
+    }
+
 
 }

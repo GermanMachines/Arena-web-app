@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Order Print</title>
+    <link rel="stylesheet" href="/style.css" media="all" />
+</head>
+<body>
+<header class="clearfix">
+    <div id="logo">
+        ARENA
+    </div>
+    <h1 align="center">ARENA Shop </h1>
+    <hr></hr>
+    <div><span>Order </span> {{ order.num }} </div>
+    <hr></hr>
+    <div id="company" class="clearfix">
+        <div><span>Product: </span> {{ order.idproduct.name }}  </div>
+        <div><span>Client: </span> {{ order.iduser.name }}  </div>
+        <div><span>Quantity: </span> {{ order.productqty }}  </div>
+        <div><span>Date: </span> {{ order.createdat ? order.createdat|date('Y-m-d') : '' }}  </div>
+        <hr></hr>
+        <div><span>Total Price: </span> {{ order.productqty * order.idproduct.price }} TND </div>
+    </div>
+</header>
+</main>
+
+</body>

@@ -30,6 +30,7 @@ block stylesheets %}
         <td>{{ order.createdat ? order.createdat|date('Y-m-d') : '' }}</td>
         <td>
           <a href="{{ path('app_orders_show', { id: order.id }) }}">show</a>
+          <a href="{{ path('print_order',{'id':order.id}) }}">print</a>
           {# <a href="{{ path('app_orders_edit', { id: order.id }) }}">edit</a> #}
         </td>
       </tr>
@@ -42,5 +43,6 @@ block stylesheets %}
   </table>
 
   {# <a href="{{ path('app_orders_new') }}">Create new</a> #}
+  <a href="{{ path('print_orders') }}">print</a>
 </div>
 {% endblock %}
