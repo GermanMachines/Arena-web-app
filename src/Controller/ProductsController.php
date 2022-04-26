@@ -184,7 +184,7 @@ class ProductsController extends AbstractController
         // Render the HTML as PDF
         $dompdf->render();
 
-        $fn = sprintf('product%s.pdf', date('c'));
+        $fn = sprintf('allproducts%s.pdf', date('c'));
         // Output the generated PDF to Browser (force download)
         $dompdf->stream($fn, [
             "Attachment" => true
