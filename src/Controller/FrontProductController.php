@@ -4,12 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Products;
 use App\Repository\ProductsRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class FrontProductController extends AbstractController
 {
@@ -30,5 +30,100 @@ class FrontProductController extends AbstractController
         return $this->render('product/index.html.twig', [
             'products' => $products,
         ]);
+    }
+    
+    /**
+     * @Route("/{id}", name="app_product_show", methods={"GET"}, requirements={"id":"\d+"})
+     */
+    public function show(Products $product): Response
+    {
+        return $this->render('product/product.html.twig', [
+            'product' => $product,
+        ]);
+    }
+
+    /**
+     * @Route("/displaycart", name="displaycart")
+     */
+    public function displayCart(SessionInterface $session, ProductsRepository $repo)
+    {
+        $cart = $session->get("cart", []);
+
+        // On "fabrique" les données
+        $dataCart = [];
+        $total = 0;
+        $s = 0;
+        foreach ($cart as $id => $qty) {
+            $product = $repo->find($id);
+            $dataCart[] = [
+                "product" => $product,
+                "qty" => $qty
+            ];
+            $total += $product->getPrice() * $qty;
+        }
+        for ($i = 0; $i < count($dataCart); $i++) {
+            $s = $s + 1;
+        }
+
+        return $this->render('/cart/show_cart.html.twig', compact("dataCart", "total", "s"));
+    }
+    /**
+     * @Route("/cart/add/{id}", name="add_cart", requirements={"id":"\d+"})
+     */
+    public function add(Products $product, SessionInterface $session)
+    {
+        // On récupère le panier actuel
+        $cart = $session->get("cart", []);
+        $id = $product->getId();
+
+        if (!empty($cart[$id])) {
+            $cart[$id]++;
+        } else {
+            $cart[$id] = 1;
+        }
+
+        // On sauvegarde dans la session
+        $session->set("cart", $cart);
+
+        return $this->redirectToRoute("displaycart");
+    }
+    /**
+     * @Route("/cart/addcart/{id}", name="add_cart", requirements={"id":"\d+"})
+     */
+    public function add_cart(Products $product, SessionInterface $session)
+    {
+        // On récupère le panier actuel
+        $cart = $session->get("cart", []);
+        $id = $product->getId();
+
+        if (!empty($cart[$id])) {
+            $cart[$id]++;
+        } else {
+            $cart[$id] = 1;
+        }
+
+        // On sauvegarde dans la session
+        $session->set("cart", $cart);
+
+        return $this->redirectToRoute("displaycart");
+    }
+    /**
+     * @Route("/supprimer/{id}", name="remove_cart", requirements={"id":"\d+"})
+     */
+    public function remove($id, SessionInterface $session)
+    {
+        $cart = $session->get('cart', []);
+
+        if (empty($cart[$id])) {
+
+            unset($cart[$id]);
+        } else {
+            $cart[$id]--;
+        }
+
+
+        $session->set('cart', $cart);
+
+        return $this->redirectToRoute('displaycart');
     }
 }

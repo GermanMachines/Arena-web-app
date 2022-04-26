@@ -654,6 +654,27 @@ ol {
   margin-bottom: 25px;
 }
 
+.cart-section {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#501755+0,2d1854+100 */
+  background: #501755;
+  /* Old browsers */
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(45deg, #501755 0%, #2d1854 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: -o-linear-gradient(45deg, #501755 0%, #2d1854 100%);
+  background: linear-gradient(45deg, #501755 0%, #2d1854 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#501755', endColorstr='#2d1854', GradientType=1);
+  /* IE6-9 fallback on horizontal gradient */
+  min-width: 1200px;
+  padding-top: 200px;
+  color: #ffffff;
+}
+
+.cart-section .section-title {
+  margin-bottom: 25px;
+}
+
 .blog-filter {
   list-style: none;
   display: block;
