@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Orders;
+use App\Entity\Users;
 use App\Form\OrdersType;
 use App\Repository\OrdersRepository;
 use App\Repository\ProductsRepository;
+use App\Repository\UsersRepository;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Knp\Component\Pager\PaginatorInterface;
@@ -183,7 +185,6 @@ class OrdersController extends AbstractController
         ]);
     }
 
-
     /**
      * @param Request $request
      * @param SessionInterface $session
@@ -191,7 +192,52 @@ class OrdersController extends AbstractController
      * @Route ("/addorder", name="add_order", methods={"GET","POST"})
      */
 
-    function addOrder(SessionInterface $session, ProductsRepository $repo)
+    function addOrder(SessionInterface $session, ProductsRepository $repo, OrdersRepository $ordersRepository, UsersRepository $userRepo)
+    {
+        $cart = $session->get("cart", []);
+        $dataCart = [];
+        $total = 0;
+        $products = [];
+
+        foreach ($cart as $id => $qty) {
+            $product = $repo->find($id);
+            if ($qty > 0) {
+                $dataCart[] = [
+                    "product" => $product,
+                    "qty" => $qty
+                ];
+                $total += $product->getPrice() * $qty;
+
+                $user = $userRepo->find(1);
+                $order = new Orders();
+                // $order->setTotal($product->getPrice() * $qty);
+                $order->setIdproduct($product);
+                $order->setIduser($user);
+                // $order->setIduser(null);
+                $order->setProductqty($qty);
+
+                array_push($products, $order);
+            }
+        }
+
+        // dd($dataCart);
+        $s = 0;
+
+        for ($i = 0; $i < count($dataCart); $i++) {
+            $s = $s + 1;
+        }
+        return $this->render('order/order.html.twig', ['s', 'dataCart' => $dataCart, 'total' => $total]);
+    }
+
+
+    /**
+     * @param Request $request
+     * @param SessionInterface $session
+     * @return Response
+     * @Route ("/confirmorder", name="confirm_order", methods={"GET","POST"})
+     */
+
+    function confirmOrder(SessionInterface $session, ProductsRepository $repo, OrdersRepository $ordersRepository, UsersRepository $userRepo)
     {
         $cart = $session->get("cart", []);
         $dataCart = [];
@@ -206,23 +252,36 @@ class OrdersController extends AbstractController
                     "product" => $product,
                     "qty" => $qty
                 ];
+                $total += $product->getPrice() * $qty;
+
+                $user = $userRepo->find(1);
+                $order = new Orders();
+                // $order->setTotal($product->getPrice() * $qty);
+                $order->setNum(random_int(1000, 9999));
+                $order->setIdproduct($product);
+                $order->setIduser($user);
+                // $order->setIduser(null);
+                $order->setProductqty($qty);
+
+                $ordersRepository->add($order);
+
+                array_push($products, $order);
             }
-            $total += $product->getPrice() * $qty;
-
-            $order = new Orders();
-            // $order->setTotal($product->getPrice() * $qty);
-            $order->setIdproduct($product);
-            // $order->setIduser(null);
-            $order->setProductqty($qty);
-
-            array_push($products, $order);
         }
 
+        $cart = $session->set("cart", []);
+        $dataCart = $cart;
+
+
+        return $this->redirectToRoute('displaycart', [], Response::HTTP_SEE_OTHER);
+
+        // dd($dataCart);
         $s = 0;
 
         for ($i = 0; $i < count($dataCart); $i++) {
             $s = $s + 1;
         }
-        return $this->render('order/order.html.twig', ['s', 'dataCart' => $dataCart, 'total' => $total]);
+        // dd($s);
+        return $this->render('order/order.html.twig', ['s', 'dataCart' => $dataCart, 'total' => $total, 'cart' => $cart]);
     }
 }

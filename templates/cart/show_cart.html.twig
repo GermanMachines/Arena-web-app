@@ -65,11 +65,6 @@
                                 </a>
                             </td>
                             <td>
-            
-                                <a href="{{ path('add_order') }}" class="btn btn-info float-right">
-                                    <i class="fas fa-check"></i>
-                                </a>
-            
                             </td>
                         </tr>
                         {% endif %}
@@ -84,6 +79,7 @@
                 </div>
                 <div class="col-md-6">
                     <!-- START: Cart Totals -->
+                    {% if dataCart %}
                     <h3 class="nk-title h4">Cart Total</h3>
                     <table class="nk-table nk-table-sm">
                         <tbody>
@@ -113,14 +109,25 @@
                         </tr>
                         </tbody>
                     </table>
+                    {% else %}
+                    <h3 class="nk-title h4">Your shopping cart is empty</h3>
+                    {% endif %}
                     <!-- END: Cart Totals -->
                 </div>
             </div>
+{#             
+            <a href="{{ path('add_order') }}" class="btn btn-info float-right">
+                <i class="fas fa-check"></i>
+            </a> #}
     </div>
+    {% if dataCart %}
+    <a class="btn btn-info float-right" style="margin-right: 120px;" href="{{ path('add_order') }}">Proceed to Checkout</a>
+    {% else %}
+    <a class="btn btn-info float-right" style="margin-right: 120px;" href="{{ path('app_front_product') }}">Return to Shop</a>
+    {% endif %}
 </section>
 
 <div class="nk-gap-2"></div>
-{# <a class="nk-btn nk-btn-rounded nk-btn-color-main-1 float-right" href="{{ path('Ajoutcommande') }}">Proceed to Checkout</a> #}
 <div class="clearfix"></div>
 </div>
 {% endblock %}

@@ -26,21 +26,21 @@ class Users
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
-    private $name;
+    private $name = "fourat";
 
     /**
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
      */
-    private $email;
+    private $email = "fourat.abdellatif@esprit.tn";
 
     /**
      * @var string
      *
      * @ORM\Column(name="role", type="string", length=255, nullable=false)
      */
-    private $role;
+    private $role = "player";
 
     public function getId(): ?int
     {

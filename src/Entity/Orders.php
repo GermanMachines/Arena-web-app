@@ -32,7 +32,7 @@ class Orders
     /**
      * @var \Users
      *
-     * @ORM\ManyToOne(targetEntity="Users")
+     * @ORM\ManyToOne(targetEntity="Users", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idUser", referencedColumnName="id")
      * })
@@ -52,6 +52,10 @@ class Orders
      * @ORM\Column(name="createdAt", type="date", nullable=false)
      */
     private $createdat;
+    public function __construct()
+    {
+        $this->createdat = new \DateTime();
+    }
 
     /**
      * @var \Products
@@ -132,6 +136,4 @@ class Orders
     {
         return (string) $this->createdat;
     }
-
-
 }
