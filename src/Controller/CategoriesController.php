@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Categories;
 use App\Form\CategoriesType;
 use App\Repository\CategoriesRepository;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +29,7 @@ class CategoriesController extends AbstractController
     /**
      * @Route("/new", name="app_categories_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, CategoriesRepository $categoriesRepository): Response
+    public function new(Request $request, CategoriesRepository $categoriesRepository, FlashyNotifier $flashy): Response
     {
         $category = new Categories();
         $form = $this->createForm(CategoriesType::class, $category);
@@ -36,6 +37,7 @@ class CategoriesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $categoriesRepository->add($category);
+            $flashy->success('Category created!');
             return $this->redirectToRoute('app_categories_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -58,13 +60,14 @@ class CategoriesController extends AbstractController
     /**
      * @Route("/{id}/edit", name="app_categories_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Categories $category, CategoriesRepository $categoriesRepository): Response
+    public function edit(Request $request, Categories $category, CategoriesRepository $categoriesRepository, FlashyNotifier $flashy): Response
     {
         $form = $this->createForm(CategoriesType::class, $category);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $categoriesRepository->add($category);
+            $flashy->success('Category updated!');
             return $this->redirectToRoute('app_categories_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -77,10 +80,11 @@ class CategoriesController extends AbstractController
     /**
      * @Route("/{id}", name="app_categories_delete", methods={"POST"})
      */
-    public function delete(Request $request, Categories $category, CategoriesRepository $categoriesRepository): Response
+    public function delete(Request $request, Categories $category, CategoriesRepository $categoriesRepository, FlashyNotifier $flashy): Response
     {
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
             $categoriesRepository->remove($category);
+            $flashy->success('Category deleted!');
         }
 
         return $this->redirectToRoute('app_categories_index', [], Response::HTTP_SEE_OTHER);
