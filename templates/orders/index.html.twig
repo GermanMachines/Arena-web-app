@@ -7,6 +7,12 @@ block stylesheets %}
 
 {% endblock %} {% block body %}
 <div class="table-wrapper">
+  <div id="div_chart"></div>
+  
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+      {{ gc_draw(piechart, 'div_chart') }}
+  </script>
   <h1>Orders</h1>
 
   {{ knp_pagination_render(orders) }}
@@ -16,8 +22,9 @@ block stylesheets %}
         <th>Num</th>
         <th>Product</th>
         <th>Client</th>
-        <th>Productqty</th>
-        <th>Createdat</th>
+        <th>Product Qty</th>
+        <th>Total</th>
+        <th>Date</th>
         <th>actions</th>
       </tr>
     </thead>
@@ -28,6 +35,7 @@ block stylesheets %}
         <td>{{ order.idproduct.name }}</td>
         <td>{{ order.iduser.name }}</td>
         <td>{{ order.productqty }}</td>
+        <td>{{ order.productqty * order.idproduct.price }} TND</td>
         <td>{{ order.createdat ? order.createdat|date('Y-m-d') : '' }}</td>
         <td>
           <a href="{{ path('app_orders_show', { id: order.id }) }}">show</a>

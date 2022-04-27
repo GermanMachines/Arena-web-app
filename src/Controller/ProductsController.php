@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Categories;
 use App\Entity\Products;
 use App\Form\ProductsType;
 use App\Repository\ProductsRepository;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -34,8 +36,44 @@ class ProductsController extends AbstractController
             6 // Nombre de résultats par page
         );
 
+        $pieChart = new PieChart();
+
+        $productsData = $this->getDoctrine()->getRepository(Products::class)->findAll();
+        $categoriesData = $this->getDoctrine()->getRepository(Categories::class)->findAll();
+
+        // dd($categoriesData);
+
+        $charts = array(['Products', 'Number per Category']);
+        // dd($charts);
+        foreach ($categoriesData as $c) {
+            $catN = 0;
+            foreach ($productsData as $p) {
+                if ($c == $p->getIdcat()) {
+                    $catN++;
+                }
+            }
+
+            array_push($charts, [$c->getName(), $catN]);
+        }
+
+
+        // dd($charts);
+
+        $pieChart->getData()->setArrayToDataTable(
+            $charts
+        );
+
+        // dd($pieChart);
+
+        $pieChart->getOptions()->setTitle('Products Number per Category');
+        $pieChart->getOptions()->setHeight(400);
+        $pieChart->getOptions()->setWidth(400);
+        $pieChart->getOptions()->getTitleTextStyle()->setColor('#07600');
+        $pieChart->getOptions()->getTitleTextStyle()->setFontSize(25);
+
         return $this->render('products/index.html.twig', [
             'products' => $products,
+            'piechart' => $pieChart
         ]);
     }
 
@@ -135,7 +173,7 @@ class ProductsController extends AbstractController
         // Instantiate Dompdf with our options
         $dompdf = new Dompdf($pdfOptions);
         $product = $repo->find($id);
-        
+
         $dompdf->setOptions($pdfOptions);
         $dompdf->output();
 
@@ -163,7 +201,7 @@ class ProductsController extends AbstractController
         ]);
     }
 
-    
+
     /**
      * @Route ("/printallproducts", name="print_products", requirements={"id":"\d+"})
      */
@@ -177,7 +215,7 @@ class ProductsController extends AbstractController
         // Instantiate Dompdf with our options
         $dompdf = new Dompdf($pdfOptions);
         $products = $repo->findAll();
-        
+
         $dompdf->setOptions($pdfOptions);
         $dompdf->output();
 

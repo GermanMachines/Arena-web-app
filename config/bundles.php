@@ -16,4 +16,5 @@ return [
     Knp\Bundle\PaginatorBundle\KnpPaginatorBundle::class => ['all' => true],
     Artprima\QueryFilterBundle\ArtprimaQueryFilterBundle::class => ['all' => true],
     MercurySeries\FlashyBundle\MercurySeriesFlashyBundle::class => ['all' => true],
+    CMEN\GoogleChartsBundle\CMENGoogleChartsBundle::class => ['all' => true],
 ];

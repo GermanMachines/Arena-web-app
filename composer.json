@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "artprima/query-filter-bundle": "^1.6",
+        "cmen/google-charts-bundle": "^5.0",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.6",
         "doctrine/doctrine-migrations-bundle": "^3.2",

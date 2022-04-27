@@ -8,6 +8,7 @@ use App\Form\OrdersType;
 use App\Repository\OrdersRepository;
 use App\Repository\ProductsRepository;
 use App\Repository\UsersRepository;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Knp\Component\Pager\PaginatorInterface;
@@ -16,6 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+
+use function PHPUnit\Framework\lessThan;
 
 /**
  * @Route("/orders")
@@ -36,8 +39,48 @@ class OrdersController extends AbstractController
             6 // Nombre de résultats par page
         );
 
+        $pieChart = new PieChart();
+
+        $ordersData = $this->getDoctrine()->getRepository(Orders::class)->findAll();
+
+        $lessthan500 = 0;
+        $between = 0;
+        $morethan1000 = 0;
+
+        foreach ($ordersData as $o) {
+            $totalPrice = $o->getProductQty() * $o->getIdproduct()->getPrice();
+            if ($totalPrice <= 500) {
+                $lessthan500++;
+            } else if ($totalPrice > 500 && $totalPrice <= 1000) {
+                $between++;
+            } else {
+                $morethan1000++;
+            }
+        }
+
+        $charts = array(
+            ['Orders', 'Number per Price'],
+            ['P < 500 TND', $lessthan500],
+            ['500 TND < P < 1000 TND', $between],
+            ['P > 1000 TND', $morethan1000],
+        );
+
+        $pieChart->getData()->setArrayToDataTable(
+            $charts
+        );
+
+        // dd($pieChart);
+
+        $pieChart->getOptions()->setTitle('Orders Number per Price');
+        $pieChart->getOptions()->setHeight(400);
+        $pieChart->getOptions()->setWidth(400);
+        $pieChart->getOptions()->getTitleTextStyle()->setColor('#07600');
+        $pieChart->getOptions()->getTitleTextStyle()->setFontSize(25);
+
+
         return $this->render('orders/index.html.twig', [
             'orders' => $orders,
+            'piechart' => $pieChart
         ]);
     }
 
