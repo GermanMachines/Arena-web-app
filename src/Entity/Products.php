@@ -58,6 +58,7 @@ class Products
      * @var string
      *
      * @ORM\Column(name="image", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Image is required")
      */
     private $image;
 
