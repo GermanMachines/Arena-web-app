@@ -69,6 +69,20 @@ class Products
     private $rate;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="pos1", type="float", nullable=false)
+     */
+    private $pos1;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="pos2", type="float", nullable=false)
+     */
+    private $pos2;
+
+    /**
      * @var \Categories
      * @Assert\NotBlank(message="Category is required")
      *
@@ -167,12 +181,32 @@ class Products
 
         return $this;
     }
-    
-    
+    public function getPos1(): ?float
+    {
+        return $this->pos1;
+    }
+
+    public function setPos1(float $pos1): self
+    {
+        $this->pos1 = $pos1;
+
+        return $this;
+    }
+
+    public function getPos2(): ?float
+    {
+        return $this->pos2;
+    }
+
+    public function setPos2(float $pos2): self
+    {
+        $this->pos2 = $pos2;
+
+        return $this;
+    }
+
     public function __toString()
     {
         return (string) $this->name;
     }
-
-
 }
