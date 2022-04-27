@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Categories;
 use App\Form\CategoriesType;
 use App\Repository\CategoriesRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,10 +20,19 @@ class CategoriesController extends AbstractController
     /**
      * @Route("/", name="app_categories_index", methods={"GET"})
      */
-    public function index(CategoriesRepository $categoriesRepository): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
+        // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
+        $data = $this->getDoctrine()->getRepository(Categories::class)->findBy([], ['id' => 'desc']);
+
+        $categories = $paginator->paginate(
+            $data, // Requête contenant les données à paginer (ici nos categories)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            6 // Nombre de résultats par page
+        );
+
         return $this->render('categories/index.html.twig', [
-            'categories' => $categoriesRepository->findAll(),
+            'categories' => $categories,
         ]);
     }
 
@@ -82,7 +92,7 @@ class CategoriesController extends AbstractController
      */
     public function delete(Request $request, Categories $category, CategoriesRepository $categoriesRepository, FlashyNotifier $flashy): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $category->getId(), $request->request->get('_token'))) {
             $categoriesRepository->remove($category);
             $flashy->success('Category deleted!');
         }

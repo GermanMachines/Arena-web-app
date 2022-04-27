@@ -8,6 +8,7 @@ use App\Repository\OrdersRepository;
 use App\Repository\ProductsRepository;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,10 +23,19 @@ class OrdersController extends AbstractController
     /**
      * @Route("/", name="app_orders_index", methods={"GET"})
      */
-    public function index(OrdersRepository $ordersRepository): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
+        // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
+        $data = $this->getDoctrine()->getRepository(Orders::class)->findBy([], ['id' => 'desc']);
+
+        $orders = $paginator->paginate(
+            $data, // Requête contenant les données à paginer (ici nos orders)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            6 // Nombre de résultats par page
+        );
+
         return $this->render('orders/index.html.twig', [
-            'orders' => $ordersRepository->findAll(),
+            'orders' => $orders,
         ]);
     }
 

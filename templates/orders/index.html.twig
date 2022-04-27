@@ -9,6 +9,7 @@ block stylesheets %}
 <div class="table-wrapper">
   <h1>Orders</h1>
 
+  {{ knp_pagination_render(orders) }}
   <table class="table">
     <thead>
       <tr>
@@ -41,6 +42,7 @@ block stylesheets %}
       {% endfor %}
     </tbody>
   </table>
+  {{ knp_pagination_render(orders) }}
 
   {# <a href="{{ path('app_orders_new') }}">Create new</a> #}
   <a href="{{ path('print_orders') }}">print</a>
