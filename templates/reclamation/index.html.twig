@@ -9,9 +9,9 @@
             <tr>
                 <th>Titre</th>
                 <th>Message</th>
-                <th>Iduser</th>
-                <th>Idcategoryreclamation</th>
-                <th>Etat</th>
+                <th>User</th>
+                <th>Categorie reclamation</th>
+                <th>Traité</th>
                 <th>Date</th>
                 <th>actions</th>
             </tr>
@@ -27,7 +27,8 @@
                 <td>{{ reclamation.date ? reclamation.date|date('Y-m-d') : '' }}</td>
                 <td>
                     <a href="{{ path('app_reclamation_show', {'id': reclamation.id}) }}" class="btn btn-secondary">show</a>
-                    <a href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}" class="btn btn-primary">edit</a>
+                    <a href="{{ path('app_email_reclamation', {'id': reclamation.id}) }}" class="btn btn-success">Respond</a>
+                
                    
                 </td>
             </tr>
@@ -36,8 +37,12 @@
                 <td colspan="8">no records found</td>
             </tr>
         {% endfor %}
+ 
         </tbody>
+                  
     </table>
 
-   <a href="{{ path('app_reclamation_download')}}" class="btn btn-primary">Export PDF</a>
+     <a href="{{ path('app_reclamation_download')}}" class="btn btn-primary">Export PDF</a>
+
+  
 {% endblock %}

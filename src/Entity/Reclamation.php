@@ -51,7 +51,7 @@ class Reclamation
     /**
      * @var bool
      *
-     * @ORM\Column(name="etat", type="boolean", nullable=false)
+     * @ORM\Column(name="etat", type="boolean", nullable=true)
      */
     private $etat;
 

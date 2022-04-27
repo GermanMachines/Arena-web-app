@@ -43,6 +43,7 @@
 
 
     </head>
+  
     <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -159,7 +160,6 @@
              <div id="collapseT" class="collapse" aria-labelledby="headingTournois" data-parent="#accordionSidebar">
                  <div class="bg-white py-2 collapse-inner rounded">
                      <h6 class="collapse-header">Custom Reclamation:</h6>
-                     <a class="collapse-item" href="{{path('app_reclamation_new')}}">Ajouter Reclamation</a>
                      <a class="collapse-item" href="{{path('app_reclamation_index')}}">Consulter Reclamation</a>
 
                  </div>
@@ -183,7 +183,6 @@
              <div id="collapseTournoiss" class="collapse" aria-labelledby="headingTournois" data-parent="#accordionSidebar">
                  <div class="bg-white py-2 collapse-inner rounded">
                      <h6 class="collapse-header">Avis:</h6>
-                     <a class="collapse-item" href="{{path('app_avis_new')}}">Ajouter Avis</a>
                      <a class="collapse-item" href="{{path('app_avis_index')}}">Consulter Avis</a>
 
                  </div>
@@ -464,11 +463,13 @@
 
 </nav>
 <!-- End of Topbar -->
+  {% include 'flash_messages.html.twig' %} 
 {% endblock %}
 
 
 
         {% block body %}
+        
   
         </div>
         <!-- End of Content Wrapper -->
