@@ -8,6 +8,7 @@ use App\Form\EmailType;
 use App\Form\EreclamationType;
 use App\Form\ReclamationFrontType;
 use App\Form\ReclamationType;
+use App\Form\SearchReclamationType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,6 +26,22 @@ use Symfony\Component\Mime\Email;
  */
 class ReclamationController extends AbstractController
 {
+    /**
+     * @Route("/search}", name="app_reclamation_search")
+     */
+    public function searchAdavanced(Request $request): Response
+    {
+
+
+        $input = $request->get('search_reclamation')['search'];
+        $form = $this->createForm(SearchReclamationType::class);
+        $reclamations = $this->getDoctrine()->getRepository(Reclamation::class)->search($input);
+
+        return $this->render('reclamation/index.html.twig', [
+            'reclamations' => $reclamations,
+            'form' => $form->createView()
+        ]);
+    }
 
 
     /**
@@ -32,12 +49,16 @@ class ReclamationController extends AbstractController
      */
     public function index(EntityManagerInterface $entityManager): Response
     {
+
+        $form = $this->createForm(SearchReclamationType::class);
+
         $reclamations = $entityManager
             ->getRepository(Reclamation::class)
             ->findAll();
 
         return $this->render('reclamation/index.html.twig', [
             'reclamations' => $reclamations,
+            'form' => $form->createView()
         ]);
     }
     /**

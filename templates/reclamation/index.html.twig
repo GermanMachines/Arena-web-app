@@ -3,7 +3,10 @@
 {% block title %}Reclamation index{% endblock %}
 
 {% block body %}
-     
+    {{ form_start(form, {'action': path('app_reclamation_search'), 'method': 'POST'}) }}
+    {{ form_widget(form.search) }}
+    {{ form_widget(form.submit) }}
+    {{ form_end(form) }}
     <table class="table">
         <thead>
             <tr>
