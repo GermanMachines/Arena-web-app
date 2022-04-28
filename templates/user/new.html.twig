@@ -1,0 +1,99 @@
+
+
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}New User{% endblock %}
+
+{% block body %}
+ <main id="main" class="main">
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title">Ajouter un user</h1>
+                        {{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
+
+                        {{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
+
+                        <table >
+                            <tr>
+                                <td>
+                                    {{ form_label(form.surnom,"Surnom : ") }}
+                                </td><td>
+                                    {{ form_widget(form.surnom) }}
+                                </td>
+                                <td>{{ form_errors(form.surnom,{'attr':{'class':'text-danger'}}) }}</td>
+                            </tr>
+                           <tr>
+                                <td>
+                                    {{ form_label(form.nom,"nom : ") }}
+                                </td><td>
+                                    {{ form_widget(form.nom) }}
+                                </td>
+                                <td>{{ form_errors(form.nom,{'attr':{'class':'text-danger'}}) }}</td>
+                            </tr>
+                           <tr>
+                                <td>
+                                    {{ form_label(form.image,"image : ") }}
+                                </td><td>
+                                    {{ form_widget(form.image) }}
+                                </td>
+                                <td>{{ form_errors(form.image,{'attr':{'class':'text-danger'}}) }}</td>
+                            </tr>                            
+                           <tr>
+                                <td>
+                                    {{ form_label(form.email,"email : ") }}
+                                </td><td>
+                                    {{ form_widget(form.email) }}
+                                </td>
+                                <td>{{ form_errors(form.email,{'attr':{'class':'text-danger'}}) }}</td>
+                            </tr>    
+                               <td>
+                                    {{ form_label(form.mdp,"mdp : ") }}
+                                </td><td>
+                                    {{ form_widget(form.mdp) }}
+                                </td>
+                                <td>{{ form_errors(form.mdp,{'attr':{'class':'text-danger'}}) }}</td>
+                            </tr>   
+
+                           <tr>
+                                <td>
+                                    {{ form_label(form.telephone,"telephone : ") }}
+                                </td><td>
+                                    {{ form_widget(form.telephone) }}
+                                </td>
+                                <td>{{ form_errors(form.telephone,{'attr':{'class':'text-danger'}}) }}</td>
+                            </tr> 
+                           <tr>
+                                <td>
+                                    {{ form_label(form.role,"role : ") }}
+                                </td><td>
+                                    {{ form_widget(form.role) }}
+                                </td>
+                                <td>{{ form_errors(form.role,{'attr':{'class':'text-danger'}}) }}</td>
+                            </tr> 
+                              <tr>
+                                <td>
+                                    {{ form_label(form.block,"blocage : ") }}
+                                </td><td>
+                                    {{ form_widget(form.block) }}
+                                </td>
+                                <td>{{ form_errors(form.block) }}</td>
+                            </tr> 
+                           
+                          
+                       
+                         <button class="btn btn-primary">{{ button_label|default('Save') }}</button> 
+                         {{ form_end(form) }} 
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+{% endblock %}
+

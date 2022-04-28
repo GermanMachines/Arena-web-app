@@ -17,6 +17,7 @@ body {
 	font-family: 'Roboto', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	font-smoothing: antialiased;
+	color:#fff;
 }
 
 h1,
@@ -1765,4 +1766,7 @@ ol {
 		float: none;
 		margin-bottom: 20px;
 	}
+}
+.text{
+	color:#fff;
 }

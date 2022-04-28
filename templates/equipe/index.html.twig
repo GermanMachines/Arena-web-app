@@ -1,0 +1,46 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Equipe index{% endblock %}
+
+{% block body %}
+ <a class="btn btn-primary" href="{{ path('stat') }}">stat</a>
+    <h1>Equipe index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Idequipe</th>
+                <th>Nom</th>
+                <th>Logo</th>
+                <th>Score</th>
+                <th>Region</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for equipe in equipes %}
+            <tr>
+                <td>{{ equipe.idequipe }}</td>
+                <td>{{ equipe.nom }}</td>
+                <td>{{ equipe.logo }}</td>
+                 <td><img src="{{ asset('images/' ~ equipe.logo) }}"
+                alt="" width="100" height="100">
+                </td>
+                <td>{{ equipe.score }}</td>
+                <td>{{ equipe.region }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('app_equipe_show', {'idequipe': equipe.idequipe}) }}">show</a>
+                    <a class="btn btn-primary" href="{{ path('app_equipe_edit', {'idequipe': equipe.idequipe}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a  class="btn btn-primary" href="{{ path('app_equipe_new') }}">Create new</a>
+{% endblock %}
+

@@ -79,7 +79,23 @@
          <div class="sidebar-heading">
              Interface
          </div>
+    <!--Go Gestion users-->
 
+         <li class="nav-item">
+             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseGames" aria-expanded="true" aria-controls="collapseGames">
+                 <i class=""></i>
+                 <span>Users</span>
+             </a>
+             <div id="collapseGames" class="collapse" aria-labelledby="headingGames" data-parent="#accordionSidebar">
+                 <div class="bg-white py-2 collapse-inner rounded">
+                     <h6 class="collapse-header">Custom Users:</h6>
+                
+                     <a class="collapse-item" href="">Consulter Users</a>
+
+                 </div>
+             </div>
+         </li>
+         <!--//end Go Gestion Users-->
 
          <!--Go Gestion Games-->
 
@@ -118,6 +134,24 @@
              </div>
          </li>
          <!--//end Go Gestion Tournois-->
+
+         <!--Go Gestion teams-->
+
+         <li class="nav-item">
+             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseGames" aria-expanded="true" aria-controls="collapseGames">
+                 <i class=""></i>
+                 <span>Teams</span>
+             </a>
+             <div id="collapseGames" class="collapse" aria-labelledby="headingGames" data-parent="#accordionSidebar">
+                 <div class="bg-white py-2 collapse-inner rounded">
+                     <h6 class="collapse-header">Custom Teams:</h6>
+                    <a class="collapse-item" href="">Ajouter equipe</a>
+                     <a class="collapse-item" href="">Consulter equipe</a>
+
+                 </div>
+             </div>
+         </li>
+         <!--//end Go Gestion Equipe-->
 
 
 
@@ -435,15 +469,7 @@
 
 
 {% block footer %}
-        <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
+      
 {% endblock %}
 
         </div>
