@@ -64,7 +64,7 @@
         <div class="container-fluid pt-5">
           <div class="row px-xl-5">
             <!-- Shop Sidebar Start -->
-            <div class="col-lg-3 col-md-12">
+            {# <div class="col-lg-3 col-md-12">
               <!-- Price Start -->
               <div class="border-bottom mb-4 pb-4">
                 <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
@@ -151,32 +151,35 @@
                 </form>
               </div>
               <!-- Price End -->
-            </div>
+            </div> #}
             <!-- Shop Sidebar End -->
 
             <!-- Shop Product Start -->
-            <div class="col-lg-9 col-md-12">
-              <div class="row pb-3">
-                <div class="col-12 pb-1">
+                  {% block search %}
+                  <form style="margin-bottom: 50px;">
+                    <div class="input-group input-group-dynamic mb-8">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Search by name or description"
+                        id="search"
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text bg-transparent text-primary"
+                        >
+                          <i class="fa fa-search"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </form>
+                  {% endblock %}
+            <div id="t" class="col-lg-9 col-md-12">
+              <div id="all" class="row pb-3">
+                {# <div class="col-12 pb-1">
                   <div
                     class="d-flex align-items-center justify-content-between mb-4"
                   >
-                    <form action="">
-                      <div class="input-group">
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Search by name"
-                        />
-                        <div class="input-group-append">
-                          <span
-                            class="input-group-text bg-transparent text-primary"
-                          >
-                            <i class="fa fa-search"></i>
-                          </span>
-                        </div>
-                      </div>
-                    </form>
                     <div class="dropdown ml-4">
                       <button
                         class="btn border dropdown-toggle"
@@ -198,7 +201,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> #}
                 {% for product in products %}
                 <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
                   <div class="card product-item border-0 mb-4">
@@ -292,6 +295,7 @@
                 </div>
                 #}
               </div>
+              <div id="search" class="row pb-3"></div>
             </div>
             <!-- Shop Product End -->
           </div>
@@ -301,5 +305,65 @@
   </div>
 </section>
 <!-- Shop End -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $("#search").keyup(function (e) {
+      /* La variable value va prendre la valeur insérer dans le champ de texte afin d’effectuer la recherche */
+      var value = $(this).val();
+      /* Ajax est lancé lors du remplissage du champ texte dont l’id est « search » pour faire la recherche */
+      $.ajax({
+        /* l’url est une chaine de caractères contenant l’adresse où la requête est envoyée */
+        url: "{{ path('searchProd') }}",
+        /* La méthode utilisée pour transférer les données est GET */
+        type: "GET",
+        /*Ici search value va prendre la chaine entrée par un utilisateur dans la zone de recherche et sera placée après l’url */
+        data: {
+          searchValue: value
+        },
+        /*Cette fonction permet de vider le contenu du tableau pour recevoir le nouveau contenu*/
+        success: function (retour) {
+          if (retour) {
+            $("#t div#search").empty();
+
+            $.each(JSON.parse(retour), function (o, obj) {
+              $("#t div#all").hide();
+
+              $("#t div#search").append('<div class="col-lg-4 col-md-6 col-sm-12 pb-1">');
+              $("#t div#search").append('<div class="card product-item border-0 mb-4">');
+              $("#t div#search").append('<div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">');
+                var p = "/uploads/" + obj.image;
+                var img = "<img src=" + p + " width='100' height='100'/>";
+                $("#t div#search").append(img);
+              $("#t div#search").append('</div>');
+              $("#t div#search").append('<div class="card-body border-left border-right text-center p-0 pt-4 pb-3">');
+              $("#t div#search").append('<h6 class="text-truncate mb-3">' + obj.name + '</h6>');
+              $("#t div#search").append('<div class="d-flex justify-content-center">');
+              $("#t div#search").append('<h6>' + obj.price + ' TND</h6>');
+              $("#t div#search").append('</div>');
+              $("#t div#search").append('</div>');
+              $("#t div#search").append('<div class="card-footer d-flex justify-content-between bg-light border">');
+
+              $("#t div#search").append('<i class="fas fa-eye text-primary mr-1"></i>View Details');
+
+              $("#t div#search").append('<i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart');
+              $("#t div#search").append('</div>');
+              $("#t div#search").append('</div>');
+              $("#t div#search").append('</div>');
+
+            });
+          }
+          else {
+            $("#t div#all").show();
+            $("#t div#search").empty();
+            $("#t div#search").fadeIn("fast");
+          }
+        }
+      });
+      return false;
+    });
+  });
+</script>
 
 {% endblock %}

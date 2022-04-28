@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
  * @Route("/products")
@@ -241,5 +242,19 @@ class ProductsController extends AbstractController
         $dompdf->stream($fn, [
             "Attachment" => true
         ]);
+    }
+
+
+    /**
+     * @Route("/s/searchProd", name="searchProd")
+     */
+    public function searchProd(Request $request, NormalizerInterface $Normalizer, ProductsRepository $repository): Response
+    {
+        $requestString = $request->get('searchValue');
+        $products = $repository->findByName($requestString);
+        $jsonContent = $Normalizer->normalize($products, 'json', ['Groups' => 'products:read']);
+        $retour = json_encode($jsonContent);
+        return new Response($retour);
+        
     }
 }

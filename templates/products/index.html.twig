@@ -1,24 +1,47 @@
 {% extends 'base-admin.html.twig' %} {% block title %}Products{% endblock %} {%
 block stylesheets %}
-{{parent()}}
+{{ parent() }}
 
 <!-- Custom styles for this template-->
 <link href="{{ asset('admin/css/sb-admin-2.css') }}" rel="stylesheet" />
 <link rel="stylesheet" href="{{ asset('front/css/style.css') }}" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin=""/>
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+  integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+  crossorigin=""
+/>
 
 {% endblock %}{% block body %}
 <div class="table-wrapper">
   <div id="div_chart"></div>
-  
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <script
+    type="text/javascript"
+    src="https://www.gstatic.com/charts/loader.js"
+  ></script>
   <script type="text/javascript">
-      {{ gc_draw(piechart, 'div_chart') }}
+    {{gc_draw(piechart, "div_chart")}}
   </script>
   <h1>Products</h1>
+  {% block search %}
+  <form>
+    <div class="input-group input-group-dynamic mb-8">
+      <span class="input-group-text"
+        ><i class="fas fa-search" aria-hidden="true"></i
+      ></span>
 
+      <input
+        class="form-control"
+        id="search"
+        placeholder="Search"
+        type="text"
+      />
+    </div>
+  </form>
+  {% endblock %}
   {{ knp_pagination_render(products) }}
-  <table class="table">
+  <table id="t" class="table">
     <thead>
       <tr>
         <th>Name</th>
@@ -31,7 +54,7 @@ block stylesheets %}
         <th>actions</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="all">
       {% for product in products %}
       <tr>
         <td>{{ product.name }}</td>
@@ -51,7 +74,7 @@ block stylesheets %}
         <td>
           <a href="{{ path('app_products_show', { id: product.id }) }}">show</a>
           <a href="{{ path('app_products_edit', { id: product.id }) }}">edit</a>
-          <a href="{{ path('print_product',{'id':product.id}) }}">print</a>
+          <a href="{{ path('print_product', { id: product.id }) }}">print</a>
         </td>
       </tr>
       {% else %}
@@ -60,10 +83,67 @@ block stylesheets %}
       </tr>
       {% endfor %}
     </tbody>
+    <tbody id="search"></tbody>
   </table>
   {{ knp_pagination_render(products) }}
 
   <a href="{{ path('app_products_new') }}">Create new</a>
   <a href="{{ path('print_products') }}">print</a>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $("#search").keyup(function (e) {
+      /* La variable value va prendre la valeur insérer dans le champ de texte afin d’effectuer la recherche */
+      var value = $(this).val();
+      /* Ajax est lancé lors du remplissage du champ texte dont l’id est « search » pour faire la recherche */
+      $.ajax({
+        /* l’url est une chaine de caractères contenant l’adresse où la requête est envoyée */
+        url: "{{ path('searchProd') }}",
+        /* La méthode utilisée pour transférer les données est GET */
+        type: "GET",
+        /*Ici search value va prendre la chaine entrée par un utilisateur dans la zone de recherche et sera placée après l’url */
+        data: {
+          searchValue: value
+        },
+        /*Cette fonction permet de vider le contenu du tableau pour recevoir le nouveau contenu*/
+        success: function (retour) {
+          if (retour) {
+            $("#t tbody#search").empty();
+
+            $.each(JSON.parse(retour), function (o, obj) {
+              $("#t tbody#all").hide();
+
+              $("#t tbody#search").append("<tr>");
+
+              $("#t tbody#search").append(" <td>" + obj.name + "</td>");
+
+              $("#t tbody#search").append(" <td>" + obj.price + "</td>");
+
+              $("#t tbody#search").append(" <td>" + obj.qty + "</td>");
+
+              $("#t tbody#search").append(" <td>" + obj.description + "</td>");
+
+              $("#t tbody#search").append(" <td>" + obj.idcat.name + "</td>");
+              var p = "/uploads/" + obj.image;
+              var img = "<img src=" + p + " width='100' height='100'/>";
+              $("#t tbody#search").append(" <td>" + img + "</td>");
+
+              $("#t tbody#search").append(" <td>" + obj.rate + "</td>");
+
+              $("#t tbody#search").append("</tr>");
+
+            });
+          }
+          else {
+            $("#t tbody#all").show();
+            $("#t tbody#search").empty();
+            $("#t tbody#search").fadeIn("fast");
+          }
+        }
+      });
+      return false;
+    });
+  });
+</script>
 {% endblock %}

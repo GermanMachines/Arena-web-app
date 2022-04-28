@@ -45,6 +45,16 @@ class OrdersRepository extends ServiceEntityRepository
         }
     }
 
+    
+    public function findByName($txt)
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager
+            ->createQuery("SELECT o from APP\Entity\Orders o where o.num like :txt")
+            ->setParameter('txt', '%' . $txt . '%');
+        return $query->getResult();
+    }
+
     // /**
     //  * @return Orders[] Returns an array of Orders objects
     //  */

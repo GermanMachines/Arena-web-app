@@ -45,6 +45,18 @@ class ProductsRepository extends ServiceEntityRepository
         }
     }
 
+
+
+    public function findByName($txt)
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager
+            ->createQuery("SELECT p from APP\Entity\Products p where p.name like :txt OR p.description like :txt")
+            ->setParameter('txt', '%' . $txt . '%');
+        return $query->getResult();
+    }
+
+
     // /**
     //  * @return Products[] Returns an array of Products objects
     //  */

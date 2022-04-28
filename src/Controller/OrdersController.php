@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 use function PHPUnit\Framework\lessThan;
 
@@ -326,5 +327,19 @@ class OrdersController extends AbstractController
         }
         // dd($s);
         return $this->render('order/order.html.twig', ['s', 'dataCart' => $dataCart, 'total' => $total, 'cart' => $cart]);
+    }
+
+
+    /**
+     * @Route("/s/searchOrder", name="searchOrder")
+     */
+    public function searchOrder(Request $request, NormalizerInterface $Normalizer, OrdersRepository $repository): Response
+    {
+        $requestString = $request->get('searchValue');
+        $orders = $repository->findByName($requestString);
+        $jsonContent = $Normalizer->normalize($orders, 'json', ['Groups' => 'orders:read']);
+        $retour = json_encode($jsonContent);
+        return new Response($retour);
+        
     }
 }
