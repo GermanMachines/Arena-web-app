@@ -211,7 +211,8 @@ class ProductsController extends AbstractController
         // Configure Dompdf according to your needs
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
-        $pdfOptions->setIsRemoteEnabled(true);
+        $pdfOptions->set('isHtml5ParserEnabled', true);
+        $pdfOptions->set('isRemoteEnabled', true);
 
         // Instantiate Dompdf with our options
         $dompdf = new Dompdf($pdfOptions);
@@ -255,6 +256,5 @@ class ProductsController extends AbstractController
         $jsonContent = $Normalizer->normalize($products, 'json', ['Groups' => 'products:read']);
         $retour = json_encode($jsonContent);
         return new Response($retour);
-        
     }
 }
