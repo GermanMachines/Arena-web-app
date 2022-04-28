@@ -3,9 +3,11 @@
 {% block title %}Reclamation index{% endblock %}
 
 {% block body %}
-    {{ form_start(form, {'action': path('app_reclamation_search'), 'method': 'POST'}) }}
-    {{ form_widget(form.search) }}
-    {{ form_widget(form.submit) }}
+    {{ form_start(form, {'action': path('app_reclamation_search'), 'method': 'POST' ,'attr':{'class':'form-inline'}}) }}
+    <div class="form-group row" style="margin-left:10px">
+    {{ form_widget(form.search,{ 'attr' : { 'class': 'form-control mr-sm-2' } }) }}
+    {{ form_widget(form.submit,{ 'attr' : { 'class': 'btn btn-primary  my-2 my-sm-0' } }) }}
+    </div>
     {{ form_end(form) }}
     <table class="table">
         <thead>
@@ -46,6 +48,7 @@
     </table>
 
      <a href="{{ path('app_reclamation_download')}}" class="btn btn-primary">Export PDF</a>
+     <a href="{{ path('app_reclamation_index')}}" class="btn btn-secondary">Afficher les reclamations</a>
 
   
 {% endblock %}

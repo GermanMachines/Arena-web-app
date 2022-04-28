@@ -28,7 +28,8 @@
 	<!-- Main Stylesheets -->
 	<link rel="stylesheet" href="{{ asset('front/css/style.css') }}"/>
 
-
+    <!-- Load Flashy default CSS -->
+    <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
 
         {% endblock %}
 
@@ -43,13 +44,21 @@
 	<script src="{{ asset('front/js/jquery.magnific-popup.min.js') }}"></script>
 	<script src="{{ asset('front/js/main.js') }}"></script>
 	
+	    <!-- Flashy depends on jQuery -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <!-- Load Flashy default JavaScript -->
+    <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+    <!-- Include Flashy default partial -->
+
 
         {% endblock %}
+
     </head>
 
 
 
     <body>
+			    {# {{ include('@MercurySeriesFlashy/flashy.html.twig') }} #}
 <!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>

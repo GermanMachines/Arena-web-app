@@ -21,13 +21,15 @@ use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mime\Email;
 
+
+
 /**
  * @Route("/reclamation")
  */
 class ReclamationController extends AbstractController
 {
     /**
-     * @Route("/search}", name="app_reclamation_search")
+     * @Route("/search", name="app_reclamation_search")
      */
     public function searchAdavanced(Request $request): Response
     {
@@ -51,7 +53,6 @@ class ReclamationController extends AbstractController
     {
 
         $form = $this->createForm(SearchReclamationType::class);
-
         $reclamations = $entityManager
             ->getRepository(Reclamation::class)
             ->findAll();
@@ -90,6 +91,7 @@ class ReclamationController extends AbstractController
             $entityManager->persist($reclamation);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Email sent successfully');
             return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -151,7 +153,7 @@ class ReclamationController extends AbstractController
      */
     public function editFront(Request $request, Reclamation $reclamation, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(ReclamationType::class, $reclamation);
+        $form = $this->createForm(ReclamationFrontType::class, $reclamation);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
