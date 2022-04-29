@@ -52,6 +52,16 @@ class CommentaireRepository extends ServiceEntityRepository
             ->setParameter('txt','%'.$txt.'%');
         return $query->getResult();
     }
+    public function getPostcom($idPost)
+    {
+
+        return $this->createQueryBuilder('s')
+            ->join('App\Entity\Commentaire', 'p')
+            ->where('s.idPost=:idPost')
+            ->setParameter('idPost', $idPost)
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Commentaire[] Returns an array of Commentaire objects
     //  */

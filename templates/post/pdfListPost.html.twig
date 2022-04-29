@@ -1,0 +1,38 @@
+<div style="margin : 30px">
+	<div style="text-align:center">
+		<h2>
+			Posts PDF</h2>
+	</div>
+
+	<table border="1px">
+		<thead>
+			<tr>
+				<th>Titre</th>
+				<th>Auteur</th>
+				<th>Image</th>
+				<th>Date</th>
+				<th>rate</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			{% for p in posts %}
+				<tr>
+                <td>{{ p.titre }}</td>
+                 <td>{{ p.auteur }}</td>
+                 
+					<td>
+						<img src="{{ './uploads/' ~ p.imgPost }}" alt="" width="100" height="100"></td>
+					<td>{{ p.datePost }}</td>
+					<td>{{ p.rate }}</td>
+					
+
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="7">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>

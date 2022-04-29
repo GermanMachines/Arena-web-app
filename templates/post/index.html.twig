@@ -74,19 +74,23 @@ function myFunction() {
 }
 </script>#} 
 
-<div class="col-md-6 col-lg-3">
-			<div class="widget-small warning coloured-icon">
-				<i class="icon fa fa-files-o fa-3x"></i>
-				<div class="info">
-					<h4>number post</h4>
-					<p>
-						<b>{{nbrprest}}</b>
-					</p>
-				</div>
-			</div>
-		</div>
 
-
+<div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                nombre des posts</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{nbrprest}}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 {#search2#}
 
   {% block search %}
@@ -152,11 +156,12 @@ function myFunction() {
          <tbody id="search"></tbody>    
 
     </table> 
-    
+    <div class="row">
+     <a class='btn btn-outline-primary'  href="{{ path('post_pdf') }}"> PDF</a>
         <div class="navigation">
             {{ knp_pagination_render(posts) }}
         </div>
-
+   </div>
 
    
 					</div>

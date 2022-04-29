@@ -1,26 +1,7 @@
+
 {% extends 'base-front.html.twig' %}
 
-{% block title %}Post index
-{% endblock %}
-
 {% block body %}
-	<!-- Blog section -->
-	<!-- default styles -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css">
-<link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/css/star-rating.min.css" media="all" rel="stylesheet" type="text/css" />
-
-<!-- with v4.1.0 Krajee SVG theme is used as default (and must be loaded as below) - include any of the other theme CSS files as mentioned below (and change the theme property of the plugin) -->
-<link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-svg/theme.css" media="all" rel="stylesheet" type="text/css" />
-
-<!-- important mandatory libraries -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/js/star-rating.min.js" type="text/javascript"></script>
-
-<!-- with v4.1.0 Krajee SVG theme is used as default (and must be loaded as below) - include any of the other theme JS files as mentioned below (and change the theme property of the plugin) -->
-<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-svg/theme.js"></script>
-
-<!-- optionally if you need translation for your language then include locale file as mentioned below (replace LANG.js with your own locale file) -->
-<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/js/locales/LANG.js"></script>
 	<section class="blog-section spad">
 		<div class="container">
 			<div class="row">
@@ -30,27 +11,23 @@
 					</div>
 					<ul class="blog-filter"></ul>
 
-					{% for post in posts %}
-               
+				{% for p in commentaire %}
+
 
 						<!-- Blog item -->
 						<div class="blog-item">
-							<div class="blog-thumb">
-								<img src="{{ asset('uploads/' ~ post.imgpost) }}" alt="" width="400" height="383">
-							</div>
+
 							<div class="blog-text text-box text-white">
-								<div class="top-meta">
-									{{ post.titre }}</div>
-								<a>{{ post.auteur }}</a>
-								<h3>{{ post.datePost }}</h3>
-					  	        <h3>{{ post.rate }}</h3>
-								 <td><input id="input-id" type="text" class="rating" data-size="lg" value="{{ post.rate }}"> </td>	
-								
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eius-mod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Lorem ipsum dolor sit amet, consecte-tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.....</p>
-								<a href="#" class="read-more">View posts
-									<img src="{{ asset('front/img/icons/double-arrow.png') }}" alt="#"/></a>
-									<a href="{{ path('app_postcom', {'idPost': post.idPost}) }}"><i class="fa fa-comments-o" aria-hidden="true"></i>comments </a>
+								<div class="top-meta"></div>
+								<h3>{{ p.idUser }}</h3>
+								<h3>
+									{{ p.descCom }}</h3>
+								<h3>{{ p.dateCom }}</h3>
+
+
+								<h3>{{ p.idPost }}</h3>
 							
+
 							</div>
 						</div>
 
@@ -58,8 +35,6 @@
 
 
 				</div>
-
-				
 				<div class="col-xl-3 col-lg-4 col-md-5 sidebar">
 					<div id="stickySidebar">
 						<div class="widget-item">
@@ -135,4 +110,3 @@
 		</div>
 	</section>
 {% endblock %}
-

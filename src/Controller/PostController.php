@@ -13,6 +13,10 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use App\Repository\PostRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use MercurySeries\FlashyBundle\FlashyNotifier;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use App\Repository\CommentaireRepository;
+
 /**
  * @Route("/post")
  */
@@ -46,7 +50,7 @@ class PostController extends Controller
 
         ]);
     }
-    /**
+   /**
      * @Route("/front", name="app_post_indexfrontp", methods={"GET"})
      */
     public function indexfront(EntityManagerInterface $entityManager): Response
@@ -156,5 +160,51 @@ class PostController extends Controller
         $retour =json_encode($jsonContent);
         return new Response($retour);
 
+    }
+    /**
+     * @Route("/pdf/download", name="post_pdf")
+     */
+    public function packPdf(PostRepository $repository)
+    {
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        $pdfOptions->set('isHtml5ParserEnabled', true);
+        $pdfOptions->set('isRemoteEnabled', true);
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('post/pdfListPost.html.twig', [
+            'posts' => $repository->findAll(),
+        ]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => true
+        ]);
+    }
+    /**
+     * @Route("/commentaire/{idPost}", name="app_postcom")
+     */
+    public function PackItem(PostRepository $postRepository, $idPost, CommentaireRepository $commentaireRepository): Response
+    {
+        $post = $postRepository->find($idPost); 
+        $commentaire = $commentaireRepository->getPostcom($idPost);
+        return $this->render('post/postitem.html.twig', [
+
+            'post' => $post,
+            'commentaire' => $commentaire,
+        ]);
     }
 }
