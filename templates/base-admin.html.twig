@@ -6,7 +6,7 @@
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
-
+     <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
     <!-- Custom fonts for this template-->
     <link href="{{ asset('admin/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link
@@ -20,26 +20,7 @@
 
 
 
-        {% block javascripts %}
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('admin/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="{{ asset('admin/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{{ asset('admin/js/sb-admin-2.min.js') }}"></script>
-
-    <!-- Page level plugins -->
-    <script src="{{ asset('admin/vendor/chart.js/Chart.min.js') }}"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="{{ asset('admin/js/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ asset('admin/js/demo/chart-pie-demo.js') }}"></script>
-
-        {% endblock %}
+       
 
 
     </head>
@@ -86,13 +67,13 @@
          <li class="nav-item">
              <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseGames" aria-expanded="true" aria-controls="collapseGames">
                  <i class=""></i>
-                 <span>Games</span>
+                 <span>Posts</span>
              </a>
              <div id="collapseGames" class="collapse" aria-labelledby="headingGames" data-parent="#accordionSidebar">
                  <div class="bg-white py-2 collapse-inner rounded">
-                     <h6 class="collapse-header">Custom Games:</h6>
-                     <a class="collapse-item" href="">Ajouter Game</a>
-                     <a class="collapse-item" href="">Consulter Games</a>
+                     <h6 class="collapse-header">options</h6>
+                    <a class="collapse-item" href="{{ path('app_post_new') }}">add Post</a>
+					<a class="collapse-item" href="{{ path('app_post_index') }}">View Posts</a>
 
                  </div>
              </div>
@@ -106,13 +87,13 @@
          <li class="nav-item">
              <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTournois" aria-expanded="true" aria-controls="collapseTournois">
                  <i class=""></i>
-                 <span>Tournois</span>
+                 <span>coments</span>
              </a>
              <div id="collapseTournois" class="collapse" aria-labelledby="headingTournois" data-parent="#accordionSidebar">
                  <div class="bg-white py-2 collapse-inner rounded">
-                     <h6 class="collapse-header">Custom Tournois:</h6>
-                     <a class="collapse-item" href="">Ajouter Tournois</a>
-                     <a class="collapse-item" href="">Consulter Tournois</a>
+                     <h6 class="collapse-header">options</h6>
+              
+                  	<a class="collapse-item" href="{{ path('app_commentaire_index') }}">View comentaire</a>
 
                  </div>
              </div>
@@ -221,16 +202,7 @@
     </button>
 
     <!-- Topbar Search -->
-    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-        <div class="input-group">
-            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                    <i class="fas fa-search fa-sm"></i>
-                </button>
-            </div>
-        </div>
-    </form>
+   
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
 
@@ -475,6 +447,29 @@
             </div>
         </div>
     </div>
+ {% block javascripts %}
 
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ asset('admin/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{ asset('admin/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ asset('admin/js/sb-admin-2.min.js') }}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{{ asset('admin/vendor/chart.js/Chart.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ asset('admin/js/demo/chart-area-demo.js') }}"></script>
+    <script src="{{ asset('admin/js/demo/chart-pie-demo.js') }}"></script>
+       <script src="//code.jquery.com/jquery.js"></script>
+<!-- Load Flashy default JavaScript -->
+    <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+    <!-- Include Flashy default partial -->
+    {{ include('@MercurySeriesFlashy/flashy.html.twig') }}
+        {% endblock %}
     </body>
 </html>

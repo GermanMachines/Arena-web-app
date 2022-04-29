@@ -1,0 +1,140 @@
+{#
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+#}
+
+<main id="main" class="main">
+	<section class="blog-section spad">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-9 col-lg-8 col-md-7">
+
+
+					<div class="card-body">
+						<h1 class="card-title">coments
+						</h1>
+						{{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
+
+						<table>
+							<tr>
+								<td>
+									{{ form_label(form.descCom,"description : ") }}
+								</td>
+								<td>
+									{{ form_widget(form.descCom) }}
+								</td>
+								<td>{{ form_errors(form.descCom) }}</td>
+							</tr>
+							<tr>
+								<td>
+									{{ form_label(form.dateCom,"date : ") }}
+								</td>
+								<td>
+									{{ form_widget(form.dateCom) }}
+								</td>
+								<td>{{ form_errors(form.dateCom) }}</td>
+							</tr>
+							<tr>
+								<td>
+									{{ form_label(form.idPost,"post : ") }}
+								</td>
+								<td>
+									{{ form_widget(form.idPost) }}
+								</td>
+								<td>{{ form_errors(form.idPost) }}</td>
+							</tr>
+							<tr>
+								<td>
+									{{ form_label(form.idUser,"nom : ") }}
+								</td>
+								<td>
+									{{ form_widget(form.idUser) }}
+								</td>
+								<td>{{ form_errors(form.idUser) }}</td>
+							</tr>
+						</table>
+
+
+						<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+						{{ form_end(form) }}
+					</div>
+				</div>
+				<div class="col-xl-3 col-lg-4 col-md-5 sidebar">
+					<div id="stickySidebar">
+						<div class="widget-item">
+							<h4 class="widget-title">Trending</h4>
+							<div class="trending-widget">
+								<div class="tw-item">
+									<div class="tw-thumb">
+										<img src="{{ asset('front/./img/blog-widget/1.jpg') }}" alt="#">
+									</div>
+									<div class="tw-text">
+										<div class="tw-meta">11.11.18  /  in
+											<a href="">Games</a>
+										</div>
+										<h5>The best online game is out now!</h5>
+									</div>
+								</div>
+								<div class="tw-item">
+									<div class="tw-thumb">
+										<img src="{{ asset('front/./img/blog-widget/2.jpg') }}" alt="#">
+									</div>
+									<div class="tw-text">
+										<div class="tw-meta">11.11.18  /  in
+											<a href="">Games</a>
+										</div>
+										<h5>The best online game is out now!</h5>
+									</div>
+								</div>
+								<div class="tw-item">
+									<div class="tw-thumb">
+										<img src="{{ asset('front/./img/blog-widget/3.jpg') }}" alt="#">
+									</div>
+									<div class="tw-text">
+										<div class="tw-meta">11.11.18  /  in
+											<a href="">Games</a>
+										</div>
+										<h5>The best online game is out now!</h5>
+									</div>
+								</div>
+								<div class="tw-item">
+									<div class="tw-thumb">
+										<img src="{{ asset('front/./img/blog-widget/4.jpg') }}" alt="#">
+									</div>
+									<div class="tw-text">
+										<div class="tw-meta">11.11.18  /  in
+											<a href="">Games</a>
+										</div>
+										<h5>The best online game is out now!</h5>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="widget-item">
+							<div class="categories-widget">
+								<h4 class="widget-title">categories</h4>
+								<ul>
+									<li><a href="">Games</a></li>
+									<li><a href="">Gaming Tips & Tricks</a></li>
+									<li><a href="">Online Games</a></li>
+									<li><a href="">Team Games</a></li>
+									<li><a href="">Community</a></li>
+									<li><a href="">Uncategorized</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="widget-item">
+							<a href="#" class="add">
+								<img src="{{ asset('front/./img/add.jpg') }}" alt="">
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</main>
+<!-- End #main -->
