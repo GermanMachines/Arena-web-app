@@ -1,45 +1,39 @@
-{#
-{% extends 'base.html.twig' %}
 
-{% block title %}Matchs index{% endblock %}
-
-{% block body %}
-    <h1>Matchs index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Idmatch</th>
-                <th>Datematch</th>
-                <th>Reference</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for match in matchs %}
-            <tr>
-                <td>{{ match.idmatch }}</td>
-                <td>{{ match.datematch ? match.datematch|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ match.reference }}</td>
-                <td>
-                    <a href="{{ path('app_matchs_show', {'idmatch': match.idmatch}) }}">show</a>
-                    <a href="{{ path('app_matchs_edit', {'idmatch': match.idmatch}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_matchs_new') }}">Create new</a>
-{% endblock %}
-#}
  {% extends 'base-front.html.twig' %}
 {% block body %}
 
+<!-- Page Features -->
 
+
+<div class="row text-center blog-section spad mx-auto">
+
+
+{% for match in equipes %}
+{% for match in match.idmatch %}
+
+
+        <div class="col-lg-3 col-md-6 mb-4 mt-5">
+            <div class="card h-100 bg-white text-black border-danger mt-5">
+                            <img class="card-img-top" src="{{ asset('uploads/MatchDAY.jpg') }}" alt="">
+				
+                <div class="card-body">
+
+                    <h4 class="card-title font-weight-bold mb-2">
+                        {{ match.idtournois.titre }}
+                    </h4>
+                    <ul class="list-group list-group-flush">
+                        <p class="list-group-item text-danger">Status: {{ match.reference }}</p>
+                        <p class="list-group-item">Participants:{{ match.idtournois.nbrparticipants }} </p>
+                    </ul>
+                </div>
+                <div class="card-footer">
+
+                </div>
+            </div>
+        </div>
+         {% endfor %}
+ {% endfor %}
+</div>
 
 {% endblock %}
+

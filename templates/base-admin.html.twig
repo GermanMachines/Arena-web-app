@@ -15,6 +15,11 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('admin/css/sb-admin-2.min.css') }}" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css"
+      integrity="sha256-5veQuRbWaECuYxwap/IOE/DAwNxgm4ikX7nrgsqYp88=" crossorigin="anonymous">
 
         {% endblock %}
 
@@ -39,6 +44,10 @@
     <script src="{{ asset('admin/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('admin/js/demo/chart-pie-demo.js') }}"></script>
 
+
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js"
+                integrity="sha256-YicH/8aE660iEnJtgll3vT54dJApy3XkYmqNfGVFEzA=" crossorigin="anonymous"></script>
+        </script>
         {% endblock %}
 
 
@@ -113,6 +122,9 @@
                      <h6 class="collapse-header">Custom Tournois:</h6>
                      <a class="collapse-item" href="{{ path('app_tournois_new') }}">Ajouter Tournois</a>
                      <a class="collapse-item" href="{{ path('app_tournois_index') }}">Consulter Tournois</a>
+                     <a class="collapse-item" href="{{ path('calendar') }}">Calendar Tournois</a>
+
+                     <a class="collapse-item" href="{{ path('Tournois_stats') }}">Statistique Tournois</a>
 
                  </div>
              </div>
@@ -155,23 +167,7 @@
          </li>
          <!--//end Go Gestion Matchs-->
 
-         <!--Go Gestion MatchsEquipe-->
 
-         <li class="nav-item">
-             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMatchsEquipe" aria-expanded="true" aria-controls="collapseMatchsEquipe">
-                 <i class=""></i>
-                 <span>Matchs Equipe</span>
-             </a>
-             <div id="collapseMatchsEquipe" class="collapse" aria-labelledby="headingMatchsEquipe" data-parent="#accordionSidebar">
-                 <div class="bg-white py-2 collapse-inner rounded">
-                     <h6 class="collapse-header">Custom Equipe Matchs:</h6>
-                     <a class="collapse-item" href="{{ path('app_match_eq_new') }}">Ajouter Equipe au match</a>
-                     <a class="collapse-item" href="{{ path('app_match_eq_index') }}">Consulter Equipe matchs</a>
-
-                 </div>
-             </div>
-         </li>
-         <!--//end Go Gestion MatchsEquipe-->
 
 
 

@@ -1,121 +1,23 @@
 
  {% extends 'base-front.html.twig' %}
+
+
 {% block body %}
-{#
-<section class="blog-section spad">
-		<div class="container">
-			<div class="row">
-				<div class="col-xl-9 col-lg-8 col-md-7">
-					<div class="section-title text-white">
-						<h2>Latest News</h2>
-					</div>
-					<ul class="blog-filter">
-
-					</ul>
- {% for tournoi in tournois %}
-    <div class="search-result-card">
-    <div class="header">
-   
-    </div><div class="body">
-    <div class="user-details ">
-    <div class="img ">
-    </div>
-    <div class="name -break text-white">
-    <h3>{{ tournoi.titre }} </h3>
-    </div>
-    </div>
-    <ul class="list-details">
-    <li>
-    <i class="icon fa fa-gamepad bg-white">
-    </i>
-    <span class="text text-white">{{ tournoi.status }}</span>
-    </li><li><i class="icon fa fa-users bg-white">
-    </i><span class="text text-white ">{{ tournoi.type }}</span></li><li>
-    <i class="icon fa fa-calendar bg-white"></i><span class="text text-white">{{ tournoi.dateDebut ? tournoi.dateDebut|date('Y-m-d') : '' }}</span>
-    </li><li><i class="icon fa fa-calendar bg-white"></i><span class="text text-white">{{ tournoi.dateFin ? tournoi.dateFin|date('Y-m-d') : '' }}</span></li>
-    </ul><div class="actions"><a class="btn btn-block btn-danger" >Participer</a>
-    </div></div></div>
- {% endfor %}
-			
-				</div>
-				<div class="col-xl-3 col-lg-4 col-md-5 sidebar">
-					<div id="stickySidebar">
-						<div class="widget-item">
-							<h4 class="widget-title">Trending</h4>
-							<div class="trending-widget">
-								<div class="tw-item">
-									<div class="tw-thumb">
-										<img src="{{ asset('front/./img/blog-widget/1.jpg') }}" alt="#">
-									</div>
-									<div class="tw-text">
-										<div class="tw-meta">11.11.18  /  in <a href="">Games</a></div>
-										<h5>The best online game is out now!</h5>
-									</div>
-								</div>
-								<div class="tw-item">
-									<div class="tw-thumb">
-										<img src="{{ asset('front/./img/blog-widget/2.jpg') }}" alt="#">
-									</div>
-									<div class="tw-text">
-										<div class="tw-meta">11.11.18  /  in <a href="">Games</a></div>
-										<h5>The best online game is out now!</h5>
-									</div>
-								</div>
-								<div class="tw-item">
-									<div class="tw-thumb">
-										<img src="{{ asset('front/./img/blog-widget/3.jpg') }}" alt="#">
-									</div>
-									<div class="tw-text">
-										<div class="tw-meta">11.11.18  /  in <a href="">Games</a></div>
-										<h5>The best online game is out now!</h5>
-									</div>
-								</div>
-								<div class="tw-item">
-									<div class="tw-thumb">
-										<img src="{{ asset('front/./img/blog-widget/4.jpg') }}" alt="#">
-									</div>
-									<div class="tw-text">
-										<div class="tw-meta">11.11.18  /  in <a href="">Games</a></div>
-										<h5>The best online game is out now!</h5>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="widget-item">
-							<div class="categories-widget">
-								<h4 class="widget-title">categories</h4>
-								<ul>
-									<li><a href="">Games</a></li>
-									<li><a href="">Gaming Tips & Tricks</a></li>
-									<li><a href="">Online Games</a></li>
-									<li><a href="">Team Games</a></li>
-									<li><a href="">Community</a></li>
-									<li><a href="">Uncategorized</a></li>
-								</ul>
-							</div>
-						</div>
-						<div class="widget-item">
-						<a href="#" class="add">
-							<img src="{{ asset('front/./img/add.jpg') }}" alt="">
-						</a>
-					</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
-#}
-
-
 
 <!-- Page Features -->
 
 
+{% for message in app.flashes("warning") %}
+		<div class="alert alert-success">
+		{{ message }}
+		</div>
+{% endfor %}
+
 <div class="row text-center blog-section spad mx-auto">
 
-
+{% set i = -1 %}
 {% for tournoi in tournois %}
+{% set i = i +1 %}
 
         <div class="col-lg-3 col-md-6 mb-4 mt-5">
             <div class="card h-100 bg-white text-black border-danger mt-5">
@@ -129,8 +31,13 @@
                     </h4>
                     <ul class="list-group list-group-flush">
                         <p class="list-group-item text-danger">Status: {{ tournoi.status }}</p>
-                        <p class="list-group-item">Participants:{{ tournoi.nbrparticipants }} | Type: {{ tournoi.type }}</p>
-                 <p class="card-text ">{{ tournoi.descriptiontournois }}</p>                
+                        <p class="list-group-item">Max Participants:{{ tournoi.nbrparticipants }} | Type: {{ tournoi.type }}</p>
+                  <p class="card-text ">{{ tournoi.descriptiontournois }}</p>  
+                  <p class="card-text ">Participants Actuelle:{{ counter[i] }}</p>                
+              {% if tournoi.status == "Finished" %}
+                <p class="card-text ">The Winner : {{ tournoi.winner }}</p>  
+
+              {% endif %}
                     </ul>
                 </div>
                 <div class="card-footer">
@@ -153,6 +60,7 @@
             </div>
         </div>
 
+	
  {% endfor %}
 
 </div>

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use App\Entity\Equipe;
 use App\Entity\Matchs;
 use App\Form\MatchsType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -9,6 +9,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Serializer\Serializer;
+
+
+
 
 /**
  * @Route("/matchs")
@@ -29,22 +39,22 @@ class MatchsController extends AbstractController
         ]);
     }
 
-
     /**
      * @Route("/front", name="app_matchs_indexfront", methods={"GET"})
      */
-    public function indexfront(EntityManagerInterface $entityManager): Response
+    public function indexq(EntityManagerInterface $entityManager): Response
     {
-        $matchs = $entityManager
-            ->getRepository(Matchs::class)
-            ->findAll();
-
-        return $this->render('matchs/indexfront.html.twig', [
-            'matchs' => $matchs,
-        ]);
+        {
+            $match_eqs = $entityManager
+                ->getRepository(Equipe::class)
+                ->findBy(array('idequipe' => '94'));
+    
+                return $this->render('matchs/indexfront.html.twig', [
+                    'equipes' => $match_eqs,
+                ]);
     }
 
-
+}
 
 
     /**
@@ -111,4 +121,35 @@ class MatchsController extends AbstractController
 
         return $this->redirectToRoute('app_matchs_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
+
+
+
+
+
+     /**
+     * @Route("/s/AllMatchs", name="AllMatchs")
+     */
+    public function AllMatchs(NormalizerInterface $Normalizer )
+    {
+    //Nous utilisons la Repository pour récupérer les objets que nous avons dans la base de données
+    $repository =$this->getDoctrine()->getRepository(Matchs::class);
+    $Matchs=$repository->findAll();
+    //Nous utilisons la fonction normalize qui transforme en format JSON nos donnée qui sont
+    //en tableau d'objet Students
+    $jsonContent=$Normalizer->normalize($Matchs,'json',['groups'=>'post:read']);
+    return new Response(json_encode($jsonContent));
+    dump($jsonContent);
+    die;
+}
+
+
+
+
+
+
+
+
 }

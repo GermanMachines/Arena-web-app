@@ -10,6 +10,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use Knp\Component\Pager\PaginatorInterface;
+use App\Repository\JeuxRepository;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Serializer\Serializer;
+
+
 /**
  * @Route("/jeux")
  */
@@ -32,18 +43,38 @@ class JeuxController extends AbstractController
         /**
      * @Route("/front", name="app_jeux_indexfront", methods={"GET"})
      */
-    public function indexfront(EntityManagerInterface $entityManager): Response
+    public function indexfront(EntityManagerInterface $entityManager , Request $request ,PaginatorInterface $paginator): Response
     {
         $jeuxes = $entityManager
             ->getRepository(Jeux::class)
             ->findAll();
+
+               // Paginate the results of the query
+        $jeuxes = $paginator->paginate(
+            // Doctrine Query, not results
+            $jeuxes,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            5
+        );
+
 
         return $this->render('jeux/indexfront.html.twig', [
             'jeuxes' => $jeuxes,
         ]);
     }
 
-
+     /**
+     * @Route("/orderRe/{searchString}", name="orderRe")
+     */
+    public function index3(JeuxRepository $evenementRepository, $searchString): Response
+    {
+        return $this->render('jeux/index.html.twig', [
+            'jeuxes' => $evenementRepository->findByExampleField($searchString),
+           
+        ]);
+    }
 
 
 
@@ -126,4 +157,48 @@ class JeuxController extends AbstractController
 
         return $this->redirectToRoute('app_jeux_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
+
+
+    /**
+     * @Route("/s/searchJeu", name="searchJeu")
+     */
+    public function searchJeux(Request $request,NormalizerInterface $Normalizer,JeuxRepository $repository):Response
+    {
+        $requestString=$request->get('searchValue');
+        $Jeux = $repository->findByNom($requestString);
+        $jsonContent = $Normalizer->normalize($Jeux, 'json',['Groups'=>'Jeux:read']);
+        $retour =json_encode($jsonContent);
+        return new Response($retour);
+
+    }
+
+
+     /**
+     * @Route("/s/AllJeux", name="AllJeux")
+     */
+    public function AllJeux(NormalizerInterface $Normalizer )
+    {
+    //Nous utilisons la Repository pour récupérer les objets que nous avons dans la base de données
+    $repository =$this->getDoctrine()->getRepository(Jeux::class);
+    $Jeux=$repository->findAll();
+    //Nous utilisons la fonction normalize qui transforme en format JSON nos donnée qui sont
+    //en tableau d'objet Students
+    
+    $jsonContent=$Normalizer->normalize($Jeux,'json',['groups'=>'post:read']);
+
+    
+    return new Response(json_encode($jsonContent));
+    dump($jsonContent);
+    die;
+}
+
+
+
+
+
+
+
 }

@@ -54,6 +54,13 @@ class Equipe
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
+     * @ORM\ManyToMany(targetEntity="Matchs", mappedBy="idequipe")
+     */
+    private $idmatch;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
      * @ORM\ManyToMany(targetEntity="Tournois", inversedBy="idequipe")
      * @ORM\JoinTable(name="participation",
      *   joinColumns={
@@ -71,6 +78,7 @@ class Equipe
      */
     public function __construct()
     {
+        $this->idmatch = new \Doctrine\Common\Collections\ArrayCollection();
         $this->idtournois = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -128,19 +136,38 @@ class Equipe
     }
 
     /**
+     * @return Collection<int, Matchs>
+     */
+    public function getIdmatch(): Collection
+    {
+        return $this->idmatch;
+    }
+
+    public function addIdmatch(Matchs $idmatch): self
+    {
+        if (!$this->idmatch->contains($idmatch)) {
+            $this->idmatch[] = $idmatch;
+            $idmatch->addIdequipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdmatch(Matchs $idmatch): self
+    {
+        if ($this->idmatch->removeElement($idmatch)) {
+            $idmatch->removeIdequipe($this);
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Collection<int, Tournois>
      */
     public function getIdtournois(): Collection
     {
         return $this->idtournois;
-    }
-
-
-    
-    public function setIdtournois(int $idtournois): self
-    {
-        $this->idtournois=$idtournois;
-        return $this;
     }
 
     public function addIdtournoi(Tournois $idtournoi): self
@@ -152,33 +179,13 @@ class Equipe
         return $this;
     }
 
-
-
-
     public function removeIdtournoi(Tournois $idtournoi): self
     {
         $this->idtournois->removeElement($idtournoi);
 
         return $this;
     }
-
-
-
-    public function setIdequipe(int $idequipe): ?self
-    {
-        $this->idequipe=$idequipe;
-        return $this;
-    }
-
-
-
-
-
-
-
-
     public function __toString() {
         return strval($this->idequipe);
     }
-
 }

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Reclamation
  *
- * @ORM\Table(name="reclamation", indexes={@ORM\Index(name="fk_user_id", columns={"idUser"}), @ORM\Index(name="id_cat_rec", columns={"idCategoryReclamation"})})
+ * @ORM\Table(name="reclamation", indexes={@ORM\Index(name="id_cat_rec", columns={"idCategoryReclamation"}), @ORM\Index(name="fk_user_id", columns={"idUser"})})
  * @ORM\Entity
  */
 class Reclamation
@@ -50,16 +50,6 @@ class Reclamation
     private $date = 'CURRENT_TIMESTAMP';
 
     /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idUser", referencedColumnName="id")
-     * })
-     */
-    private $iduser;
-
-    /**
      * @var \Categoryreclamation
      *
      * @ORM\ManyToOne(targetEntity="Categoryreclamation")
@@ -68,6 +58,16 @@ class Reclamation
      * })
      */
     private $idcategoryreclamation;
+
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idUser", referencedColumnName="id")
+     * })
+     */
+    private $iduser;
 
     public function getId(): ?int
     {
@@ -122,18 +122,6 @@ class Reclamation
         return $this;
     }
 
-    public function getIduser(): ?User
-    {
-        return $this->iduser;
-    }
-
-    public function setIduser(?User $iduser): self
-    {
-        $this->iduser = $iduser;
-
-        return $this;
-    }
-
     public function getIdcategoryreclamation(): ?Categoryreclamation
     {
         return $this->idcategoryreclamation;
@@ -142,6 +130,18 @@ class Reclamation
     public function setIdcategoryreclamation(?Categoryreclamation $idcategoryreclamation): self
     {
         $this->idcategoryreclamation = $idcategoryreclamation;
+
+        return $this;
+    }
+
+    public function getIduser(): ?User
+    {
+        return $this->iduser;
+    }
+
+    public function setIduser(?User $iduser): self
+    {
+        $this->iduser = $iduser;
 
         return $this;
     }

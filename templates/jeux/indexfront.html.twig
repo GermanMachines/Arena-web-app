@@ -105,6 +105,8 @@
 					<div class="section-title text-white">
 						<h2>Latest News</h2>
 					</div>
+                       <h3 class="blog-text text-box text-white "> ({{ jeuxes.getTotalItemCount }}) Jeux</h3>
+
 					<ul class="blog-filter">
 
 					</ul>
@@ -194,7 +196,17 @@
 					</div>
 				</div>
 			</div>
+                    
+                    
+    <div class="navigation">
+            {{ knp_pagination_render(jeuxes) }}
+        </div>
+
+
 		</div>
+
+
+            
 	</section>
 
 

@@ -11,6 +11,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ParticipationRepository;
 use App\Entity\Equipe;
+use Doctrine\ORM\Query\ResultSetMapping;
+use App\Entity\Jeux;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use App\Repository\TournoisRepository;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @Route("/tournois")
@@ -42,8 +51,14 @@ class TournoisController extends AbstractController
             ->getRepository(Tournois::class)
             ->findAll();
 
+            $counter=[];
+            foreach($tournois as $t){
+            $counter[]=sizeof($t->getIdequipe());
+            }
+
         return $this->render('tournois/indexfront.html.twig', [
             'tournois' => $tournois,
+            'counter'=>$counter,
         ]);
     }
 
@@ -117,7 +132,7 @@ class TournoisController extends AbstractController
 
     
 
-  /**
+    /**
      * @Route("/delete/{idtournois}", name="app_participation_delete", methods={"POST"})
      */
     public function deleteparticipation(Request $request, Tournois $tournoi, EntityManagerInterface $entityManager,$idtournois): Response
@@ -131,6 +146,123 @@ class TournoisController extends AbstractController
     }
 
 
+
+    /**
+     * @Route("/s/deleteparticipationJSON/{idtournois}", name="deleteparticipationJSON")
+     */
+    public function deleteparticipationJSON(Request $request, Tournois $tournoi, EntityManagerInterface $entityManager,$idtournois,NormalizerInterface $Normalizer): Response
+    {
+        $Equipe = $this->getDoctrine()->getRepository(Equipe::class)->find(94);
+        $Tournois = $this->getDoctrine()->getRepository(Tournois::class)->find($idtournois);
+            $Tournois->removeIdequipe($Equipe);
+            $entityManager->flush();
+            $jsonContent=$Normalizer->normalize($Equipe,'json',['groups'=>'post:read']);
+
+        return new Response("partcipation deleted Successfully".json_encode($jsonContent));
+    }
+
+
+
+
+
+       /**
+     * @Route("/new/statistique", name="Tournois_stats")
+     */
+
+    public function statistiques(Request $request , TournoisRepository $TournoisRep){
+        $Tournois= [];
+        $Tournois= $this->getDoctrine()->getRepository(Tournois::class)->findAll();
+        $Jeux= $this->getDoctrine()->getRepository(Jeux::class)->findAll();
+
+        $categNom=[];
+        $Tournoiscount=[];   
+  
+
+        $checker=[];
+      
+        foreach($Tournois as $tournois){
+
+            if(in_array( $tournois->getidjeux() , $checker) ){
+               
+            }else{
+                $checker[]=$tournois->getidjeux();
+            $Tournoisx=$TournoisRep->countbyjeux($tournois->getidjeux());
+
+          $categNom[]= $tournois->getidjeux()->getNomjeux(); 
+           $Tournoiscount[]= $Tournoisx[0]['count'];
+                
+            }
+
+        }
+
+      
+  
+        return $this->render('tournois/tournoisStats.html.twig',[
+          'categNom'=>json_encode($categNom),
+          'rolescount'=>json_encode($Tournoiscount),
+  
+        ]);
+    }
+  
+
+    /**
+     * @Route("/s/searchTour", name="searchTour")
+     */
+    public function searchTournois(Request $request,NormalizerInterface $Normalizer,TournoisRepository $repository,SerializerInterface $serializer):Response
+    {
+        $requestString=$request->get('searchValue');
+        $Tournois = $repository->findByNom($requestString);
+        $jsonContent = $serializer->serialize($Tournois, 'json',['Groups'=>'Tournois']);
+        $retour =json_encode($jsonContent);
+        return new Response($retour);
+
+    }
+
+
+        /**
+         * @Route("event/calendar", name="calendar")
+         */
+        public function calendar(): Response
+        {
+            // $event = $calendar->findAll();
+            $event = $this->getDoctrine()->getRepository(Tournois::class)->findAll();
+            $rdvs = [];
+            $allDay = true;
+            foreach ($event as $event) {
+                $rdvs[] = [
+                    'id' => $event->getIdtournois(),
+                    'start' => $event->getDateDebut()->format('Y-m-d H:i:s'),
+                    'end' => $event->getDateFin()->format('Y-m-d H:i:s'),
+                    'title' => $event->getTitre(),
+                    'description' => $event->getDescriptiontournois(),
+                    'backgroundColor' => "#45bf98",
+                    'borderColor' => "#000000",
+                    'textColor' => "#ffffff",
+                    'allDay' => $allDay,
+
+                ];
+            }
+            $data = json_encode($rdvs);
+            return $this->render('tournois/test.html.twig', compact('data'));
+        }
+
+
+
+     /**
+     * @Route("/s/AllTournois", name="AllTournois")
+     */
+    public function AllTournois(NormalizerInterface $Normalizer )
+    {
+    //Nous utilisons la Repository pour récupérer les objets que nous avons dans la base de données
+    $repository =$this->getDoctrine()->getRepository(Tournois::class);
+    $Tournois=$repository->findAll();
+    //Nous utilisons la fonction normalize qui transforme en format JSON nos donnée qui sont
+    //en tableau d'objet Students
+    $jsonContent=$Normalizer->normalize($Tournois,'json',['groups'=>'post:read']);
+    return new Response(json_encode($jsonContent));
+    dump($jsonContent);
+    die;
+}
 
 
 }

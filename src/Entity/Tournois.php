@@ -5,6 +5,10 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+
+
 
 /**
  * Tournois
@@ -20,62 +24,80 @@ class Tournois
      * @ORM\Column(name="IdTournois", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $idtournois;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message=" Titre doit etre non vide")
      * @ORM\Column(name="Titre", type="string", length=100, nullable=false)
+     * @Groups("post:read")
      */
     private $titre;
 
     /**
      * @var \DateTime
-     *
+     * @Assert\GreaterThan("today UTC")
      * @ORM\Column(name="Date_debut", type="date", nullable=false)
+     * @Groups("post:read")
      */
     private $dateDebut;
 
     /**
      * @var \DateTime
-     *
+     * @Assert\GreaterThan(propertyPath="Date_debut")
      * @ORM\Column(name="Date_fin", type="date", nullable=false)
+     * @Groups("post:read")
      */
     private $dateFin;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="description  doit etre non vide")
+     * @Assert\Length(
+     *      min = 7,
+     *      max = 100,
+     *      minMessage = "doit etre >=7 ",
+     *      maxMessage = "doit etre <=100" )
      * @ORM\Column(name="DescriptionTournois", type="string", length=500, nullable=false)
+     * @Groups("post:read")
      */
     private $descriptiontournois;
 
-    /**
+   /**
      * @var string
-     *
+     * @Assert\NotBlank(message=" Type doit etre non vide")
      * @ORM\Column(name="Type", type="string", length=100, nullable=false)
+     * @Groups("post:read")
      */
     private $type;
 
     /**
      * @var int
      *
+     * @Assert\GreaterThan(
+     * value = 1
+     * )
      * @ORM\Column(name="NbrParticipants", type="integer", nullable=false)
+     * @Groups("post:read")
      */
     private $nbrparticipants;
 
+
     /**
      * @var string|null
-     *
+     * @Assert\NotBlank(message=" Type doit etre non vide")
      * @ORM\Column(name="Winner", type="string", length=255, nullable=true)
+     * @Groups("post:read")
      */
     private $winner;
 
     /**
      * @var string|null
-     *
+     * @Assert\NotBlank(message=" Type doit etre non vide")
      * @ORM\Column(name="Status", type="string", length=255, nullable=true)
+     * @Groups("post:read")
      */
     private $status;
 
@@ -86,6 +108,7 @@ class Tournois
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="IdJeux", referencedColumnName="IdJeux")
      * })
+     * @Groups("post:read")
      */
     private $idjeux;
 
@@ -93,6 +116,7 @@ class Tournois
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Equipe", mappedBy="idtournois")
+     * @Groups("post:read")
      */
     private $idequipe;
 
@@ -243,16 +267,9 @@ class Tournois
 
         return $this;
     }
-
     public function __toString() {
         return strval($this->idtournois);
     }
-    public function setIdtournois(?Tournois $idtournois): self
-    {
-        $this->idtournois = $idtournois;
 
-        return $this;
-    }
 
-    
 }
