@@ -44,7 +44,19 @@ class CommentaireController extends Controller
             'nbrprest' => $nbrprest
         ]);
     }
+    /**
+     * @Route("/front", name="app_commentaire_indexfrontc", methods={"GET"})
+     */
+    public function indexfront(EntityManagerInterface $entityManager): Response
+    {
+        $commentaires = $entityManager
+            ->getRepository(Commentaire::class)
+            ->findAll();
 
+        return $this->render('commentaire/indexfrontc.html.twig', [
+            'commentaires' => $commentaires,
+        ]);
+    }
     /**
      * @Route("/new", name="app_commentaire_new", methods={"GET", "POST"})
      */
@@ -121,4 +133,17 @@ class CommentaireController extends Controller
         return new Response($retour);
 
     }
+     /**
+     * @Route("/delete/{idCom}", name="app_commentaire_deletefront", methods={"POST"})
+     */
+    public function deletefront(Request $request, Commentaire $commentaire, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $commentaire->getIdCom(), $request->request->get('_token'))) {
+            $entityManager->remove($commentaire);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_commentaire_indexfrontc', [], Response::HTTP_SEE_OTHER);
+    }
 }
+

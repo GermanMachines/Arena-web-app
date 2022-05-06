@@ -1,67 +1,45 @@
-{#
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
-#}
+{% extends 'base-front.html.twig' %}
 
-<main id="main" class="main">
+{% block title %}Post index
+{% endblock %}
+
+{% block body %}
+	<!-- Blog section -->
 	<section class="blog-section spad">
 		<div class="container">
 			<div class="row">
 				<div class="col-xl-9 col-lg-8 col-md-7">
-
-
-					<div class="card-body">
-						<h1 class="card-title">coments
-						</h1>
-						{{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
-
-						<table>
-							<tr>
-								<td>
-									{{ form_label(form.descCom,"description : ") }}
-								</td>
-								<td>
-									{{ form_widget(form.descCom) }}
-								</td>
-								<td>{{ form_errors(form.descCom) }}</td>
-							</tr>
-							<tr>
-								<td>
-									{{ form_label(form.dateCom,"date : ") }}
-								</td>
-								<td>
-									{{ form_widget(form.dateCom) }}
-								</td>
-								<td>{{ form_errors(form.dateCom) }}</td>
-							</tr>
-							<tr>
-								<td>
-									{{ form_label(form.idPost,"post : ") }}
-								</td>
-								<td>
-									{{ form_widget(form.idPost) }}
-								</td>
-								<td>{{ form_errors(form.idPost) }}</td>
-							</tr>
-							<tr>
-								<td>
-									{{ form_label(form.idUser,"nom : ") }}
-								</td>
-								<td>
-									{{ form_widget(form.idUser) }}
-								</td>
-								<td>{{ form_errors(form.idUser) }}</td>
-							</tr>
-						</table>
-
-
-						<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
-												
-
-						{{ form_end(form) }}
+					<div class="section-title text-white">
+						<h2>Latest News</h2>
 					</div>
+					<ul class="blog-filter"></ul>
+
+					{% for commentaire in commentaires %}
+
+
+						<!-- Blog item -->
+						<div class="blog-item">
+
+							<div class="blog-text text-box text-white">
+								<div class="top-meta"></div>
+								<h3>{{ commentaire.idUser }}</h3>
+								<h3>
+									{{ commentaire.descCom }}</h3>
+								<h3>{{ commentaire.dateCom }}</h3>
+
+
+								<h3>{{ commentaire.idPost }}</h3>
+								<a href="#" class="read-more">View coment
+									<img src="{{ asset('front/img/icons/double-arrow.png') }}" alt="#"/></a>
+								<a href="{{ path('app_commentaire_edit', {'idCom': commentaire.idCom}) }}" class="read-more">Edit coment
+									<img src="{{ asset('front/img/icons/double-arrow.png') }}" alt="#"/></a>
+                                 	{{ include('commentaire/_deletef_form.html.twig') }}
+							</div>
+						</div>
+
+					{% endfor %}
+
+
 				</div>
 				<div class="col-xl-3 col-lg-4 col-md-5 sidebar">
 					<div id="stickySidebar">
@@ -137,6 +115,4 @@
 			</div>
 		</div>
 	</section>
-
-</main>
-<!-- End #main -->
+{% endblock %}
