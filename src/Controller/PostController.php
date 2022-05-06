@@ -16,7 +16,8 @@ use MercurySeries\FlashyBundle\FlashyNotifier;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Repository\CommentaireRepository;
-
+use App\Entity\Commentaire;
+use App\Form\CommentaireType;
 /**
  * @Route("/post")
  */
@@ -197,14 +198,30 @@ class PostController extends Controller
     /**
      * @Route("/commentaire/{idPost}", name="app_postcom")
      */
-    public function PackItem(PostRepository $postRepository, $idPost, CommentaireRepository $commentaireRepository): Response
-    {
+    public function PackItem(Request $request,PostRepository $postRepository, $idPost, CommentaireRepository $commentaireRepository): Response
+    {   
         $post = $postRepository->find($idPost); 
         $commentaire = $commentaireRepository->getPostcom($idPost);
-        return $this->render('post/postitem.html.twig', [
+        
+        $newCommentaire = new Commentaire();
+        $form = $this->createForm(CommentaireType::class, $newCommentaire);
+    
+        $form->handleRequest($request);
+        $newCommentaire->setIdPost($post);
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $commentaireRepository->add($newCommentaire);
+            $newCommentaire->setIdPost($post);
+            return $this->redirectToRoute('app_post_indexfrontp', [], Response::HTTP_SEE_OTHER);
+        }
+       
 
-            'post' => $post,
+        return $this->render('post/postitem.html.twig', [
             'commentaire' => $commentaire,
+            'post' => $post,
+            'form' => $form->createView(),
         ]);
+       
+        
     }
 }

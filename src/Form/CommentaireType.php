@@ -15,7 +15,7 @@ class CommentaireType extends AbstractType
             ->add('descCom')
             ->add('dateCom')
             ->add('idUser')
-            ->add('idPost')
+        
         ;
     }
 

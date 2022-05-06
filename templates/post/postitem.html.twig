@@ -10,7 +10,12 @@
 						<h2>Latest News</h2>
 					</div>
 					<ul class="blog-filter"></ul>
-
+<center><i class="fa fa-calendar" style="margin-right: 5px;"aria-hidden="true"></i>{{post.datePost}} </center>
+						<br>
+						<center><font size ="7" color="white"<p >{{post.titre}} </p></font></center>
+						<center>	<img src="{{ asset('uploads/' ~ post.imgpost) }}" alt="" width="850" height="450"  ></center>
+							 <br>
+					  
 				{% for p in commentaire %}
 
 
@@ -19,21 +24,20 @@
 
 							<div class="blog-text text-box text-white">
 								<div class="top-meta"></div>
-								<h3>{{ p.idUser }}</h3>
-								<h3>
-									{{ p.descCom }}</h3>
-								<h3>{{ p.dateCom }}</h3>
-
-
-								<h3>{{ p.idPost }}</h3>
-							
-
-							</div>
+								<p>{{ p.dateCom }}</p> 
+								<p>{{ p.idUser }}</p>
+								<h4>{{ p.descCom }}</h4>
+				             </div>
 						</div>
 
 					{% endfor %}
 
-
+ <br>                
+                      <h1 style="background-color:white;border-color:white; color: purple">veuillez saisir un commentaire </h1>
+				         {{ include('commentaire/_form.html.twig') }}
+						<br>
+						<a href={{asset("index.php/post/front")}} class="read-more">back to posts
+									<img src="{{ asset('front/img/icons/double-arrow.png') }}" alt="#"/></a>
 				</div>
 				<div class="col-xl-3 col-lg-4 col-md-5 sidebar">
 					<div id="stickySidebar">
