@@ -1,0 +1,46 @@
+{% extends 'base-front.html.twig' %}
+
+{% block title %}Avis{% endblock %}
+
+
+
+{% block body %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    <h1>Avis</h1>
+
+
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Score</th>
+                <td><input id="input-id" type="text" class="rating" data-size="lg" value="{{ avi.score }}" disabled> </td>
+            </tr>
+            <tr>
+                <th>Commentaire</th>
+                <td>{{ avi.commentaire }}</td>
+            </tr>
+            <tr>
+                <th>User</th>
+                <td>{{ avi.idutulisateur.nom }}</td>
+            </tr>
+            <tr>
+                <th>Jeux</th>
+                <td>{{ avi.idjeux.nomjeux }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_avis_index_front') }}" class="btn btn-secondary">back to list</a>
+
+    <a href="{{ path('app_avis_edit_front', {'id': avi.id}) }}" class="btn btn-primary">edit</a>
+
+    {{ include('avis/_delete_form-front.html.twig') }}
+{% endblock %}

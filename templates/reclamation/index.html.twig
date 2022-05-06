@@ -1,0 +1,54 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Reclamation index{% endblock %}
+
+{% block body %}
+    {{ form_start(form, {'action': path('app_reclamation_search'), 'method': 'POST' ,'attr':{'class':'form-inline'}}) }}
+    <div class="form-group row" style="margin-left:10px">
+    {{ form_widget(form.search,{ 'attr' : { 'class': 'form-control mr-sm-2' } }) }}
+    {{ form_widget(form.submit,{ 'attr' : { 'class': 'btn btn-primary  my-2 my-sm-0' } }) }}
+    </div>
+    {{ form_end(form) }}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Message</th>
+                <th>User</th>
+                <th>Categorie reclamation</th>
+                <th>Traité</th>
+                <th>Date</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reclamation in reclamations %}
+            <tr>
+                <td>{{ reclamation.titre }}</td>
+                <td>{{ reclamation.message }}</td>
+                <td>{{ reclamation.iduser }}</td>
+                <td>{{ reclamation.idcategoryreclamation.nom }}</td>
+                <td>{{ reclamation.etat ? 'Yes' : 'No' }}</td>
+                <td>{{ reclamation.date ? reclamation.date|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_reclamation_show', {'id': reclamation.id}) }}" class="btn btn-secondary">show</a>
+                    <a href="{{ path('app_email_reclamation', {'id': reclamation.id}) }}" class="btn btn-success">Respond</a>
+                
+                   
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+ 
+        </tbody>
+                  
+    </table>
+
+     <a href="{{ path('app_reclamation_download')}}" class="btn btn-primary">Export PDF</a>
+     <a href="{{ path('app_reclamation_index')}}" class="btn btn-secondary">Afficher les reclamations</a>
+
+  
+{% endblock %}

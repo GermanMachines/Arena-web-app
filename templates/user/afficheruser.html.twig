@@ -1,0 +1,120 @@
+{% extends 'base-front.html.twig' %}
+
+
+{% block body %}
+    <body>
+<style type="text/css">
+    :root {
+        --container-padding: 20px;
+        --container-width: calc(100% - var(--container-padding) * 2);
+    }
+    .container {
+        box-sizing: border-box;
+        width: 100%;
+        padding-top: 200px;
+        padding-left: calc(50% - var(--container-width) / 2);
+        padding-right: calc(50% - var(--container-width) / 2);
+    }
+
+    @media only screen and (min-width: 1040px) {
+        :root {
+            --container-width: 1000px;
+        }
+    }
+</style>
+
+
+
+        <div class="background container" >
+
+
+
+                <div class="table-responsive pt-3">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+
+                            <th>
+                                nom
+                            </th>
+                            <th>
+                                surnom
+                            </th>
+                            <th>
+                                email
+                            </th>
+                            <th>
+                                username
+                            </th>
+
+
+
+                            <th>
+                                Delete
+                            </th>
+                            <th>
+                                Modify
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for u in u %}
+                            <tr >
+
+
+                                <td>
+                                    {{ u.nom }}
+                                </td>
+
+                                <td>
+                                    {{ u.surnom}}
+                                </td>
+
+                                <td>
+                                    {{ u.email}}
+                                </td>
+
+
+
+                                <td>
+                                    {{u.username}}
+                                </td>
+
+
+
+
+                                <td>
+                                    {% if is_granted("[ROLE_JOUEUR]") and app.user.id==u.id %}
+                                        <a href="{{ path('d',{'id':u.id}) }}"> Delete</a>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+
+                                    {% if  app.user.id==u.id %}
+                                        <a href="{{ path('m',{'id':u.id}) }}"> Modify</a>
+                                    {% endif %}
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+    <a href="" class="btn-danger btn-lg" style="margin-left: 45%" > ajouter equipe</a>
+
+    </body>
+    </div>
+{% endblock %}

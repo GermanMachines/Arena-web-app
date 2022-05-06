@@ -1,0 +1,18 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Ajouter User{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h3 class="page-title"> New User </h3>
+    </div>
+    {{ form_start(form)}}
+    {{ form_widget(form)}}
+    {% if modif %}
+        <button class="btn btn-success">Ajouter</button>
+    {% else %}
+        <button class="btn btn-success">Modifier</button>
+    {% endif %}
+    {{ form_end(form) }}
+
+{% endblock %}

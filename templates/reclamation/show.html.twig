@@ -1,0 +1,43 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Reclamation{% endblock %}
+
+{% block body %}
+    <h1>Reclamation</h1>
+
+    <table class="table">
+        <tbody>
+
+            <tr>
+                <th>Titre</th>
+                <td>{{ reclamation.titre }}</td>
+            </tr>
+            <tr>
+                <th>Message</th>
+                <td>{{ reclamation.message }}</td>
+            </tr>
+            <tr>
+                <th>User</th>
+                <td>{{ reclamation.iduser.nom }}</td>
+            </tr>
+            <tr>
+                <th>Category Reclamation</th>
+                <td>{{ reclamation.idcategoryreclamation.nom }}</td>
+            </tr>
+            <tr>
+                <th>Etat</th>
+                <td>{{ reclamation.etat ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ reclamation.date ? reclamation.date|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_email_reclamation', {'id': reclamation.id}) }}" class="btn btn-success">Respond</a>
+
+    <a href="{{ path('app_reclamation_index') }}" class="btn btn-primary">back to list</a>
+
+  
+{% endblock %}

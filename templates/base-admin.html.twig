@@ -15,6 +15,11 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('admin/css/sb-admin-2.min.css') }}" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css"
+      integrity="sha256-5veQuRbWaECuYxwap/IOE/DAwNxgm4ikX7nrgsqYp88=" crossorigin="anonymous">
 
         {% endblock %}
 
@@ -39,6 +44,10 @@
     <script src="{{ asset('admin/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('admin/js/demo/chart-pie-demo.js') }}"></script>
 
+
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js"
+                integrity="sha256-YicH/8aE660iEnJtgll3vT54dJApy3XkYmqNfGVFEzA=" crossorigin="anonymous"></script>
+        </script>
         {% endblock %}
 
 
@@ -55,7 +64,7 @@
      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
          <!-- Sidebar - Brand -->
-         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
+         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ path('app_admin') }}">
              <div class="sidebar-brand-icon rotate-n-15">
                  <i class="fas fa-laugh-wink"></i>
              </div>
@@ -81,6 +90,47 @@
          </div>
 
 
+         <!--Go Gestion User-->
+
+         <li class="nav-item">
+             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
+                 <i class=""></i>
+                 <span>User</span>
+             </a>
+             <div id="collapseUser" class="collapse" aria-labelledby="headingUser" data-parent="#accordionSidebar">
+                 <div class="bg-white py-2 collapse-inner rounded">
+                     <h6 class="collapse-header">Custom User:</h6>
+                     <a class="collapse-item" href="{{ path('ajouter_user') }}">Ajouter User</a>
+                     <a class="collapse-item" href="{{ path('admin_user') }}">Consulter User</a>
+
+                 </div>
+             </div>
+         </li>
+         <!--//end Go Gestion User-->
+
+
+
+         <!--Go Gestion Equipes-->
+
+         <li class="nav-item">
+             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEquipes" aria-expanded="true" aria-controls="collapseEquipes">
+                 <i class=""></i>
+                 <span>Equipes</span>
+             </a>
+             <div id="collapseEquipes" class="collapse" aria-labelledby="headingEquipes" data-parent="#accordionSidebar">
+                 <div class="bg-white py-2 collapse-inner rounded">
+                     <h6 class="collapse-header">Custom Equipes:</h6>
+                     <a class="collapse-item" href="{{ path('ajouter_equipe') }}">Ajouter Equipes</a>
+                     <a class="collapse-item" href="{{ path('admin_equipe') }}">Consulter Equipes</a>
+
+                 </div>
+             </div>
+         </li>
+         <!--//end Go Gestion Equipes-->
+
+
+         
+
          <!--Go Gestion Games-->
 
          <li class="nav-item">
@@ -91,8 +141,8 @@
              <div id="collapseGames" class="collapse" aria-labelledby="headingGames" data-parent="#accordionSidebar">
                  <div class="bg-white py-2 collapse-inner rounded">
                      <h6 class="collapse-header">Custom Games:</h6>
-                     <a class="collapse-item" href="">Ajouter Game</a>
-                     <a class="collapse-item" href="">Consulter Games</a>
+                     <a class="collapse-item" href="{{ path('app_jeux_new') }}">Ajouter Game</a>
+                     <a class="collapse-item" href="{{ path('app_jeux_index') }}">Consulter Games</a>
 
                  </div>
              </div>
@@ -111,20 +161,105 @@
              <div id="collapseTournois" class="collapse" aria-labelledby="headingTournois" data-parent="#accordionSidebar">
                  <div class="bg-white py-2 collapse-inner rounded">
                      <h6 class="collapse-header">Custom Tournois:</h6>
-                     <a class="collapse-item" href="">Ajouter Tournois</a>
-                     <a class="collapse-item" href="">Consulter Tournois</a>
+                     <a class="collapse-item" href="{{ path('app_tournois_new') }}">Ajouter Tournois</a>
+                     <a class="collapse-item" href="{{ path('app_tournois_index') }}">Consulter Tournois</a>
+                     <a class="collapse-item" href="{{ path('calendar') }}">Calendar Tournois</a>
+
+                     <a class="collapse-item" href="{{ path('Tournois_stats') }}">Statistique Tournois</a>
 
                  </div>
              </div>
          </li>
          <!--//end Go Gestion Tournois-->
 
+         <!--Go Gestion Participation-->
+
+       {#  <li class="nav-item">
+             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseParticipation" aria-expanded="true" aria-controls="collapseParticipation">
+                 <i class=""></i>
+                 <span>Participation</span>
+             </a>
+             <div id="collapseParticipation" class="collapse" aria-labelledby="headingParticipation" data-parent="#accordionSidebar">
+                 <div class="bg-white py-2 collapse-inner rounded">
+                     <h6 class="collapse-header">Custom Participation:</h6>
+                    <a class="collapse-item" href="{{ path('app_participation_new') }}">Ajouter Participation</a>
+                     <a class="collapse-item" href="{{ path('app_participation_index') }}">Consulter participations</a> 
+
+                 </div>
+             </div>
+         </li>  #}
+         <!--//end Go Gestion Participation-->
+
+         <!--Go Gestion Matchs-->
+
+         <li class="nav-item">
+             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMatchs" aria-expanded="true" aria-controls="collapseMatchs">
+                 <i class=""></i>
+                 <span>Matchs</span>
+             </a>
+             <div id="collapseMatchs" class="collapse" aria-labelledby="headingMatchs" data-parent="#accordionSidebar">
+                 <div class="bg-white py-2 collapse-inner rounded">
+                     <h6 class="collapse-header">Custom Matchs:</h6>
+                     <a class="collapse-item" href="{{ path('app_matchs_new') }}">Ajouter Match</a>
+                     <a class="collapse-item" href="{{ path('app_matchs_index') }}">Consulter Matchs</a>
+
+                 </div>
+             </div>
+         </li>
+         <!--//end Go Gestion Matchs-->
 
 
+         <!--Go Gestion Category reclamation-->
 
+         <li class="nav-item">
+             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTo" aria-expanded="true" aria-controls="collapseTournois">
+                 <i class=""></i>
+                 <span>Category Reclamation</span>
+             </a>
+             <div id="collapseTo" class="collapse" aria-labelledby="headingTo" data-parent="#accordionSidebar">
+                 <div class="bg-white py-2 collapse-inner rounded">
+                     <h6 class="collapse-header">Category Reclamation:</h6>
+                     <a class="collapse-item" href="{{path('app_categoryreclamation_new')}}">Ajouter Categorie</a>
+                     <a class="collapse-item" href="{{path('app_categoryreclamation_index')}}">Consulter Categories</a>
 
+                 </div>
+             </div>
+         </li>
+         <!--//end Go Gestion Category Reclamation-->
 
+         <!--Go Gestion Reclamation-->
 
+         <li class="nav-item">
+             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseT" aria-expanded="true" aria-controls="collapseTournois">
+                 <i class=""></i>
+                 <span>Reclamation</span>
+             </a>
+             <div id="collapseT" class="collapse" aria-labelledby="headingTournois" data-parent="#accordionSidebar">
+                 <div class="bg-white py-2 collapse-inner rounded">
+                     <h6 class="collapse-header">Custom Reclamation:</h6>
+                     <a class="collapse-item" href="{{path('app_reclamation_index')}}">Consulter Reclamation</a>
+
+                 </div>
+             </div>
+         </li>
+         <!--//end Go Gestion Reclamation-->
+
+  <!--Go Gestion Avis-->
+
+         <li class="nav-item">
+             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTournoiss" aria-expanded="true" aria-controls="collapseTournois">
+                 <i class=""></i>
+                 <span>Avis</span>
+             </a>
+             <div id="collapseTournoiss" class="collapse" aria-labelledby="headingTournois" data-parent="#accordionSidebar">
+                 <div class="bg-white py-2 collapse-inner rounded">
+                     <h6 class="collapse-header">Avis:</h6>
+                     <a class="collapse-item" href="{{path('app_avis_index')}}">Consulter Avis</a>
+
+                 </div>
+             </div>
+         </li>
+         <!--//end Go Gestion Avis-->
 
 
 

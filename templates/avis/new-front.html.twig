@@ -1,0 +1,19 @@
+{% extends 'base-front.html.twig' %}
+
+{% block title %}New Avis{% endblock %}
+
+{% block body %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    <h1>Create new Avis</h1>
+
+    {{ include('avis/_form-front.html.twig') }}
+{#{{Jeux.nomjeux}}#}
+
+    <a href="{{ path('app_avis_index_front') }}" class="btn btn-secondary">back to list</a>
+{% endblock %}

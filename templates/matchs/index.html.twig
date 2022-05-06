@@ -1,0 +1,38 @@
+ {% extends 'base-admin.html.twig' %}
+{% block body %}
+    <h1>Matchs index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                 <th>TournamentTitre</th>
+                <th>Reference</th>
+                <th>Equipes</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for match in matchs %}
+            <tr>
+                <td>{{ match.IDTournois.titre }}</td>
+                <td>{{ match.reference }}</td>
+                 <td>
+                     {% for match in match.idequipe %}
+                     {{ match.nom }} <br>
+                     {% endfor %}
+                    </td>
+                <td>
+                    <a href="{{ path('app_matchs_show', {'idmatch': match.idmatch}) }}">show</a>
+                    <a href="{{ path('app_matchs_edit', {'idmatch': match.idmatch}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_matchs_new') }}">Create new</a>
+{% endblock %}

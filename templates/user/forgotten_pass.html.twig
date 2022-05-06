@@ -1,0 +1,41 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    <style type="text/css">
+        :root {
+            --container-padding: 20px;
+            --container-width: calc(100% - var(--container-padding) * 2);
+        }
+        .container {
+            box-sizing: border-box;
+            width: 100%;
+            padding-top: 200px;
+            padding-left: calc(50% - var(--container-width) / 2);
+            padding-right: calc(50% - var(--container-width) / 2);
+        }
+
+        @media only screen and (min-width: 1040px) {
+            :root {
+                --container-width: 1000px;
+            }
+        }
+    </style>
+    <div class="background container" >
+        <section class="login_box_area section_gap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="login_form_inner">
+                            {{ form_start(emailform) }}
+                                {{ form_widget(emailform) }}
+                                <button class="btn btn-success">Envoyer</button>
+                            {{ form_end(emailform) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

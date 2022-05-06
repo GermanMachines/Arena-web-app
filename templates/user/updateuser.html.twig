@@ -1,0 +1,44 @@
+{% extends 'base-front.html.twig' %}
+{% block body %}
+<style type="text/css">
+    :root {
+        --container-padding: 20px;
+        --container-width: calc(100% - var(--container-padding) * 2);
+    }
+    .container {
+        box-sizing: border-box;
+        width: 100%;
+        padding-top: 200px;
+        padding-left: calc(50% - var(--container-width) / 2);
+        padding-right: calc(50% - var(--container-width) / 2);
+    }
+
+    @media only screen and (min-width: 1040px) {
+        :root {
+            --container-width: 1000px;
+        }
+    }
+</style>
+
+
+
+<div class="background container" >
+    <div class="card-body">
+        <h4 class="card-title"><i class="fa-solid fa-circle-plus"></i>  Modifier</h4>
+        <a class="btn btn-outline-dark " href=""><i class="fa-solid fa-gamepad"></i> afficher les joueurs  </a>
+        <p class="card-description">
+        </p>
+
+        {{ form_start(f) }}
+        {{ form_start(f)}}
+        {{ form_widget(f)}}
+        <button type="submit" class="btn btn-success">Modifier </button>
+        {{ form_end(f) }}
+
+    </div>
+
+
+
+    {% endblock %}
+
+

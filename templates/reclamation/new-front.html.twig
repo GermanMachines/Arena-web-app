@@ -1,0 +1,23 @@
+
+
+
+
+{% block body %}
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+{% block title %}New Reclamation{% endblock %}
+
+    {{ include('reclamation/_form-front.html.twig') }}
+
+    <a href="{{ path('app_reclamation_index_front') }}" class="btn btn-primary">back to list</a>
+{% endblock %}

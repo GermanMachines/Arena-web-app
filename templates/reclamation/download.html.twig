@@ -1,0 +1,32 @@
+{% extends "base-pdf.html.twig" %}
+{% block body %}
+<table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Message</th>
+                <th>User</th>
+                <th>Categorie Reclamation</th>
+                <th>Traite</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+    
+        <tbody>
+        {% for reclamation in reclamations %}
+            <tr>
+                <td>{{ reclamation.titre }}</td>
+                <td>{{ reclamation.message }}</td>
+                <td>{{ reclamation.iduser }}</td>
+                <td>{{ reclamation.idcategoryreclamation.nom }}</td>
+                <td>{{ reclamation.etat ? 'Yes' : 'No' }}</td>
+                <td>{{ reclamation.date ? reclamation.date|date('Y-m-d') : '' }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

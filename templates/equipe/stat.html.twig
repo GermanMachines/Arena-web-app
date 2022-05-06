@@ -1,0 +1,26 @@
+{% extends 'base-admin.html.twig' %}
+    {% block body %}
+
+        <div class="col-lg-10 col-md-10 col-sm-9 col-lg-push-2 col-md-push-2 col-sm-push-3">
+        <div class="row mrg-0 mrg-top-20">
+            <div class="tr-single-box">
+                <div class="tr-single-header">
+                    <h3 class="dashboard-title">Stats</h3>
+                </div>
+
+                <div class="center-block">
+
+                    <div id="div_chart"></div>
+
+                    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                    <script type="text/javascript">
+                        {{ gc_draw(piechart, 'div_chart') }}
+                    </script>
+                </div>
+
+            </div>
+        </div>
+
+
+
+    {% endblock %}

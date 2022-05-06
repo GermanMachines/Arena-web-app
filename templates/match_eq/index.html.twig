@@ -1,0 +1,74 @@
+{# 
+{% extends 'base.html.twig' %}
+
+{% block title %}MatchEq index{% endblock %}
+
+{% block body %}
+    <h1>MatchEq index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Idmatch</th>
+                <th>Idequipe</th>
+                <th>Score</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for match_eq in match_eqs %}
+            <tr>
+                <td>{{ match_eq.idmatch }}</td>
+                <td>{{ match_eq.idequipe }}</td>
+                <td>{{ match_eq.score }}</td>
+                <td>
+                    <a href="{{ path('app_match_eq_show', {'idmatch': match_eq.idmatch}) }}">show</a>
+                    <a href="{{ path('app_match_eq_edit', {'idmatch': match_eq.idmatch}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_match_eq_new') }}">Create new</a>
+{% endblock %}
+#}
+
+{% extends 'base-admin.html.twig' %}
+{% block body %}
+    <h1>MatchEq index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Idmatch</th>
+                <th>Idequipe</th>
+                <th>Score</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for match_eq in match_eqs %}
+            <tr>
+                <td>{{ match_eq.idmatch }}</td>
+                <td>{{ match_eq.idequipe }}</td>
+                <td>{{ match_eq.score }}</td>
+                <td>
+                    <a href="{{ path('app_match_eq_show', {'idmatch': match_eq.idmatch}) }}">show</a>
+                    <a href="{{ path('app_match_eq_edit', {'idmatch': match_eq.idmatch}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_match_eq_new') }}">Create new</a>
+{% endblock %}

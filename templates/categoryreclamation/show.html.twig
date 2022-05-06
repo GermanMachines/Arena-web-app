@@ -1,0 +1,27 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Categoryreclamation{% endblock %}
+
+{% block body %}
+    <h1>Categoryreclamation</h1>
+
+    <table class="table">
+        <tbody>
+
+            <tr>
+                <th>Nom</th>
+                <td>{{ categoryreclamation.nom }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="flex">
+        <a href="{{ path('app_categoryreclamation_index') }}" class="btn btn-secondary">back to list</a>
+
+            <a href="{{ path('app_categoryreclamation_edit', {'id': categoryreclamation.id}) }}" class="btn btn-primary">edit</a>
+        <br>
+        <br>
+
+            {{ include('categoryreclamation/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

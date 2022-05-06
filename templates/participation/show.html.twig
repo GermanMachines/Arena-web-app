@@ -1,0 +1,53 @@
+{#
+    {% extends 'base.html.twig' %}
+
+{% block title %}Participation{% endblock %}
+
+{% block body %}
+    <h1>Participation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Idequipe</th>
+                <td>{{ participation.idequipe }}</td>
+            </tr>
+            <tr>
+                <th>Idtournois</th>
+                <td>{{ participation.idtournois }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_participation_index') }}">back to list</a>
+
+    <a href="{{ path('app_participation_edit', {'idequipe': participation.idequipe}) }}">edit</a>
+
+    {{ include('participation/_delete_form.html.twig') }}
+{% endblock %}
+#}
+
+ {% extends 'base-admin.html.twig' %}
+
+{% block body %}
+    <h1>Participation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Idequipe</th>
+                <td>{{ participation.idequipe }}</td>
+            </tr>
+            <tr>
+                <th>Idtournois</th>
+                <td>{{ participation.idtournois }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_participation_index') }}">back to list</a>
+
+    <a href="{{ path('app_participation_edit', {'idequipe': participation.idequipe}) }}">edit</a>
+
+    {{ include('participation/_delete_form.html.twig') }}
+{% endblock %}

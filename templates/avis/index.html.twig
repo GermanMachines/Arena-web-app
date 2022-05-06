@@ -1,0 +1,38 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Avis index{% endblock %}
+
+{% block body %}
+    <h1>Avis index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>Score</th>
+                <th>Commentaire</th>
+                <th>User</th>
+                <th>Jeux</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for avi in avis %}
+            <tr>
+                <td>{{ avi.score }}</td>
+                <td>{{ avi.commentaire }}</td>
+                <td>{{ avi.idutulisateur.nom }}</td>
+                <td>{{ avi.idjeux.nomjeux }}</td>
+                <td>
+                    <a href="{{ path('app_avis_show', {'id': avi.id}) }}" class="btn btn-primary">show</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}New Equipe{% endblock %}
+
+{% block body %}
+    <main id="main" class="main">
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="card-title">Ajouter une equipe</h1>
+                            {{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
+
+                            <table >
+                                <tr>
+                                    <td>
+                                        {{ form_label(form.nom,"nom : ") }}
+                                    </td><td>
+                                        {{ form_widget(form.nom) }}
+                                    </td>
+                                    <td>{{ form_errors(form.nom) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {{ form_label(form.logo,"logo : ") }}
+                                    </td><td>
+                                        {{ form_widget(form.logo) }}
+                                    </td>
+                                    <td>{{ form_errors(form.logo) }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        {{ form_label(form.score,"score : ") }}
+                                    </td><td>
+                                        {{ form_widget(form.score) }}
+                                    </td>
+                                    <td>{{ form_errors(form.score) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {{ form_label(form.region,"region : ") }}
+                                    </td><td>
+                                        {{ form_widget(form.region) }}
+                                    </td>
+                                    <td>{{ form_errors(form.region) }}</td>
+                                </tr>
+                            </table>
+
+
+                            <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main><!-- End #main -->
+
+{% endblock %}
+

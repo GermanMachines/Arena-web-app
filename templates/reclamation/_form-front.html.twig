@@ -1,0 +1,26 @@
+{% extends 'base-front.html.twig' %}
+
+{% block body %}
+
+{{ form_start(form,{attr:{novalidate:'novalide'}}) }} 
+      <div class="form-group row" style="margin-left:10px">
+         {{ form_widget(form.titre,{ 'attr' : { 'class': 'form-control','placeholder':'Titre' } }) }}
+      </div>
+
+       <div class="form-group row" style="margin-left:10px">
+      {{ form_widget(form.message,{ 'attr' : { 'class': 'form-control','placeholder':'Message' } }) }}
+      </div>
+
+        <div class="form-group row" style="margin-left:10px">
+    {#{{ form_row(form.idUser) }} #}
+    {{ form_row(form.idcategoryreclamation) }}
+     </div>
+  
+ 
+ 
+
+
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+{% endblock %}
+

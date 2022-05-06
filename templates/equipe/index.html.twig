@@ -1,0 +1,60 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Equipe index{% endblock %}
+
+{% block body %}
+    <a class="btn btn-primary" href="{{ path('stat') }}">stat</a>
+    <h1>Equipe index</h1>
+    <div class="search_item" >
+        <input  id="myInputAct"  type="text" class="btn btn-sm btn-outline-info"  name="searchLieu" placeholder="recherche ...">
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Idequipe</th>
+            <th>Nom</th>
+            <th>Logo</th>
+            <th>Score</th>
+            <th>Region</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody id="myTableAct">
+        {% for equipe in equipes %}
+            <tr>
+                <td>{{ equipe.idequipe }}</td>
+                <td>{{ equipe.nom }}</td>
+
+                <td><img src="{{ asset('uploads/' ~ equipe.logo) }}"
+                alt="" width="100" height="100">
+                </td>
+                <td>{{ equipe.score }}</td>
+                <td>{{ equipe.region }}</td>
+                <td>
+
+                    <a class="btn btn-primary" href="{{ path('modifier_equipe', {'id': equipe.idequipe}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(equipes) }}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInputAct").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTableAct tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+    <a  class="btn btn-primary" href="{{ path('ajouter_equipe') }}">Create new</a>
+{% endblock %}
+

@@ -1,0 +1,54 @@
+{% extends 'base-front.html.twig' %}
+
+{% block title %}vos réclamation{% endblock %}
+
+{% block body %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    <h1>vos réclamation </h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Message</th>
+                <th>User</th>
+                <th>Category Reclamation</th>
+                <th>Etat</th>
+                <th>Date</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reclamation in reclamations %}
+            <tr>
+                <td>{{ reclamation.titre }}</td>
+                <td>{{ reclamation.message }}</td>
+                <td>{{ reclamation.idUser.nom }}</td>
+                <td>{{ reclamation.idcategoryreclamation.nom }}</td>
+                <td>{{ reclamation.etat ? 'Yes' : 'No' }}</td>
+                <td>{{ reclamation.date ? reclamation.date|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_reclamation_show_front', {'id': reclamation.id}) }}" class="btn btn-secondary">show</a>
+                    <a href="{{ path('app_reclamation_edit_front', {'id': reclamation.id}) }}" class="btn btn-success">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reclamation_new_front') }}" class="btn btn-primary">Create new</a>
+{% endblock %}

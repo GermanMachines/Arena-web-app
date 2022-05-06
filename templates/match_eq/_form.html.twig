@@ -1,0 +1,54 @@
+{#
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+#}
+
+<main id="main" class="main">
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title">Ajouter un Equipe Au Match</h1>
+                        {{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
+
+                        <table >
+                            <tr>
+                                <td>
+                                    {{ form_label(form.idmatch,"idmatch : ") }}
+                                </td><td>
+                                    {{ form_widget(form.idmatch) }}
+                                </td>
+                                <td>{{ form_errors(form.idmatch) }}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {{ form_label(form.idequipe,"idequipe : ") }}
+                                </td><td>
+                                    {{ form_widget(form.idequipe) }}
+                                </td>
+                                <td>{{ form_errors(form.idequipe) }}</td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    {{ form_label(form.score,"score : ") }}
+                                </td><td>
+                                    {{ form_widget(form.score) }}
+                                </td>
+                                <td>{{ form_errors(form.score) }}</td>
+                            </tr>
+
+                        </table>
+                         <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
