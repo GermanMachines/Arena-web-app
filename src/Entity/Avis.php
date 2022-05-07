@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Avis
@@ -19,6 +20,7 @@ class Avis
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $id;
 
@@ -26,6 +28,7 @@ class Avis
      * @var int
      *
      * @ORM\Column(name="score", type="integer", nullable=false)
+     * @Groups("post:read")
      *  @Assert\Range(
      *      min = 1,
      *      max = 5,
@@ -38,6 +41,7 @@ class Avis
      * @var string
      *
      * @ORM\Column(name="commentaire", type="text", length=65535, nullable=false)
+     * @Groups("post:read")
      * @Assert\Length(
      *      min = 5,
      *      minMessage=" Commentaire must be at least 5 characters long"
@@ -50,6 +54,7 @@ class Avis
      * @var \User
      *
      * @ORM\ManyToOne(targetEntity="User")
+     * @Groups("post:read")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idUtulisateur", referencedColumnName="id")
      * })
@@ -60,6 +65,7 @@ class Avis
      * @var \Jeux
      *
      * @ORM\ManyToOne(targetEntity="Jeux")
+     * @Groups("post:read")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idJeux", referencedColumnName="IdJeux")
      * })

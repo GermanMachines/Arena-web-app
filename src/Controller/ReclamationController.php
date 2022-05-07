@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Categoryreclamation;
 use App\Entity\Reclamation;
 use App\Entity\User;
 use App\Form\EmailType;
@@ -21,6 +22,10 @@ use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mime\Email;
 use App\Repository\UserRepository;
+use App\Repository\CategoryreclamationRepository;
+
+
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 
 
@@ -29,6 +34,90 @@ use App\Repository\UserRepository;
  */
 class ReclamationController extends AbstractController
 {
+    /**
+     * @Route("/addReclamationJSON", name="add_reclamation_json" , methods={"GET"})
+     */
+    public function addReclamation(Request $request, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $idUser = $request->get('iduser');
+
+        $user = $this->getDoctrine()->getRepository(User::class)->find($idUser);
+
+        $idCategoryReclamation = $request->get('idcategoryreclamation');
+
+        $categoryReclamation = $this->getDoctrine()->getRepository(Categoryreclamation::class)->find($idCategoryReclamation);
+
+        $rec = new Reclamation();
+        $rec->setTitre($request->get('titre'));
+        $rec->setMessage($request->get('message'));
+        $rec->setIdUser($user); //must pass User
+        $rec->setIdcategoryreclamation($categoryReclamation);
+
+        $date = new \DateTime('@' . strtotime('now'));
+        $rec->setDate($date);
+        $em->persist($rec);
+        $em->flush();
+        $json_content = $normalizer->normalize($rec, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($json_content));
+    }
+
+    /**
+     * @Route("/getReclamationsJSON", name="get_reclamation_json" , methods={"GET"})
+     */
+    public function getAllReclamations(Request $request, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+
+
+
+        $reclamations = $this->getDoctrine()->getRepository(Reclamation::class)->findAll();
+        $json_content = $normalizer->normalize($reclamations, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($json_content));
+    }
+    /**
+     * @Route("/getReclamationJSON/{id}",name="get_reclamation_json_id" , methods={"GET"})
+     */
+    public function getReclamationByIdJSON(Request $request, $id, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $reclamations = $this->getDoctrine()->getRepository(Reclamation::class)->find($id);
+        $json_content = $normalizer->normalize($reclamations, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($json_content));
+    }
+    /**
+     * @Route("/updateReclamationJSON/{id}",name="update_reclamation_json" , methods={"GET"})
+     */
+    public function updateReclamationByIdJSON(Request $request, $id, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $reclamation = new Reclamation();
+        $reclamation = $this->getDoctrine()->getRepository(Reclamation::class)->find($id);
+
+        $reclamation->setTitre($request->get('titre'));
+        $reclamation->setMessage($request->get('message'));
+
+
+        $json_content = $normalizer->normalize($reclamation, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($json_content));
+    }
+    /**
+     * @Route("/deleteReclamationJSON/{id}",name="update_reclamation_json" , methods={"GET"})
+     */
+    public function deleteReclamationByIdJSON(Request $request, $id, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $reclamation = $this->getDoctrine()->getRepository(Reclamation::class)->find($id);
+        $em->remove($reclamation);
+        $em->flush();
+        $json_content = $normalizer->normalize($reclamation, 'json', ['groups' => 'post:read']);
+        return new Response("Reclamation Deleted successfuly" . json_encode($json_content));
+    }
+
+
     /**
      * @Route("/search", name="app_reclamation_search")
      */
@@ -108,7 +197,7 @@ class ReclamationController extends AbstractController
     /**
      * @Route("front/new", name="app_reclamation_new_front", methods={"GET", "POST"})
      */
-    public function newFront(UserRepository $repository,Request $request, EntityManagerInterface $entityManager): Response
+    public function newFront(UserRepository $repository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $reclamation = new Reclamation();
         $form = $this->createForm(ReclamationFrontType::class, $reclamation);

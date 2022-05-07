@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Reclamation
@@ -19,6 +20,7 @@ class Reclamation
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $id;
 
@@ -27,6 +29,7 @@ class Reclamation
      *
      * @ORM\Column(name="titre", type="string", length=30, nullable=false)
      * @Assert\NotBlank(message="Title is required")
+     * @Groups("post:read")
      * @Assert\Length(
      *      min = 5,
      *      minMessage=" title must be at least 5 characters long"
@@ -40,6 +43,7 @@ class Reclamation
      *
      * @ORM\Column(name="message", type="text", length=65535, nullable=false)
      * @Assert\NotBlank(message="Message is required")
+     * @Groups("post:read")
      * @Assert\Length(
      *      min = 5,
      *      minMessage=" Message must be at least 255 characters long"
@@ -52,6 +56,7 @@ class Reclamation
      * @var bool
      *
      * @ORM\Column(name="etat", type="boolean", nullable=true)
+     * @Groups("post:read")
      */
     private $etat;
 
@@ -59,6 +64,7 @@ class Reclamation
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="date", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     * @Groups("post:read")
      */
     private $date = 'CURRENT_TIMESTAMP';
 
@@ -66,6 +72,7 @@ class Reclamation
      * @var \User
      *
      * @ORM\ManyToOne(targetEntity="User")
+     * @Groups("post:read")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idUser", referencedColumnName="id")
      * })
@@ -76,6 +83,7 @@ class Reclamation
      * @var \Categoryreclamation
      *
      * @ORM\ManyToOne(targetEntity="Categoryreclamation")
+     * @Groups("post:read")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idCategoryReclamation", referencedColumnName="id")
      * })

@@ -4,12 +4,13 @@ namespace App\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Categoryreclamation
  *
  * @ORM\Table(name="categoryreclamation")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\CategoryreclamationRepository")
  */
 class Categoryreclamation
 {
@@ -17,6 +18,7 @@ class Categoryreclamation
      * @var int
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
+     * @Groups("post:read")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -26,6 +28,7 @@ class Categoryreclamation
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=30, nullable=false)
+     * @Groups("post:read")
      * @Assert\NotBlank(message="name is required")
      * @Assert\Length(
      *      min = 4,

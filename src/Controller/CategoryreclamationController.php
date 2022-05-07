@@ -9,12 +9,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
  * @Route("/categoryreclamation")
  */
 class CategoryreclamationController extends AbstractController
 {
+    /**
+     * @Route("/categoriesReclamation/json",name="categories_json")
+     */
+    public function getCategoriesReclamationJson(Request $request, NormalizerInterface $normalize)
+    {
+        $categoriesReclamation = $this->getDoctrine()->getRepository(Categoryreclamation::class)->findAll();
+        // dd($categoriesReclamation);
+        $categoriesReclamationJson = $normalize->normalize($categoriesReclamation, 'json');
+        return new Response(json_encode($categoriesReclamationJson));
+    }
+
+
     /**
      * @Route("/", name="app_categoryreclamation_index", methods={"GET"})
      */
@@ -86,7 +99,7 @@ class CategoryreclamationController extends AbstractController
      */
     public function delete(Request $request, Categoryreclamation $categoryreclamation, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$categoryreclamation->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $categoryreclamation->getId(), $request->request->get('_token'))) {
             $entityManager->remove($categoryreclamation);
             $entityManager->flush();
         }

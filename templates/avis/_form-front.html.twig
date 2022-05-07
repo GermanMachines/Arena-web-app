@@ -22,40 +22,53 @@
             <div class="col-lg-6">
                 <div class="card">
                     <div class="card-body">
+                   
                         {{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
 
-                        <table >
+                        <table>
+
+                         <tr>
+                                <td>
+                            <h1> {{jeu.nomjeux}} </h1>
+                                </td>
                             <tr>
                                 <td>
-                                    {{ form_label(form.score,"Score : ") }}
+                            <img src="{{ asset('uploads/' ~ jeu.imagejeux) }}" alt="{{jeu.nomjeux}}" width="100" height="100">
                                 </td>
+                    </tr>
+
+                            <tr>
+                               
                                 <td>
                                      {{ form_widget(form.score, {'attr': {'class': 'rating','id':'input-id'}}) }}
                                 </td>
                                 <td>{{ form_errors(form.score,{'attr':{'class':'text-danger'}}) }}</td>
                             </tr>
                            <tr>
+                        
+                                
                                 <td>
-                                    {{ form_label(form.commentaire,"Commentaire : ") }}
-                                </td><td>
                                     {{ form_widget(form.commentaire) }}
                                 </td>
                                 <td>{{ form_errors(form.commentaire,{'attr':{'class':'text-danger'}}) }}</td>
                             </tr>
                          
-                           <tr>
-                                <td>
+                      
+
+                           <tr style="visibility: hidden;">
+                                <td class="hide">
                                     {{ form_label(form.idjeux,"jeux : ") }}
                                 </td><td>
                                     {{ form_widget(form.idjeux) }}
                                 </td>
                                 <td>{{ form_errors(form.idjeux,{'attr':{'class':'text-danger'}}) }}</td>
                             </tr>    
+                    
 
                            
 
                         </table>
-                         <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+                         <button class="btn btn-primary">{{ button_label|default('Rate') }}</button>
                         {{ form_end(form) }}
                     </div>
                 </div>

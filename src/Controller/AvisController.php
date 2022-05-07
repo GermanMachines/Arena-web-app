@@ -10,12 +10,74 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Jeux;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use App\Entity\User;
 
 /**
  * @Route("/avis")
  */
 class AvisController extends AbstractController
 {
+    /**
+     * @Route("/addAvisJSON", name="add_avis_json", methods={"GET"})
+     */
+    public function addAvisJson(Request $request, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $idUser = $request->get('iduser');
+        $user = $this->getDoctrine()->getRepository(User::class)->find($idUser);
+
+        $idJeux = $request->get('idjeux');
+        $jeux = $this->getDoctrine()->getRepository(Jeux::class)->find($idJeux);
+
+        $avis = new Avis();
+        $avis->setScore($request->get('score'));
+        $avis->setCommentaire($request->get('commentaire'));
+        $avis->setIdutulisateur($user); //must pass User
+        $avis->setIdjeux($jeux);
+
+
+        $em->persist($avis);
+        $em->flush();
+        $json_content = $normalizer->normalize($avis, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($json_content));
+    }
+    /**
+     * @Route("/getAvisJSON/{id}",name="get__avis_json" , methods={"GET"})
+     */
+    public function getAvisJSON(Request $request, $id, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $avis = $this->getDoctrine()->getRepository(Avis::class)->find($id);
+        $json_content = $normalizer->normalize($avis, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($json_content));
+    }
+    /**
+     * @Route("/getAllAvisJSON",name="get_all_avis_json" , methods={"GET"})
+     */
+    public function getAllAvisJSON(Request $request, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $avis = $this->getDoctrine()->getRepository(Avis::class)->findAll();
+        $json_content = $normalizer->normalize($avis, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($json_content));
+    }
+
+    /**
+     * @Route("/deleteAvisJSON/{id}",name="delete_avis_json" , methods={"GET"})
+     */
+    public function deleteReclamationByIdJSON(Request $request, $id, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $avis = $this->getDoctrine()->getRepository(Avis::class)->find($id);
+        $em->remove($avis);
+        $em->flush();
+        $json_content = $normalizer->normalize($avis, 'json', ['groups' => 'post:read']);
+        return new Response("avis Deleted successfuly" . json_encode($json_content));
+    }
+
     /**
      * @Route("/", name="app_avis_index", methods={"GET"})
      */
@@ -74,7 +136,12 @@ class AvisController extends AbstractController
      */
     public function newFront(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $jeuxId = $request->get('id');
+        $game = $this->getDoctrine()->getRepository(Jeux::class)->find($jeuxId);
+        // dd($game);
         $avi = new Avis();
+        $avi->setIdjeux($game);
+
         $form = $this->createForm(AvisType::class, $avi);
         $form->handleRequest($request);
         $user1 = $this->get('security.token_storage')->getToken()->getUser();
@@ -87,12 +154,13 @@ class AvisController extends AbstractController
 
             return $this->redirectToRoute('app_avis_index_front', [], Response::HTTP_SEE_OTHER);
         }
-       # $avi->setIdjeux($id);
-       # $form=$this->CreateForm(Avis::Class,$avi);
+        # $avi->setIdjeux($id);
+        # $form=$this->CreateForm(Avis::Class,$avi);
 
         return $this->render('avis/new-front.html.twig', [
             'avi' => $avi,
             'form' => $form->createView(),
+            'jeu' => $game
         ]);
     }
 
@@ -147,7 +215,7 @@ class AvisController extends AbstractController
     {
         $form = $this->createForm(AvisType::class, $avi);
         $form->handleRequest($request);
-
+        // dd($avi->getIdjeux()->getNomjeux());
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
@@ -157,6 +225,7 @@ class AvisController extends AbstractController
         return $this->render('avis/edit-front.html.twig', [
             'avi' => $avi,
             'form' => $form->createView(),
+            'jeu' => $avi->getIdjeux()
         ]);
     }
 
