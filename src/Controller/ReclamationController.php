@@ -35,6 +35,23 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class ReclamationController extends AbstractController
 {
     /**
+     * @Route("/updateReclamationJSON/{id}",name="update_reclamation_json" , methods={"GET"})
+     */
+    public function updateReclamationByIdJSON(Request $request, $id, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $reclamation = new Reclamation();
+        $reclamation = $em->getRepository(Reclamation::class)->find($id);
+        // dd($request->get('titre'));
+        $reclamation->setTitre($request->get('titre'));
+        $reclamation->setMessage($request->get('message'));
+        $em->flush();
+
+        $json_content = $normalizer->normalize($reclamation, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($json_content));
+    }
+
+    /**
      * @Route("/addReclamationJSON", name="add_reclamation_json" , methods={"GET"})
      */
     public function addReclamation(Request $request, NormalizerInterface $normalizer)
@@ -87,24 +104,9 @@ class ReclamationController extends AbstractController
         $json_content = $normalizer->normalize($reclamations, 'json', ['groups' => 'post:read']);
         return new Response(json_encode($json_content));
     }
+
     /**
-     * @Route("/updateReclamationJSON/{id}",name="update_reclamation_json" , methods={"GET"})
-     */
-    public function updateReclamationByIdJSON(Request $request, $id, NormalizerInterface $normalizer)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $reclamation = new Reclamation();
-        $reclamation = $this->getDoctrine()->getRepository(Reclamation::class)->find($id);
-
-        $reclamation->setTitre($request->get('titre'));
-        $reclamation->setMessage($request->get('message'));
-
-
-        $json_content = $normalizer->normalize($reclamation, 'json', ['groups' => 'post:read']);
-        return new Response(json_encode($json_content));
-    }
-    /**
-     * @Route("/deleteReclamationJSON/{id}",name="update_reclamation_json" , methods={"GET"})
+     * @Route("/deleteReclamationJSON/{id}",name="delete_reclamation_json" , methods={"GET"})
      */
     public function deleteReclamationByIdJSON(Request $request, $id, NormalizerInterface $normalizer)
     {

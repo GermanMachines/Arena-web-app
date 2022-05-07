@@ -19,6 +19,22 @@ use App\Entity\User;
 class AvisController extends AbstractController
 {
     /**
+     * @Route("/updateAvisJSON/{id}",name="update_Avis_json" , methods={"GET"})
+     */
+    public function updateAvisByIdJSON(Request $request, $id, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $avis = new Avis();
+        $avis = $em->getRepository(Avis::class)->find($id);
+        $avis->setScore($request->get('score'));
+        $avis->setCommentaire($request->get('commentaire'));
+        $em->flush();
+
+        $json_content = $normalizer->normalize($avis, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($json_content));
+    }
+
+    /**
      * @Route("/addAvisJSON", name="add_avis_json", methods={"GET"})
      */
     public function addAvisJson(Request $request, NormalizerInterface $normalizer)
