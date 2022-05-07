@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Orders
  *
- * @ORM\Table(name="orders")
+ * @ORM\Table(name="orders", indexes={@ORM\Index(name="fk_id_user", columns={"idUser"}), @ORM\Index(name="fk_id_product", columns={"idProduct"})})
  * @ORM\Entity
  */
 class Orders
@@ -31,30 +31,36 @@ class Orders
     /**
      * @var int
      *
-     * @ORM\Column(name="idProduct", type="integer", nullable=false)
-     */
-    private $idproduct;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idUser", type="integer", nullable=false)
-     */
-    private $iduser;
-
-    /**
-     * @var int
-     *
      * @ORM\Column(name="productQty", type="integer", nullable=false)
      */
     private $productqty;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      *
-     * @ORM\Column(name="createdAt", type="date", nullable=false)
+     * @ORM\Column(name="createdAt", type="date", nullable=true)
      */
     private $createdat;
+
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idUser", referencedColumnName="id")
+     * })
+     */
+    private $iduser;
+
+    /**
+     * @var \Products
+     *
+     * @ORM\ManyToOne(targetEntity="Products")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idProduct", referencedColumnName="id")
+     * })
+     */
+    private $idproduct;
 
     public function getId(): ?int
     {
@@ -69,30 +75,6 @@ class Orders
     public function setNum(int $num): self
     {
         $this->num = $num;
-
-        return $this;
-    }
-
-    public function getIdproduct(): ?int
-    {
-        return $this->idproduct;
-    }
-
-    public function setIdproduct(int $idproduct): self
-    {
-        $this->idproduct = $idproduct;
-
-        return $this;
-    }
-
-    public function getIduser(): ?int
-    {
-        return $this->iduser;
-    }
-
-    public function setIduser(int $iduser): self
-    {
-        $this->iduser = $iduser;
 
         return $this;
     }
@@ -114,9 +96,33 @@ class Orders
         return $this->createdat;
     }
 
-    public function setCreatedat(\DateTimeInterface $createdat): self
+    public function setCreatedat(?\DateTimeInterface $createdat): self
     {
         $this->createdat = $createdat;
+
+        return $this;
+    }
+
+    public function getIduser(): ?User
+    {
+        return $this->iduser;
+    }
+
+    public function setIduser(?User $iduser): self
+    {
+        $this->iduser = $iduser;
+
+        return $this;
+    }
+
+    public function getIdproduct(): ?Products
+    {
+        return $this->idproduct;
+    }
+
+    public function setIdproduct(?Products $idproduct): self
+    {
+        $this->idproduct = $idproduct;
 
         return $this;
     }

@@ -1,0 +1,48 @@
+{#
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+#}
+
+<main id="main" class="main">
+	<section class="blog-section spad">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-9 col-lg-8 col-md-7">
+
+
+					<div class="card-body">
+						<h1 class="card-title">coments
+						</h1>
+						{{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
+
+						<table>
+							<tr>
+								<td style="color: black" >
+									{{ form_label(form.descCom,"description : ") }}
+								</td>
+								<td>
+									{{ form_widget(form.descCom) }}
+								</td>
+								<td>{{ form_errors(form.descCom) }}</td>
+							</tr>
+
+						
+
+						</table>
+
+
+						<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+												
+
+						{{ form_end(form) }}
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</section>
+
+</main>
+<!-- End #main -->

@@ -1,0 +1,87 @@
+{% extends 'base-admin.html.twig' %} {% block title %}Products{% endblock %}{%
+block stylesheets %}
+{{ parent() }}
+
+<!-- Custom styles for this template-->
+<link href="{{ asset('admin/css/sb-admin-2.css') }}" rel="stylesheet" />
+<link rel="stylesheet" href="{{ asset('admin/css/style.css') }}" />
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+  integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+  crossorigin=""
+/>
+
+{% endblock %} {% block body %}
+<div class="table-wrapper">
+  <h1>Product</h1>
+
+  <table class="table">
+    <tbody>
+      <tr>
+        <th>Name</th>
+        <td>{{ product.name }}</td>
+      </tr>
+      <tr>
+        <th>Price</th>
+        <td>{{ product.price }}</td>
+      </tr>
+      <tr>
+        <th>Qty</th>
+        <td>{{ product.qty }}</td>
+      </tr>
+      <tr>
+        <th>Description</th>
+        <td>{{ product.description }}</td>
+      </tr>
+      <tr>
+        <th>Image</th>
+        <td>
+          <img
+            src="{{ asset('uploads/' ~ product.image) }}"
+            alt=""
+            width="100"
+            height="100"
+          />
+        </td>
+      </tr>
+      <tr>
+        <th>Rate</th>
+        <td>{{ product.rate }}</td>
+      </tr>
+      <tr>
+        <th>Location Fournisseur</th>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <a href="{{ path('app_products_index') }}">back to list</a>
+
+  <a href="{{ path('app_products_edit', { id: product.id }) }}">edit</a>
+  <a href="{{ path('print_product', { id: product.id }) }}">print</a>
+
+  {{ include("products/_delete_form.html.twig") }}
+</div>
+<div id="map"></div>
+<script
+  src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+  integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+  crossorigin=""
+></script>
+<script>
+    const p1 = {{ product.pos1|json_encode() }};
+  const p2 = {{ product.pos2|json_encode() }}
+
+  var map = L.map('map').setView([
+  36.70365959719456, 10.17818283871446
+  ], 7);
+  var OpenStreetMap_Mapnik = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 19,
+  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+
+  L.marker([p1, p2]).addTo(map).bindPopup('Bienvenu').openPopup();
+</script>
+
+{% endblock %}

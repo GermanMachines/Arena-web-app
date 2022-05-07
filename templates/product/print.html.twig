@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Product Print</title>
+    <link rel="stylesheet" href="/style.css" media="all" />
+</head>
+<body>
+<header class="clearfix">
+    <div id="logo">
+        ARENA
+    </div>
+    <h1 align="center">ARENA History </h1>
+    <hr></hr>
+    <div><span>Product: </span> {{ product.name }} </div>
+    <hr></hr>
+    <div id="company" class="clearfix">
+        <div><span>Category</span> {{ product.idcat.name}}  </div>
+        <div><span>Description</span> {{ product.description}}  </div>
+        <div><span>Quantity</span> {{ product.qty}}  </div>
+        <div class="alert-danger"><span class="alert-danger">Price</span> {{ product.price}} </div>
+        <div><span>Image</span> 
+            <img
+              src="{{ asset('uploads/' ~ product.image) }}"
+              alt="product_image"
+              style="width: 100px; height: 100px;"
+            />
+        </div>
+    </div>
+</header>
+</main>
+
+</body>

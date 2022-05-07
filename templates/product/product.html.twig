@@ -1,0 +1,48 @@
+{% extends 'base-front.html.twig' %}
+
+{% block body %}
+
+<section class="cart-section spad">
+    <div class="container">
+        <main class="product-container">
+    
+          <!-- Left Column -->
+          <div class="left-column">
+            <img
+              src="{{ asset('uploads/' ~ product.image) }}"
+              alt="product_image"
+              style="width: 300px; height: 300px;"
+            />
+          </div>
+    
+    
+          <!-- Right Column -->
+          <div class="right-column">
+    
+            <!-- Product Description -->
+            <div class="product-description">
+              {# <span>Headphones</span> #}
+              <h1 style="color: #ffffff;">{{product.name}}</h1>
+              <p>{{product.description}}</p>
+            </div>
+    
+            <!-- Product Configuration -->
+            <div class="product-configuration">
+            </div>
+    
+            <!-- Product Pricing -->
+            <div class="product-price">
+              <span style="color: #ffffff;">{{product.price}} TND</span>
+              <a href="{{ path('add_cart', { 'id' :product.id }) }}" class="btn btn-success float-right">
+                  <i class="fas fa-shopping-cart mr-1"></i>
+              </a>
+            </div>
+          </div>
+        </main>
+    </div>
+</section>
+
+<div class="nk-gap-2"></div>
+<div class="clearfix"></div>
+</div>
+{% endblock %}

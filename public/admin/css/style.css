@@ -1,0 +1,21 @@
+.table-wrapper {
+  margin: 50px;
+}
+
+#map {
+  height: 300px;
+  width: 80%;
+  display: block;
+  margin: auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.marker-position {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  padding: 10px;
+  font-weight: 700;
+  background-color: #fff;
+}

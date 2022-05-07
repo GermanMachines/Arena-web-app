@@ -3,13 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Post
  *
  * @ORM\Table(name="post")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
  */
+
 class Post
 {
     /**
@@ -23,14 +24,14 @@ class Post
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message=" titre doit etre non vide")
      * @ORM\Column(name="titre", type="string", length=255, nullable=false)
      */
     private $titre;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message=" auteur doit etre non vide")
      * @ORM\Column(name="auteur", type="string", length=255, nullable=false)
      */
     private $auteur;
@@ -44,17 +45,23 @@ class Post
 
     /**
      * @var string
-     *
+     * @Assert\Date(message=" date doit etre non vide")
      * @ORM\Column(name="date_post", type="string", length=255, nullable=false)
      */
     private $datePost;
 
     /**
      * @var int
+     * @Assert\NotBlank(message=" rate doit etre non vide")
+     * @Assert\Length(
+     *     
+     *      max = 1,
+     *      maxMessage=" Entrer un titre au max de 5 caracteres"
      *
+     *     )
      * @ORM\Column(name="rate", type="integer", nullable=false)
      */
-    private $rate;
+    private $rate = '0';
 
     public function getIdPost(): ?int
     {
@@ -119,6 +126,10 @@ class Post
         $this->rate = $rate;
 
         return $this;
+    }
+    public function __toString()
+    {
+        return $this->titre;
     }
 
 

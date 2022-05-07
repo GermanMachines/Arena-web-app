@@ -3,12 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Commentaire
  *
- * @ORM\Table(name="commentaire", indexes={@ORM\Index(name="fk_userr_comm", columns={"id_user"}), @ORM\Index(name="id_post", columns={"id_post"})})
- * @ORM\Entity
+ * @ORM\Table(name="commentaire", indexes={@ORM\Index(name="id_post", columns={"id_post"}), @ORM\Index(name="fk_userr_comm", columns={"id_user"})})
+ * @ORM\Entity(repositoryClass="App\Repository\CommentaireRepository")
  */
 class Commentaire
 {
@@ -22,48 +22,42 @@ class Commentaire
     private $idCom;
 
     /**
-     * @var int|null
-     *
-     * @ORM\Column(name="id_user", type="integer", nullable=true)
-     */
-    private $idUser;
-
-    /**
      * @var string
-     *
+     * @Assert\NotBlank(message=" description doit etre non vide")
      * @ORM\Column(name="desc_com", type="string", length=255, nullable=false)
      */
     private $descCom;
 
     /**
      * @var string
-     *
+     * @Assert\Date(message=" date doit etre non vide")
      * @ORM\Column(name="date_com", type="string", length=255, nullable=false)
      */
     private $dateCom;
 
     /**
-     * @var int
+     * @var \User
      *
-     * @ORM\Column(name="id_post", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id")
+     * })
+     */
+    private $idUser;
+
+    /**
+     * @var \Post
+     *
+     * @ORM\ManyToOne(targetEntity="Post")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_post", referencedColumnName="id_post")
+     * })
      */
     private $idPost;
 
     public function getIdCom(): ?int
     {
         return $this->idCom;
-    }
-
-    public function getIdUser(): ?int
-    {
-        return $this->idUser;
-    }
-
-    public function setIdUser(?int $idUser): self
-    {
-        $this->idUser = $idUser;
-
-        return $this;
     }
 
     public function getDescCom(): ?string
@@ -90,12 +84,24 @@ class Commentaire
         return $this;
     }
 
-    public function getIdPost(): ?int
+    public function getIdUser(): ?User
+    {
+        return $this->idUser;
+    }
+
+    public function setIdUser(?User $idUser): self
+    {
+        $this->idUser = $idUser;
+
+        return $this;
+    }
+
+    public function getIdPost(): ?Post
     {
         return $this->idPost;
     }
 
-    public function setIdPost(int $idPost): self
+    public function setIdPost(?Post $idPost): self
     {
         $this->idPost = $idPost;
 

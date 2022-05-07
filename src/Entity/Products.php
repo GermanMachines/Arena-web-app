@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Products
  *
- * @ORM\Table(name="products")
+ * @ORM\Table(name="products", indexes={@ORM\Index(name="FK_B3BA5A5ABF165E2F", columns={"idCat"})})
  * @ORM\Entity
  */
 class Products
@@ -57,18 +57,35 @@ class Products
     private $image;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="idCat", type="integer", nullable=false)
-     */
-    private $idcat;
-
-    /**
      * @var int|null
      *
      * @ORM\Column(name="rate", type="integer", nullable=true)
      */
     private $rate;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="pos1", type="float", precision=10, scale=0, nullable=false)
+     */
+    private $pos1;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="pos2", type="float", precision=10, scale=0, nullable=false)
+     */
+    private $pos2;
+
+    /**
+     * @var \Categories
+     *
+     * @ORM\ManyToOne(targetEntity="Categories")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idCat", referencedColumnName="id")
+     * })
+     */
+    private $idcat;
 
     public function getId(): ?int
     {
@@ -135,18 +152,6 @@ class Products
         return $this;
     }
 
-    public function getIdcat(): ?int
-    {
-        return $this->idcat;
-    }
-
-    public function setIdcat(int $idcat): self
-    {
-        $this->idcat = $idcat;
-
-        return $this;
-    }
-
     public function getRate(): ?int
     {
         return $this->rate;
@@ -155,6 +160,42 @@ class Products
     public function setRate(?int $rate): self
     {
         $this->rate = $rate;
+
+        return $this;
+    }
+
+    public function getPos1(): ?float
+    {
+        return $this->pos1;
+    }
+
+    public function setPos1(float $pos1): self
+    {
+        $this->pos1 = $pos1;
+
+        return $this;
+    }
+
+    public function getPos2(): ?float
+    {
+        return $this->pos2;
+    }
+
+    public function setPos2(float $pos2): self
+    {
+        $this->pos2 = $pos2;
+
+        return $this;
+    }
+
+    public function getIdcat(): ?Categories
+    {
+        return $this->idcat;
+    }
+
+    public function setIdcat(?Categories $idcat): self
+    {
+        $this->idcat = $idcat;
 
         return $this;
     }

@@ -1,0 +1,43 @@
+{% extends 'base-admin.html.twig' %} {% block title %}Orders{% endblock %} {%
+    block stylesheets %}
+    
+    <!-- Custom styles for this template-->
+    <link href="{{ asset('admin/css/sb-admin-2.css') }}" rel="stylesheet" />
+    
+    {% endblock %}{% block body %}
+<div class="table-wrapper">
+  <h1>Order</h1>
+
+  <table class="table">
+    <tbody>
+      <tr>
+        <th>Num</th>
+        <td>{{ order.num }}</td>
+      </tr>
+      <tr>
+        <th>Product</th>
+        <td>{{ order.idproduct.name }}</td>
+      </tr>
+      <tr>
+        <th>Client</th>
+        <td>{{ order.iduser.username }}</td>
+      </tr>
+      <tr>
+        <th>Productqty</th>
+        <td>{{ order.productqty }}</td>
+      </tr>
+      <tr>
+        <th>Createdat</th>
+        <td>{{ order.createdat ? order.createdat|date('Y-m-d') : '' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <a href="{{ path('app_orders_index') }}">back to list</a>
+  <a href="{{ path('print_order',{'id':order.id}) }}">print</a>
+
+  {# <a href="{{ path('app_orders_edit', { id: order.id }) }}">edit</a> #}
+
+  {# {{ include("orders/_delete_form.html.twig") }} #}
+</div>
+{% endblock %}
