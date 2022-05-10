@@ -41,6 +41,10 @@ class Orders
      * @ORM\Column(name="createdAt", type="date", nullable=true)
      */
     private $createdat;
+    public function __construct()
+    {
+        $this->createdat = new \DateTime();
+    }
 
     /**
      * @var \User
@@ -126,6 +130,9 @@ class Orders
 
         return $this;
     }
-
+    public function __toString()
+    {
+        return (string) $this->createdat;
+    }
 
 }

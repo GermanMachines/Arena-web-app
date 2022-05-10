@@ -88,33 +88,42 @@
 				<a href="home.html" class="site-logo">
 					<img src="{{ asset('front/./img/logo.png') }}" alt="">
 				</a>
+				
+                  
+					
+					
+				  {% if app.user == NULL  %}
+
 				<nav class="top-nav-area w-100">
 					<div class="user-panel">
                     <a href="{{ path('login') }}">Login</a> / <a href="{{ path('inscription') }}">Register</a>
 					</div>
+					{% else %}
+				
+					<nav class="top-nav-area w-100">
+					<div class="user-panel">
+                    <a href="{{ path('logout') }}"> Logout</a>
+					</div>
+					<div class="user-panel">
+                    <a href="{{ path('m',{'id':app.user.id}) }} ">  	Profile </a>
+					</div>
+					
+						{% if app.user.role == 'admin' %}
+							<nav class="top-nav-area w-100">
+					<div class="user-panel">
+							
+           				<a href="{{ path('app_admin') }}">See back /    </a>
+	
+					</div>
+					{% endif %}
+
+
+					{% endif %}
+
 					<!-- Menu Bar -->
 					<ul class="main-menu primary-menu">
 						<li><a href="{{ path('app_front') }}">Home</a></li>
 
- 		 <!--Go Gestion Avis-->
-
-						<li><a href="">Avis</a>
-							<ul class="sub-menu">
-								<li><a href="{{path('app_avis_index_front')}}"> Avis</a></li>
-							</ul>
-						</li>
-
-         <!--end Go Gestion Avis -->
-
-
-         <!--Go Gestion reclamation -->
-
-                        	<li><a href="">Reclamation</a>
-							<ul class="sub-menu">
-								<li><a href="{{path('app_reclamation_index_front')}}">Reclame </a></li>
-							</ul>
-						</li>
-         <!--end Go Gestion reclamation -->
 
 		<!--Go Gestion Equipes-->
 
@@ -138,15 +147,24 @@
 
 
          <!--Go Gestion Tournois-->
-
+							{% if app.user != NULL  %}
                         	<li><a href="{{ path('app_tournois_indexfront') }}">Tournois</a>
 							<ul class="sub-menu">
+						
 								<li><a href="{{ path('app_tournois_indexfront') }}">Tournois </a></li>
 								<li><a href="{{ path('app_participation_indexq') }}">MyList </a></li>
 								{#<li><a href="{{ path('app_matchs_indexfront') }}">MyMatchs </a></li> #} 
 
 							</ul>
 						</li>
+								{% else %}
+							<li><a href="{{ path('login') }}">Tournois</a>
+							<ul class="sub-menu">
+								 <li> <a href="{{ path('login') }}">Tournois</a></li>
+							</ul>
+						</li>
+                        
+						    {% endif %}
          <!--end Go Gestion Tournois-->
 
          <!--Go Gestion Posts-->
@@ -167,6 +185,50 @@
                 </ul>
               </li>
               <!--end Go Gestion Shop-->
+
+
+ 		 <!--Go Gestion Avis-->
+       
+			{% if app.user != NULL  %}
+
+						<li><a href="">Avis</a>
+							<ul class="sub-menu">
+								<li><a href="{{path('app_avis_index_front')}}"> Avis</a></li>
+							</ul>
+						</li>
+							{% else %}
+						<li><a href="">Avis</a>
+							<ul class="sub-menu">
+								<li><a href="{{path('login')}}"> Avis</a></li>
+							</ul>
+						</li>
+                        
+						    {% endif %}
+
+
+
+         <!--end Go Gestion Avis -->
+
+
+         <!--Go Gestion reclamation -->
+						{% if app.user != NULL  %}
+                        	<li><a href="">Reclamation</a>
+							<ul class="sub-menu">
+								<li><a href="{{path('app_reclamation_index_front')}}">Reclame </a></li>
+							</ul>
+						</li>
+							{% else %}
+								<li><a href="">Reclamation</a>
+							<ul class="sub-menu">
+								<li><a href="{{path('login')}}">Reclame </a></li>
+							</ul>
+						</li>
+						
+						    {% endif %}
+         <!--end Go Gestion reclamation -->
+
+
+
   <a href="{{ path('displaycart') }}">
                   <i class="fas fa-shopping-cart mr-1"></i>
                 </a>

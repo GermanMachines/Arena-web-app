@@ -1,4 +1,7 @@
-{% extends 'base-admin.html.twig' %} {% block title %}Products{% endblock %}{%
+{% extends 'base-admin.html.twig' %} 
+
+
+{% block title %}Products{% endblock %}{%
 block stylesheets %}
 {{ parent() }}
 
@@ -13,6 +16,9 @@ block stylesheets %}
 />
 
 {% endblock %} {% block body %}
+
+
+
 <div class="table-wrapper">
   <h1>Product</h1>
 
@@ -83,5 +89,4 @@ block stylesheets %}
 
   L.marker([p1, p2]).addTo(map).bindPopup('Bienvenu').openPopup();
 </script>
-
 {% endblock %}

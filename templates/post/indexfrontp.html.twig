@@ -36,8 +36,13 @@
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eius-mod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Lorem ipsum dolor sit amet, consecte-tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.....</p>
 								<a href="#" class="read-more">View posts
 									<img src="{{ asset('front/img/icons/double-arrow.png') }}" alt="#"/></a>
+
+									{% if app.user != NULL %}
 									<a href="{{ path('app_postcom', {'idPost': post.idPost}) }}"><i class="fa fa-comments-o" aria-hidden="true"></i>comments </a>
-							
+							    {% else %}
+									<a href="{{ path('login') }}"><i class="fa fa-comments-o" aria-hidden="true"></i>comments </a>
+
+								{% endif %}
 							</div>
 						</div>
 

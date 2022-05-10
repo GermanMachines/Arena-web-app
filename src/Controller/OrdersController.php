@@ -317,13 +317,13 @@ class OrdersController extends AbstractController
         $dataCart = $cart;
 
 
-       // return $this->redirectToRoute('displaycart', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('displaycart', [], Response::HTTP_SEE_OTHER);
 
         $s = 0;
 
-       // for ($i = 0; $i < count($dataCart); $i++) {
-      //      $s = $s + 1;
-      //  }
+        //for ($i = 0; $i < count($dataCart); $i++) {
+         //   $s = $s + 1;
+       // }
         // dd($s);
         return $this->render('order/order.html.twig', ['s', 'dataCart' => $dataCart, 'total' => $total, 'cart' => $cart]);
     }
