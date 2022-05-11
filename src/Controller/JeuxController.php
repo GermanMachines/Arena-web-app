@@ -259,7 +259,34 @@ class JeuxController extends AbstractController
 
 
 
+    /**
+     * @Route("/s/ModifierJeuxMobile/{idjeux}", name="ModifierJeuxMobile")
+     */
+    public function ModifierJeuxMobile(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $commande = $this->getDoctrine()->getManager()
+            ->getRepository(Jeux::class)
+            ->find($request->get("idjeux"));
 
+            $commande->setNomjeux($request->get("nomjeux"));
+            $commande->setImagejeux($request->get("imagejeux"));
+    
+
+        try {
+            $em->persist($commande);
+            $em->flush();
+
+            return new JsonResponse("Jeux Modifie!", 200);
+        }
+        catch (\Exception $ex)
+        {
+            return new Response("Execption: ".$ex->getMessage());
+        }
+
+        //http://127.0.0.1:8000/ModifierPodcastsMobile?id=8&user=9&produit=6&quantite=10&adresse=ariana
+
+    }
 
 
 
