@@ -204,6 +204,8 @@ class JeuxController extends AbstractController
 
 
 
+
+
     
     /**
      * @Route("/s/AjouterJeuxMobile", name="AjouterJeuxMobile")
@@ -229,6 +231,42 @@ class JeuxController extends AbstractController
 
 
     }
+
+
+    /**
+     * @Route("/s/deleteJeux/{idjeux}", name="app_JEUXM_delete")
+     */
+    public function removeJeux(EntityManagerInterface $entityManager,Request $request): Response
+    {
+
+        $id = $request->get("idjeux");
+        $Jeux= $entityManager
+            ->getRepository(Jeux::class)
+            ->findOneBy(array('idjeux' => $id));
+        if($Jeux!=null ) {
+            $entityManager->remove($Jeux);
+            $entityManager->flush();
+
+            $serialize = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serialize->normalize("Jeux a ete supprime avec success.");
+            return new JsonResponse($formatted);
+        }
+        return new JsonResponse("id jeux invalide");
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
