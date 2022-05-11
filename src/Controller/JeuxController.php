@@ -19,6 +19,10 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use App\Entity\Avis;
 use App\Form\AvisType;
 
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Serializer\Serializer;
+
 /**
  * @Route("/jeux")
  */
@@ -178,6 +182,53 @@ class JeuxController extends AbstractController
 
     }
 
+   /**
+     * @Route("/s/AfficherJeuxMobile", name="AfficherJeuxMobile")
+     */
+    public function AfficherJeuxMobile(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $commandes = $em->getRepository(Jeux::class)->findAll();
+
+        return $this->json($commandes,200,[],['groups'=>'post:read']);
+
+        //http://127.0.0.1:8000/AfficherCategorieMobile
+
+    }
+
+
+
+
+
+
+
+
+
+    
+    /**
+     * @Route("/s/AjouterJeuxMobile", name="AjouterJeuxMobile")
+     */
+    public function AjouterJeuxMobile(Request $request)
+    {
+        $Jeux = new Jeux();
+        $Jeux->setNomjeux($request->get("nomjeux"));
+        $Jeux->setImagejeux($request->get("imagejeux"));
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($Jeux);
+            $em->flush();
+
+            return new JsonResponse("Jeux Ajoute!", 200);
+        }
+        catch (\Exception $ex)
+        {
+            return new Response("Execption: ".$ex->getMessage());
+        }
+
+        //http://127.0.0.1:8000/AjouterCategorieMobile?user=9&produit=6&quantite=5&adresse=bouzid
+
+
+    }
 
 
 

@@ -238,6 +238,20 @@ class TournoisController extends AbstractController
         }
 
 
-
+     /**
+     * @Route("/s/AllTournois", name="AllTournois")
+     */
+    public function AllTournois(NormalizerInterface $Normalizer )
+    {
+    //Nous utilisons la Repository pour récupérer les objets que nous avons dans la base de données
+    $repository =$this->getDoctrine()->getRepository(Tournois::class);
+    $Tournois=$repository->findAll();
+    //Nous utilisons la fonction normalize qui transforme en format JSON nos donnée qui sont
+    //en tableau d'objet Students
+    $jsonContent=$Normalizer->normalize($Tournois,'json',['groups'=>'post:read']);
+    return new Response(json_encode($jsonContent));
+    dump($jsonContent);
+    die;
+}
 
 }
