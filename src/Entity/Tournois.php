@@ -20,6 +20,7 @@ class Tournois
      * @ORM\Column(name="IdTournois", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $idtournois;
 
@@ -27,6 +28,7 @@ class Tournois
      * @var string
      *
      * @ORM\Column(name="Titre", type="string", length=100, nullable=false)
+     * @Groups("post:read")
      */
     private $titre;
 
@@ -34,6 +36,7 @@ class Tournois
      * @var \DateTime
      *
      * @ORM\Column(name="Date_debut", type="date", nullable=false)
+     * @Groups("post:read")
      */
     private $dateDebut;
 
@@ -41,6 +44,7 @@ class Tournois
      * @var \DateTime
      *
      * @ORM\Column(name="Date_fin", type="date", nullable=false)
+     * @Groups("post:read")
      */
     private $dateFin;
 
@@ -48,6 +52,7 @@ class Tournois
      * @var string
      *
      * @ORM\Column(name="DescriptionTournois", type="string", length=500, nullable=false)
+     * @Groups("post:read")
      */
     private $descriptiontournois;
 
@@ -55,6 +60,7 @@ class Tournois
      * @var string
      *
      * @ORM\Column(name="Type", type="string", length=100, nullable=false)
+     * @Groups("post:read")
      */
     private $type;
 
@@ -62,6 +68,7 @@ class Tournois
      * @var int
      *
      * @ORM\Column(name="NbrParticipants", type="integer", nullable=false)
+     * @Groups("post:read")
      */
     private $nbrparticipants;
 
@@ -69,6 +76,7 @@ class Tournois
      * @var string|null
      *
      * @ORM\Column(name="Winner", type="string", length=255, nullable=true)
+     * @Groups("post:read")
      */
     private $winner;
 
@@ -76,6 +84,7 @@ class Tournois
      * @var string|null
      *
      * @ORM\Column(name="Status", type="string", length=255, nullable=true)
+     * @Groups("post:read")
      */
     private $status;
 
@@ -86,6 +95,7 @@ class Tournois
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="IdJeux", referencedColumnName="IdJeux")
      * })
+     * @Groups("post:read")
      */
     private $idjeux;
 
@@ -93,6 +103,7 @@ class Tournois
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Equipe", mappedBy="idtournois")
+     * @Groups("post:read")
      */
     private $idequipe;
 

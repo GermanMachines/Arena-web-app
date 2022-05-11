@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Jeux
  *
@@ -18,6 +18,7 @@ class Jeux
      * @ORM\Column(name="IdJeux", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $idjeux;
 
@@ -25,6 +26,7 @@ class Jeux
      * @var string
      *
      * @ORM\Column(name="NomJeux", type="string", length=500, nullable=false)
+     * @Groups("post:read")
      */
     private $nomjeux;
 
@@ -32,6 +34,7 @@ class Jeux
      * @var string
      *
      * @ORM\Column(name="ImageJeux", type="string", length=500, nullable=false)
+     * @Groups("post:read")
      */
     private $imagejeux;
 
