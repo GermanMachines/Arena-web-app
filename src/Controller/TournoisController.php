@@ -16,9 +16,12 @@ use App\Entity\Jeux;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use App\Repository\TournoisRepository;
 use Symfony\Component\Serializer\SerializerInterface;
-
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use App\Repository\UserRepository;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * @Route("/tournois")
  */
@@ -254,4 +257,100 @@ class TournoisController extends AbstractController
     die;
 }
 
+
+    /**
+     * @Route("/s/deleteTournois/{idtournois}", name="app_TournoisM_delete")
+     */
+    public function removeTournois(EntityManagerInterface $entityManager,Request $request): Response
+    {
+
+        $id = $request->get("idtournois");
+        $Tournois= $entityManager
+            ->getRepository(Tournois::class)
+            ->findOneBy(array('idtournois' => $id));
+        if($Tournois!=null ) {
+            $entityManager->remove($Tournois);
+            $entityManager->flush();
+
+            $serialize = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serialize->normalize("Tournois a ete supprime avec success.");
+            return new JsonResponse($formatted);
+        }
+        return new JsonResponse("id Tournois invalide");
+
+    }
+
+
+
+    /**
+     * @Route("/s/AjouterTournoisMobile", name="AjouterTournoisMobile")
+     */
+    public function AjouterTournoisMobile(Request $request)
+    {
+        $Tournois = new Tournois();
+        $Tournois->setTitre($request->get("titre"));
+        $Tournois->setDateDebut($request->get("dateDebut"));
+        $Tournois->setDateFin($request->get("dateFin"));
+        $Tournois->setDescriptiontournois($request->get("descriptiontournois"));
+        $Tournois->setType($request->get("type"));
+        $Tournois->setNbrparticipants($request->get("nbrparticipants"));
+        $Tournois->setWinner($request->get("winner"));
+        $Tournois->setStatus($request->get("status"));
+        $Tournois->setIdjeux($request->get("idjeux"));
+
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($Tournois);
+            $em->flush();
+
+            return new JsonResponse("Tournois Ajoute!", 200);
+        }
+        catch (\Exception $ex)
+        {
+            return new Response("Execption: ".$ex->getMessage());
+        }
+
+        //http://127.0.0.1:8000/AjouterCategorieMobile?user=9&produit=6&quantite=5&adresse=bouzid
+
+
+    }
+
+
+
+    /**
+     * @Route("/s/ModifierTournoisMobile/{idTournois}", name="ModifierTournoisMobile")
+     */
+    public function ModifierTournoisMobile(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $commande = $this->getDoctrine()->getManager()
+            ->getRepository(Tournois::class)
+            ->find($request->get("idTournois"));
+
+            $commande->setNomTournois($request->get("nomTournois"));
+            $commande->setImageTournois($request->get("imageTournois"));
+            $commande->setTitre($request->get("titre"));
+            $commande->setDateDebut($request->get("dateDebut"));
+            $commande->setDateFin($request->get("dateFin"));
+            $commande->setDescriptiontournois($request->get("descriptiontournois"));
+            $commande->setType($request->get("type"));
+            $commande->setNbrparticipants($request->get("nbrparticipants"));
+            $commande->setWinner($request->get("winner"));
+            $commande->setStatus($request->get("status"));
+            $commande->setIdjeux($request->get("idjeux"));
+
+        try {
+            $em->persist($commande);
+            $em->flush();
+
+            return new JsonResponse("Tournois Modifie!", 200);
+        }
+        catch (\Exception $ex)
+        {
+            return new Response("Execption: ".$ex->getMessage());
+        }
+
+        //http://127.0.0.1:8000/ModifierPodcastsMobile?id=8&user=9&produit=6&quantite=10&adresse=ariana
+
+    }
 }
