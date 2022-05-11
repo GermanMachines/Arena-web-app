@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Tournois
@@ -254,7 +255,8 @@ class Tournois
 
         return $this;
     }
-    public function __toString() {
+    public function __toString()
+    {
         return strval($this->idtournois);
     }
 }
