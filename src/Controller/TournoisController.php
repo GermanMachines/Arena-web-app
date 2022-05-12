@@ -22,6 +22,7 @@ use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
 /**
  * @Route("/tournois")
  */
@@ -42,7 +43,7 @@ class TournoisController extends AbstractController
     }
 
 
-    
+
     /**
      * @Route("/front", name="app_tournois_indexfront", methods={"GET"})
      */
@@ -52,16 +53,16 @@ class TournoisController extends AbstractController
             ->getRepository(Tournois::class)
             ->findAll();
 
-            $counter=[];
-            foreach($tournois as $t){
-            $counter[]=sizeof($t->getIdequipe());
-            }
+        $counter = [];
+        foreach ($tournois as $t) {
+            $counter[] = sizeof($t->getIdequipe());
+        }
 
-            $user1 = $this->get('security.token_storage')->getToken()->getUser();
+        $user1 = $this->get('security.token_storage')->getToken()->getUser();
 
         return $this->render('tournois/indexfront.html.twig', [
             'tournois' => $tournois,
-            'counter'=>$counter,
+            'counter' => $counter,
             'u' => $user1,
         ]);
     }
@@ -123,7 +124,7 @@ class TournoisController extends AbstractController
      */
     public function delete(Request $request, Tournois $tournoi, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$tournoi->getIdtournois(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $tournoi->getIdtournois(), $request->request->get('_token'))) {
             $entityManager->remove($tournoi);
             $entityManager->flush();
         }
@@ -134,20 +135,20 @@ class TournoisController extends AbstractController
 
 
 
-    
 
-  /**
+
+    /**
      * @Route("/delete/{idtournois}", name="app_participation_delete", methods={"POST"})
      */
-    public function deleteparticipation(Request $request, Tournois $tournoi, EntityManagerInterface $entityManager,$idtournois): Response
+    public function deleteparticipation(Request $request, Tournois $tournoi, EntityManagerInterface $entityManager, $idtournois): Response
     {
         $user1 = $this->get('security.token_storage')->getToken()->getUser();
 
         $Equipe = $this->getDoctrine()->getRepository(Equipe::class)->find($user1->getIdEquipe());
         $Tournois = $this->getDoctrine()->getRepository(Tournois::class)->find($idtournois);
-            $Tournois->removeIdequipe($Equipe);
-            $entityManager->flush();
-    
+        $Tournois->removeIdequipe($Equipe);
+        $entityManager->flush();
+
         return $this->redirectToRoute('app_participation_indexq', [], Response::HTTP_SEE_OTHER);
     }
 
@@ -159,116 +160,113 @@ class TournoisController extends AbstractController
 
 
 
-       /**
+    /**
      * @Route("/new/statistique", name="Tournois_stats")
      */
 
-    public function statistiques(Request $request , TournoisRepository $TournoisRep){
-        $Tournois= [];
-        $Tournois= $this->getDoctrine()->getRepository(Tournois::class)->findAll();
-        $Jeux= $this->getDoctrine()->getRepository(Jeux::class)->findAll();
+    public function statistiques(Request $request, TournoisRepository $TournoisRep)
+    {
+        $Tournois = [];
+        $Tournois = $this->getDoctrine()->getRepository(Tournois::class)->findAll();
+        $Jeux = $this->getDoctrine()->getRepository(Jeux::class)->findAll();
 
-        $categNom=[];
-        $Tournoiscount=[];   
-  
+        $categNom = [];
+        $Tournoiscount = [];
 
-        $checker=[];
-      
-        foreach($Tournois as $tournois){
 
-            if(in_array( $tournois->getidjeux() , $checker) ){
-               
-            }else{
-                $checker[]=$tournois->getidjeux();
-            $Tournoisx=$TournoisRep->countbyjeux($tournois->getidjeux());
+        $checker = [];
 
-          $categNom[]= $tournois->getidjeux()->getNomjeux(); 
-           $Tournoiscount[]= $Tournoisx[0]['count'];
-                
+        foreach ($Tournois as $tournois) {
+
+            if (in_array($tournois->getidjeux(), $checker)) {
+            } else {
+                $checker[] = $tournois->getidjeux();
+                $Tournoisx = $TournoisRep->countbyjeux($tournois->getidjeux());
+
+                $categNom[] = $tournois->getidjeux()->getNomjeux();
+                $Tournoiscount[] = $Tournoisx[0]['count'];
             }
-
         }
 
-      
-  
-        return $this->render('tournois/tournoisStats.html.twig',[
-          'categNom'=>json_encode($categNom),
-          'rolescount'=>json_encode($Tournoiscount),
-  
+
+
+        return $this->render('tournois/tournoisStats.html.twig', [
+            'categNom' => json_encode($categNom),
+            'rolescount' => json_encode($Tournoiscount),
+
         ]);
     }
-  
+
 
     /**
      * @Route("/s/searchTour", name="searchTour")
      */
-    public function searchTournois(Request $request,NormalizerInterface $Normalizer,TournoisRepository $repository,SerializerInterface $serializer):Response
+    public function searchTournois(Request $request, NormalizerInterface $Normalizer, TournoisRepository $repository, SerializerInterface $serializer): Response
     {
-        $requestString=$request->get('searchValue');
+        $requestString = $request->get('searchValue');
         $Tournois = $repository->findByNom($requestString);
-        $jsonContent = $serializer->serialize($Tournois, 'json',['Groups'=>'Tournois']);
-        $retour =json_encode($jsonContent);
+        $jsonContent = $serializer->serialize($Tournois, 'json', ['Groups' => 'Tournois']);
+        $retour = json_encode($jsonContent);
         return new Response($retour);
-
     }
 
 
-        /**
-         * @Route("event/calendar", name="calendar")
-         */
-        public function calendar(): Response
-        {
-            // $event = $calendar->findAll();
-            $event = $this->getDoctrine()->getRepository(Tournois::class)->findAll();
-            $rdvs = [];
-            $allDay = true;
-            foreach ($event as $event) {
-                $rdvs[] = [
-                    'id' => $event->getIdtournois(),
-                    'start' => $event->getDateDebut()->format('Y-m-d H:i:s'),
-                    'end' => $event->getDateFin()->format('Y-m-d H:i:s'),
-                    'title' => $event->getTitre(),
-                    'description' => $event->getDescriptiontournois(),
-                    'backgroundColor' => "#45bf98",
-                    'borderColor' => "#000000",
-                    'textColor' => "#ffffff",
-                    'allDay' => $allDay,
+    /**
+     * @Route("event/calendar", name="calendar")
+     */
+    public function calendar(): Response
+    {
+        // $event = $calendar->findAll();
+        $event = $this->getDoctrine()->getRepository(Tournois::class)->findAll();
+        $rdvs = [];
+        $allDay = true;
+        foreach ($event as $event) {
+            $rdvs[] = [
+                'id' => $event->getIdtournois(),
+                'start' => $event->getDateDebut()->format('Y-m-d H:i:s'),
+                'end' => $event->getDateFin()->format('Y-m-d H:i:s'),
+                'title' => $event->getTitre(),
+                'description' => $event->getDescriptiontournois(),
+                'backgroundColor' => "#45bf98",
+                'borderColor' => "#000000",
+                'textColor' => "#ffffff",
+                'allDay' => $allDay,
 
-                ];
-            }
-            $data = json_encode($rdvs);
-            return $this->render('tournois/test.html.twig', compact('data'));
+            ];
         }
+        $data = json_encode($rdvs);
+        return $this->render('tournois/test.html.twig', compact('data'));
+    }
 
 
-     /**
+    /**
      * @Route("/s/AllTournois", name="AllTournois")
      */
-    public function AllTournois(NormalizerInterface $Normalizer )
+    public function AllTournois(NormalizerInterface $Normalizer)
     {
-    //Nous utilisons la Repository pour récupérer les objets que nous avons dans la base de données
-    $repository =$this->getDoctrine()->getRepository(Tournois::class);
-    $Tournois=$repository->findAll();
-    //Nous utilisons la fonction normalize qui transforme en format JSON nos donnée qui sont
-    //en tableau d'objet Students
-    $jsonContent=$Normalizer->normalize($Tournois,'json',['groups'=>'post:read']);
-    return new Response(json_encode($jsonContent));
-    dump($jsonContent);
-    die;
-}
+        //Nous utilisons la Repository pour récupérer les objets que nous avons dans la base de données
+        $repository = $this->getDoctrine()->getRepository(Tournois::class);
+        $Tournois = $repository->findAll();
+        //Nous utilisons la fonction normalize qui transforme en format JSON nos donnée qui sont
+        //en tableau d'objet Students
+        $jsonContent = $Normalizer->normalize($Tournois, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($jsonContent));
+        dump($jsonContent);
+        die;
+    }
 
 
     /**
      * @Route("/s/deleteTournois/{idtournois}", name="app_TournoisM_delete")
      */
-    public function removeTournois(EntityManagerInterface $entityManager,Request $request): Response
+    public function removeTournois(EntityManagerInterface $entityManager, Request $request): Response
     {
 
         $id = $request->get("idtournois");
-        $Tournois= $entityManager
+        $Tournois = $entityManager
             ->getRepository(Tournois::class)
             ->findOneBy(array('idtournois' => $id));
-        if($Tournois!=null ) {
+        if ($Tournois != null) {
             $entityManager->remove($Tournois);
             $entityManager->flush();
 
@@ -277,7 +275,6 @@ class TournoisController extends AbstractController
             return new JsonResponse($formatted);
         }
         return new JsonResponse("id Tournois invalide");
-
     }
 
 
@@ -298,7 +295,11 @@ class TournoisController extends AbstractController
         $Tournois->setNbrparticipants($request->get("nbrparticipants"));
         $Tournois->setWinner($request->get("winner"));
         $Tournois->setStatus($request->get("status"));
-       // $Tournois->setIdjeux($request->get("idjeux"));
+
+        $em = $this->getDoctrine()->getManager();
+        $jeux = $this->getDoctrine()->getRepository(Jeux::class)->find($request->get("idjeux"));
+
+        $Tournois->setIdjeux($jeux);
 
         try {
             $em = $this->getDoctrine()->getManager();
@@ -306,10 +307,8 @@ class TournoisController extends AbstractController
             $em->flush();
 
             return new JsonResponse("Tournois Ajoute!", 200);
-        }
-        catch (\Exception $ex)
-        {
-            return new Response("Execption: ".$ex->getMessage());
+        } catch (\Exception $ex) {
+            return new Response("Execption: " . $ex->getMessage());
         }
 
         //http://127.0.0.1:8000/AjouterCategorieMobile?user=9&produit=6&quantite=5&adresse=bouzid
@@ -330,25 +329,23 @@ class TournoisController extends AbstractController
             ->find($request->get("idTournois"));
 
 
-            $commande->setTitre($request->get("titre"));
-            $commande->setDateDebut(\DateTime::createFromFormat('Y-m-d', "2022-05-13"));
-            $commande->setDateFin(\DateTime::createFromFormat('Y-m-d', "2022-05-16"));
-            $commande->setDescriptiontournois($request->get("descriptiontournois"));
-            $commande->setType($request->get("type"));
-            $commande->setNbrparticipants($request->get("nbrparticipants"));
-            $commande->setWinner($request->get("winner"));
-            $commande->setStatus($request->get("status"));
-            //$commande->setIdjeux($request->get("idjeux"));
+        $commande->setTitre($request->get("titre"));
+        $commande->setDateDebut(\DateTime::createFromFormat('Y-m-d', "2022-05-13"));
+        $commande->setDateFin(\DateTime::createFromFormat('Y-m-d', "2022-05-16"));
+        $commande->setDescriptiontournois($request->get("descriptiontournois"));
+        $commande->setType($request->get("type"));
+        $commande->setNbrparticipants($request->get("nbrparticipants"));
+        $commande->setWinner($request->get("winner"));
+        $commande->setStatus($request->get("status"));
+        //$commande->setIdjeux($request->get("idjeux"));
 
         try {
             $em->persist($commande);
             $em->flush();
 
             return new JsonResponse("Tournois Modifie!", 200);
-        }
-        catch (\Exception $ex)
-        {
-            return new Response("Execption: ".$ex->getMessage());
+        } catch (\Exception $ex) {
+            return new Response("Execption: " . $ex->getMessage());
         }
 
         //http://127.0.0.1:8000/ModifierPodcastsMobile?id=8&user=9&produit=6&quantite=10&adresse=ariana
