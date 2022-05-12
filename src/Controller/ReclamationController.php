@@ -35,6 +35,20 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class ReclamationController extends AbstractController
 {
     /**
+     * @Route("/json/search", name="app_reclamation_search_json")
+     */
+    public function searchAdavancedJSON(Request $request, NormalizerInterface $normalizer): Response
+    {
+
+
+        $input = $request->get('search');
+        $form = $this->createForm(SearchReclamationType::class);
+        $reclamations = $this->getDoctrine()->getRepository(Reclamation::class)->search($input);
+        $json_content = $normalizer->normalize($reclamations, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($json_content));
+    }
+
+    /**
      * @Route("/json/addReclamationJSON", name="add_add_reclamation_json" , methods={"GET"})
      */
     public function addReclamation(Request $request, NormalizerInterface $normalizer)
