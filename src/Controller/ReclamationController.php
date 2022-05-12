@@ -35,27 +35,11 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class ReclamationController extends AbstractController
 {
     /**
-     * @Route("/updateReclamationJSON/{id}",name="update_reclamation_json" , methods={"GET"})
-     */
-    public function updateReclamationByIdJSON(Request $request, $id, NormalizerInterface $normalizer)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $reclamation = new Reclamation();
-        $reclamation = $em->getRepository(Reclamation::class)->find($id);
-        // dd($request->get('titre'));
-        $reclamation->setTitre($request->get('titre'));
-        $reclamation->setMessage($request->get('message'));
-        $em->flush();
-
-        $json_content = $normalizer->normalize($reclamation, 'json', ['groups' => 'post:read']);
-        return new Response(json_encode($json_content));
-    }
-
-    /**
-     * @Route("/addReclamationJSON", name="add_reclamation_json" , methods={"GET"})
+     * @Route("/json/addReclamationJSON", name="add_add_reclamation_json" , methods={"GET"})
      */
     public function addReclamation(Request $request, NormalizerInterface $normalizer)
     {
+
         $em = $this->getDoctrine()->getManager();
 
         $idUser = $request->get('iduser');
@@ -79,6 +63,28 @@ class ReclamationController extends AbstractController
         $json_content = $normalizer->normalize($rec, 'json', ['groups' => 'post:read']);
         return new Response(json_encode($json_content));
     }
+
+    /**
+     * @Route("/updateReclamationJSON",name="update_reclamation_json" , methods={"GET"})
+     */
+    public function updateReclamationByIdJSON(Request $request, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $reclamation = new Reclamation();
+        $reclamation = $em->getRepository(Reclamation::class)->find($request->get('id'));
+        // dd($request->get('titre'));
+        $reclamation->setTitre($request->get('titre'));
+        $reclamation->setMessage($request->get('message'));
+        $categoryReclamation = new Categoryreclamation();
+        $categoryReclamation = $em->getRepository(Categoryreclamation::class)->find($request->get('catid'));
+        $reclamation->setIdcategoryreclamation($categoryReclamation);
+        $em->flush();
+
+        $json_content = $normalizer->normalize($reclamation, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($json_content));
+    }
+
+
 
     /**
      * @Route("/getReclamationsJSON", name="get_reclamation_json" , methods={"GET"})

@@ -90,6 +90,19 @@ class Reclamation
      */
     private $idcategoryreclamation;
 
+
+    private $idcat;
+
+
+    public function getIdcCat(): ?int
+    {
+        return $this->idcat;
+    }
+
+    public function setIdCat($idcat)
+    {
+        $this->$idcat = $idcat;
+    }
     public function getId(): ?int
     {
         return $this->id;
