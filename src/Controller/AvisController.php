@@ -18,24 +18,9 @@ use App\Entity\User;
  */
 class AvisController extends AbstractController
 {
-    /**
-     * @Route("/updateAvisJSON/{id}",name="update_Avis_json" , methods={"GET"})
-     */
-    public function updateAvisByIdJSON(Request $request, $id, NormalizerInterface $normalizer)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $avis = new Avis();
-        $avis = $em->getRepository(Avis::class)->find($id);
-        $avis->setScore($request->get('score'));
-        $avis->setCommentaire($request->get('commentaire'));
-        $em->flush();
-
-        $json_content = $normalizer->normalize($avis, 'json', ['groups' => 'post:read']);
-        return new Response(json_encode($json_content));
-    }
 
     /**
-     * @Route("/addAvisJSON", name="add_avis_json", methods={"GET"})
+     * @Route("/addAvisJSON", name="add_avis_jsona", methods={"GET"})
      */
     public function addAvisJson(Request $request, NormalizerInterface $normalizer)
     {
@@ -59,6 +44,27 @@ class AvisController extends AbstractController
         $json_content = $normalizer->normalize($avis, 'json', ['groups' => 'post:read']);
         return new Response(json_encode($json_content));
     }
+
+    /**
+     * @Route("/updateAvisJSON",name="update_Avis_json" , methods={"GET"})
+     */
+    public function updateAvisByIdJSON(Request $request, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $avis = new Avis();
+
+        $id = $request->get("id");
+
+        $avis = $em->getRepository(Avis::class)->find($id);
+        $avis->setScore($request->get('score'));
+        $avis->setCommentaire($request->get('commentaire'));
+        $em->flush();
+
+        $json_content = $normalizer->normalize($avis, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($json_content));
+    }
+
+
     /**
      * @Route("/getAvisJSON/{id}",name="get__avis_json" , methods={"GET"})
      */
@@ -81,11 +87,29 @@ class AvisController extends AbstractController
     }
 
     /**
-     * @Route("/deleteAvisJSON/{id}",name="delete_avis_json" , methods={"GET"})
+     * @Route("/getAllAvisJSONFront",name="get_all_avis_json" , methods={"GET"})
      */
-    public function deleteReclamationByIdJSON(Request $request, $id, NormalizerInterface $normalizer)
+    public function getAllAvisJSONFront(Request $request, NormalizerInterface $normalizer)
     {
         $em = $this->getDoctrine()->getManager();
+        $idUser = $request->get("iduser");
+
+        $avis = $em
+            ->getRepository(Avis::class)
+            ->findBy(array('idutulisateur' => $idUser));
+
+        $json_content = $normalizer->normalize($avis, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($json_content));
+    }
+
+
+    /**
+     * @Route("/deleteAvisJSON",name="delete_avis_json" , methods={"GET"})
+     */
+    public function deleteReclamationByIdJSON(Request $request, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->get("id");
 
         $avis = $this->getDoctrine()->getRepository(Avis::class)->find($id);
         $em->remove($avis);

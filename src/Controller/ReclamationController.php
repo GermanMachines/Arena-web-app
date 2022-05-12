@@ -99,6 +99,24 @@ class ReclamationController extends AbstractController
     }
 
 
+    /**
+     * @Route("/getReclamationsJSONFront", name="get_reclamation_json_front" , methods={"GET"})
+     */
+    public function getAllReclamationsFront(Request $request, NormalizerInterface $normalizer)
+    {
+
+        $idUser = $request->get("iduser");
+
+        $em = $this->getDoctrine()->getManager();
+
+        $reclamations = $em
+            ->getRepository(Reclamation::class)
+            ->findBy(array('iduser' =>
+            $idUser));
+
+        $json_content = $normalizer->normalize($reclamations, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($json_content));
+    }
 
     /**
      * @Route("/getReclamationsJSON", name="get_reclamation_json" , methods={"GET"})
