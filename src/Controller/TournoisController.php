@@ -289,14 +289,16 @@ class TournoisController extends AbstractController
     {
         $Tournois = new Tournois();
         $Tournois->setTitre($request->get("titre"));
-        $Tournois->setDateDebut($request->get("dateDebut"));
-        $Tournois->setDateFin($request->get("dateFin"));
+
+
+        $Tournois->setDateDebut(\DateTime::createFromFormat('Y-m-d', "2022-05-11"));
+        $Tournois->setDateFin(\DateTime::createFromFormat('Y-m-d', "2022-05-15"));
         $Tournois->setDescriptiontournois($request->get("descriptiontournois"));
         $Tournois->setType($request->get("type"));
         $Tournois->setNbrparticipants($request->get("nbrparticipants"));
         $Tournois->setWinner($request->get("winner"));
         $Tournois->setStatus($request->get("status"));
-        $Tournois->setIdjeux($request->get("idjeux"));
+       // $Tournois->setIdjeux($request->get("idjeux"));
 
         try {
             $em = $this->getDoctrine()->getManager();
@@ -311,7 +313,7 @@ class TournoisController extends AbstractController
         }
 
         //http://127.0.0.1:8000/AjouterCategorieMobile?user=9&produit=6&quantite=5&adresse=bouzid
-
+        //http://127.0.0.1:8000/tournois/s/AjouterTournoisMobile?titre=tz&dateDebut=2017-02-01T00:00:00+01:00&dateFin=2017-03-01T00:00:00+01:00&descriptiontournois=test&type=Equipe&nbrparticipants=11&winner=NULL&status=NULL&idjeux=0
 
     }
 
@@ -327,17 +329,16 @@ class TournoisController extends AbstractController
             ->getRepository(Tournois::class)
             ->find($request->get("idTournois"));
 
-            $commande->setNomTournois($request->get("nomTournois"));
-            $commande->setImageTournois($request->get("imageTournois"));
+
             $commande->setTitre($request->get("titre"));
-            $commande->setDateDebut($request->get("dateDebut"));
-            $commande->setDateFin($request->get("dateFin"));
+            $commande->setDateDebut(\DateTime::createFromFormat('Y-m-d', "2022-05-13"));
+            $commande->setDateFin(\DateTime::createFromFormat('Y-m-d', "2022-05-16"));
             $commande->setDescriptiontournois($request->get("descriptiontournois"));
             $commande->setType($request->get("type"));
             $commande->setNbrparticipants($request->get("nbrparticipants"));
             $commande->setWinner($request->get("winner"));
             $commande->setStatus($request->get("status"));
-            $commande->setIdjeux($request->get("idjeux"));
+            //$commande->setIdjeux($request->get("idjeux"));
 
         try {
             $em->persist($commande);
