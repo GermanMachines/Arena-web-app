@@ -293,10 +293,10 @@ class UserController extends AbstractController
         return new Response("User Deleted successfully" . json_encode($jsonContent));
     }
 
-     /**
-     * @Route("/AddUserr",name="ad")
-     */
-    function AddUser(Request $request, UserPasswordEncoderInterface $passwordEncoder, NormalizerInterface $Normalizer, \Swift_Mailer $mailer)
+    // /**
+   //  * @Route("/AddUserr",name="ad")
+   //  */
+    /*function AddUser(Request $request, UserPasswordEncoderInterface $passwordEncoder, NormalizerInterface $Normalizer, \Swift_Mailer $mailer)
     { $randomString = 55484;
         $user = new User();
         $session = $request->getSession();
@@ -343,6 +343,78 @@ class UserController extends AbstractController
 
 
     }
+
+    */
+
+    /**
+     * @Route("/AddUserr",name="ad")
+     */
+    function AddUser(Request $request, UserPasswordEncoderInterface $passwordEncoder, NormalizerInterface $Normalizer, \Swift_Mailer $mailer)
+    { $randomString = 55484;
+        $user = new User();
+        $session = $request->getSession();
+        $user->setNom($request->get('nom'));
+        $user->setSurnom($request->get('surnom'));
+        $user->setImage($request->get('image'));
+        $user->setEmail($request->get('email'));
+        $user->setMdp(
+            $passwordEncoder->encodePassword(
+                $user,
+                $request->get('mdp')
+            )
+        );
+
+        $user->setTelephone($request->get('telephone'));
+       // $user->setIdEquipe($request->get("idequipe"));
+        
+        
+        $user->setRole($request->get('role'));
+        $user->setBlock($request->get('block'));
+        $user->setRoles($request->get('roles'));
+        $user->setUsername($request->get('username'));
+       
+
+       
+        $em = $this->getDoctrine()->getManager();
+        $session->set('ok', $user->getPassword());
+        $em->persist($user);
+        $em->flush();
+        $email = (new \Swift_Message('Inscription:' . $user->getNom()))
+        // ->setFrom('mohammedmohsen.khefacha@esprit.tn')
+        // ->setFrom('mohamedaziz.sahnoun@esprit.tn')
+        ->setFrom('nour.boujmil@esprit.tn')
+         ->setTo($user->getEmail())
+         ->setBody($this->render('emails/tousermotdepass.html.twig', [
+            'user' => $user,
+            'randomstring'=>$randomString
+        ]
+    ), 'text/html'
+
+    );
+     $mailer->send($email);
+
+     $sid = "ACf920c722af1c2207c54355e3b18da3ee"; // Your Account SID from www.twilio.com/console
+     $token = "55885ea3ce08dc21be9da7f12d70ca48"; // Your Auth Token from www.twilio.com/console
+
+     $twilio_number = "+19705175489";
+
+     $client = new Client($sid, $token);
+     $client->messages->create(
+     // Where to send a text message (your cell phone?)
+         '+216'.$user->getTelephone(),
+         array(
+             'from' => $twilio_number,
+             'body' => 'vous avez été enregisté sur Arena Mobile'
+         ));
+
+        return new Response("user added succ");
+
+
+    }
+
+
+
+
 
      /**
      * @Route("/User/{id}",name="Users")
