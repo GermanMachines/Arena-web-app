@@ -26,6 +26,56 @@ class CategoryreclamationController extends AbstractController
         $categoriesReclamationJson = $normalize->normalize($categoriesReclamation, 'json');
         return new Response(json_encode($categoriesReclamationJson));
     }
+    /**
+     * @Route("/addCategorieReclamationJSON",name="add_categories_rec_json")
+     */
+    public function addCategorieReclamation(Request $request, NormalizerInterface $normalizer)
+    {
+
+
+        $em = $this->getDoctrine()->getManager();
+
+        $nomCategorie = $request->get('nom');
+
+        $cat = new Categoryreclamation();
+        $cat->setNom($nomCategorie);
+
+        $em->persist($cat);
+        $em->flush();
+        $json_content = $normalizer->normalize($cat, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($json_content));
+    }
+    /**
+     * @Route("/updateCategorieReclamationJSON",name="update_cat_reclamation_json" , methods={"GET"})
+     */
+    public function updateReclamationByIdJSON(Request $request, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $cat = new Categoryreclamation();
+        $cat = $em->getRepository(Categoryreclamation::class)->find($request->get('id'));
+        // dd($request->get('titre'));
+        $cat->setNom($request->get('nom'));
+
+        $em->flush();
+
+        $json_content = $normalizer->normalize($cat, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($json_content));
+    }
+    /**
+     * @Route("/deleteCategoriReclamationJSON/{id}",name="delete_cat_reclamation_json" , methods={"GET"})
+     */
+    public function deleteReclamationByIdJSON(Request $request, $id, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $cat = $this->getDoctrine()->getRepository(Categoryreclamation::class)->find($id);
+        $em->remove($cat);
+        $em->flush();
+        $json_content = $normalizer->normalize($cat, 'json', ['groups' => 'post:read']);
+        return new Response("Reclamation Deleted successfuly" . json_encode($json_content));
+    }
+
+
 
 
     /**
