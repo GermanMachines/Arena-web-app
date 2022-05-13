@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Products
  *
  * @ORM\Table(name="products", indexes={@ORM\Index(name="FK_B3BA5A5ABF165E2F", columns={"idCat"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ProductsRepository")
  */
 class Products
 {
@@ -18,41 +20,51 @@ class Products
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $id;
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Name is required")
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $name;
 
     /**
      * @var int
+     * @Assert\NotBlank(message="Price is required")
      *
      * @ORM\Column(name="price", type="integer", nullable=false)
+     * @Groups("post:read")
      */
     private $price;
 
     /**
      * @var int
+     * @Assert\NotBlank(message="Quantity is required")
      *
      * @ORM\Column(name="qty", type="integer", nullable=false)
+     * @Groups("post:read")
      */
     private $qty;
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Description is required")
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $description;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="image", type="string", length=255, nullable=false)
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     * @Groups("post:read")
      */
     private $image;
 
@@ -60,25 +72,29 @@ class Products
      * @var int|null
      *
      * @ORM\Column(name="rate", type="integer", nullable=true)
+     * @Groups("post:read")
      */
     private $rate;
 
     /**
-     * @var float
+     * @var float|null
      *
-     * @ORM\Column(name="pos1", type="float", precision=10, scale=0, nullable=false)
+     * @ORM\Column(name="pos1", type="float", nullable=false)
+     * @Groups("post:read")
      */
     private $pos1;
 
     /**
-     * @var float
+     * @var float|null
      *
-     * @ORM\Column(name="pos2", type="float", precision=10, scale=0, nullable=false)
+     * @ORM\Column(name="pos2", type="float", nullable=false)
+     * @Groups("post:read")
      */
     private $pos2;
 
     /**
      * @var \Categories
+     * @Assert\NotBlank(message="Category is required")
      *
      * @ORM\ManyToOne(targetEntity="Categories")
      * @ORM\JoinColumns({
@@ -164,6 +180,17 @@ class Products
         return $this;
     }
 
+    public function getIdcat(): ?Categories
+    {
+        return $this->idcat;
+    }
+
+    public function setIdcat(?Categories $idcat): self
+    {
+        $this->idcat = $idcat;
+
+        return $this;
+    }
     public function getPos1(): ?float
     {
         return $this->pos1;
@@ -188,17 +215,8 @@ class Products
         return $this;
     }
 
-    public function getIdcat(): ?Categories
+    public function __toString()
     {
-        return $this->idcat;
+        return (string) $this->name;
     }
-
-    public function setIdcat(?Categories $idcat): self
-    {
-        $this->idcat = $idcat;
-
-        return $this;
-    }
-
-
 }

@@ -257,4 +257,67 @@ class ProductsController extends AbstractController
         $retour = json_encode($jsonContent);
         return new Response($retour);
     }
+
+
+    
+    /**
+     * @Route("/product/getproductmobile", name="get_products_mobile")
+     */
+    public function getProductsMobile(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $commandes = $em->getRepository(Products::class)->findAll();
+
+        return $this->json($commandes, 200, [], ['groups' => 'post:read']);
+    }
+
+
+    /**
+     * @Route("/product/deleteproductmobile/{id}", name="delete_products_mobile", methods={"POST"}, requirements={"id":"\d+"})
+     */
+    public function deleteProductsMobile(Request $request, $id, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $product = $em->getRepository(Products::class)->find($id);
+
+        $em->remove($product);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($product, 'json', ['groups' => 'post:read']);
+        return new Response("information deleted" . json_encode($jsonContent));;
+    }
+
+
+    /**
+     * @Route("/product/updateproductmobile/{id}&name={name}&price={price}&qty={qty}&description={description}", name="update_products_mobile")
+     */
+    public function updateProductsMobile(Request $request, $id, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $product = $em->getRepository(Products::class)->find($id);
+        $product->setName($request->get('name'));
+        $product->setPrice($request->get('price'));
+        $product->setQty($request->get('qty'));
+        $product->setDescription($request->get('description'));
+
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($product, 'json', ['groups' => 'post:read']);
+        return new Response("information updated" . json_encode($jsonContent));;
+    }
+
+    /**
+     * @Route("/product/addproductmobile/new/{name}&price={price}&qty={qty}&description={description}", name="add_products_mobile")
+     */
+    public function addProductsMobile(Request $request, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $product = new Products();
+        $product->setName($request->get('name'));
+        $product->setPrice($request->get('price'));
+        $product->setQty($request->get('qty'));
+        $product->setDescription($request->get('description'));
+        $em->persist($product);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($product ,'json' ,['groups'=>'post:read']);
+        return new Response(json_encode($jsonContent));
+    }
 }

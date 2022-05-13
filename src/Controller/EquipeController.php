@@ -155,6 +155,17 @@ public function __construct(
         return $this->render('equipe/stat.html.twig', array('piechart' => $pieChart));
 
     }
+       /**
+     * @Route("/allequipes",name="allequipess")
+     */
+    public function AllEquipes(NormalizerInterface $Normalizer)
+    {
+        $repository = $this->getDoctrine()->getRepository(Equipe::class);
+        $users = $repository->findAll();
+        $jsonContent = $Normalizer->normalize($users, 'json', ['groups'=>'post:read']);
+        return new Response(json_encode($jsonContent));
+
+    }
 
 
 
@@ -298,22 +309,7 @@ public function __construct(
         return $this->json(array('title'=>'successful','message'=> "Reservation Event ajoutée avec succès"),200);
 
     }
-
-
-      /**
-     * @Route("/allequipes",name="allequipess")
-     */
-    public function AllEquipes(NormalizerInterface $Normalizer)
-    {
-        $repository = $this->getDoctrine()->getRepository(Equipe::class);
-        $users = $repository->findAll();
-        $jsonContent = $Normalizer->normalize($users, 'json', ['groups'=>'post:read']);
-        return new Response(json_encode($jsonContent));
-
-    }
-
-    
-    /**
+   /**
      * @Route("/Equipe/{id}",name="equipes")
      */
     public function EquipeId(Request $request, $id, NormalizerInterface $Normalizer)

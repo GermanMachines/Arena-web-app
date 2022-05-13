@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+
+
 /**
  * Post
  *
@@ -19,6 +22,7 @@ class Post
      * @ORM\Column(name="id_post", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $idPost;
 
@@ -26,6 +30,7 @@ class Post
      * @var string
      * @Assert\NotBlank(message=" titre doit etre non vide")
      * @ORM\Column(name="titre", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $titre;
 
@@ -33,6 +38,7 @@ class Post
      * @var string
      * @Assert\NotBlank(message=" auteur doit etre non vide")
      * @ORM\Column(name="auteur", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $auteur;
 
@@ -40,6 +46,7 @@ class Post
      * @var string
      *
      * @ORM\Column(name="img_post", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $imgPost;
 
@@ -47,6 +54,7 @@ class Post
      * @var string
      * @Assert\Date(message=" date doit etre non vide")
      * @ORM\Column(name="date_post", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $datePost;
 
@@ -60,6 +68,7 @@ class Post
      *
      *     )
      * @ORM\Column(name="rate", type="integer", nullable=false)
+     * @Groups("post:read")
      */
     private $rate = '0';
 

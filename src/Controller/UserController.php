@@ -15,8 +15,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Twilio\Rest\Client;
+use Symfony\Component\Serializer\Normalizer\NormalizableInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-
+use Symfony\Component\Validator\Constraints\Length;
 
 class UserController extends AbstractController
 {
@@ -46,18 +47,6 @@ class UserController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
-
-            $file = $request->files->get('user')['image'];
-            $uploads_directory = $this->getParameter('uploads_directory');
-            $filename = md5(uniqid()) . '.' . $file->guessExtension();
-            $file->move(
-                $uploads_directory,
-                $filename
-            );
-            $user->setImage($filename);
-
-
             $passwordcrypt = $encoder->encodePassword($user, $user->getMdp());
             $user->setMdp($passwordcrypt);
             $user->setBlock('non');
@@ -260,12 +249,7 @@ class UserController extends AbstractController
 
     }
 
-
-
-
-
-
-/**
+     /**
      * @Route("/AllUsers",name="AllUsers")
      */
     public function AllUsers(NormalizerInterface $Normalizer)
@@ -293,60 +277,7 @@ class UserController extends AbstractController
         return new Response("User Deleted successfully" . json_encode($jsonContent));
     }
 
-    // /**
-   //  * @Route("/AddUserr",name="ad")
-   //  */
-    /*function AddUser(Request $request, UserPasswordEncoderInterface $passwordEncoder, NormalizerInterface $Normalizer, \Swift_Mailer $mailer)
-    { $randomString = 55484;
-        $user = new User();
-        $session = $request->getSession();
-        $user->setNom($request->get('nom'));
-        $user->setSurnom($request->get('surnom'));
-        $user->setImage($request->get('image'));
-        $user->setEmail($request->get('email'));
-        $user->setMdp(
-            $passwordEncoder->encodePassword(
-                $user,
-                $request->get('mdp')
-            )
-        );
-
-        $user->setTelephone($request->get('telephone'));
-       // $user->setIdEquipe($request->get("idequipe"));
-        
-        
-        $user->setRole($request->get('role'));
-        $user->setBlock($request->get('block'));
-        $user->setRoles($request->get('roles'));
-        $user->setUsername($request->get('username'));
-       
-
-       
-        $em = $this->getDoctrine()->getManager();
-        $session->set('ok', $user->getPassword());
-        $em->persist($user);
-        $em->flush();
-        $email = (new \Swift_Message('Inscription:' . $user->getNom()))
-        // ->setFrom('mohammedmohsen.khefacha@esprit.tn')
-        // ->setFrom('mohamedaziz.sahnoun@esprit.tn')
-        ->setFrom('nour.boujmil@esprit.tn')
-         ->setTo($user->getEmail())
-         ->setBody($this->render('emails/tousermotdepass.html.twig', [
-            'user' => $user,
-            'randomstring'=>$randomString
-        ]
-    ), 'text/html'
-
-    );
-     $mailer->send($email);
-        return new Response("user added succ");
-
-
-    }
-
-    */
-
-    /**
+     /**
      * @Route("/AddUserr",name="ad")
      */
     function AddUser(Request $request, UserPasswordEncoderInterface $passwordEncoder, NormalizerInterface $Normalizer, \Swift_Mailer $mailer)
@@ -411,10 +342,6 @@ class UserController extends AbstractController
 
 
     }
-
-
-
-
 
      /**
      * @Route("/User/{id}",name="Users")
@@ -495,18 +422,11 @@ class UserController extends AbstractController
 
 
 
+    
+    }
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-}

@@ -61,7 +61,7 @@ class CategoryreclamationController extends AbstractController
         return new Response(json_encode($json_content));
     }
     /**
-     * @Route("/deleteCategorieReclamationJSON",name="delete_cat_reclamation_json" , methods={"GET"})
+     * @Route("/deleteCategorieReclamationJSON",name="delete_cat_reclamation_json" )
      */
     public function deleteReclamationByIdJSON(Request $request, NormalizerInterface $normalizer)
     {

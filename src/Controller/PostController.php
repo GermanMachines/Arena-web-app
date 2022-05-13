@@ -254,4 +254,74 @@ class PostController extends Controller
        
         
     }
+
+
+/**
+     * @Route("/s/AfficherPostMobile", name="AfficherPostMobile")
+     */
+    public function AfficherPostMobile(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $commandes = $em->getRepository(Post::class)->findAll();
+
+        return $this->json($commandes, 200, [], ['groups' => 'post:read']);
+    }
+    /**
+     * @Route("/ajouterpostMobile/new", name="ajouterpostMobile")
+     */
+    public function ajouterpostMobile(Request $request, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $post = new Post();
+        $post->setTitre($request->get('titre'));
+        $post->setAuteur($request->get('auteur'));
+        $post->setImgPost($request->get('imgPost'));
+        $post->setDatePost($request->get('datePost'));
+        $post->setRate($request->get('rate'));
+        $em->persist($post);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($post, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($jsonContent));;
+    }
+
+    /**
+     * @Route("/p/updatePostMobile/{idPost}&titre={titre}&auteur={auteur}&imgPost={imgPost}&datePost={datePost}&rate={rate}" , name="updatePostMobile")
+     */
+    public function updatePostMobile(Request $request, NormalizerInterface $Normalizer, $idPost)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository(Post::class)->find($idPost);
+        $post->setTitre($request->get('titre'));
+        $post->setAuteur($request->get('auteur'));
+        $post->setImgPost($request->get('imgPost'));
+        $post->setDatePost($request->get('datePost'));
+        $post->setRate($request->get('rate'));
+
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($post, 'json', ['groups' => 'post:read']);
+        return new Response("information updated" . json_encode($jsonContent));;
+    }
+    /**
+     * @Route("/p/deletePostMobile/{idPost}", name="deletePostMobile")
+     */
+    public function deletePostMobile(Request $request, $idPost, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository(Post::class)->find($idPost);
+
+        $em->remove($post);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($post, 'json', ['groups' => 'post:read']);
+        return new Response("information deleted" . json_encode($jsonContent));;
+    }
+
+
+
+
+
+
+
+
+
+
 }

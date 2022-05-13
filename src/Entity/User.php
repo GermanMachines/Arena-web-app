@@ -88,7 +88,6 @@ class User implements UserInterface
 
     /**
      *  @Assert\EqualTo(propertyPath = "mdp", message="Vous n'avez pas passé le même mot de passe !" )
-     * @Groups("post:read")
      */
     private $confirmpassword;
 

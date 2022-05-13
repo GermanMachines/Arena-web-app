@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
+
 use function PHPUnit\Framework\lessThan;
 
 /**
@@ -340,5 +341,63 @@ class OrdersController extends AbstractController
         $retour = json_encode($jsonContent);
         return new Response($retour);
         
+    }
+
+
+
+
+    
+    /**
+     * @Route("/order/getordermobile", name="getordermobile")
+     */
+    public function getOrderMobile(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $commandes = $em->getRepository(Orders::class)->findAll();
+
+        return $this->json($commandes, 200, [], ['groups' => 'post:read']);
+    }
+
+
+    /**
+     * @Route("/order/addordermobile/new/{name}&price={price}&qty={qty}&description={description}", name="add_orders_mobile")
+     */
+    public function addOrdersMobile(Request $request, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $order = new Orders();
+        $order->setNum($request->get('num'));
+        $em->persist($order);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($order, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($jsonContent));
+    }
+
+    /**
+     * @Route("/order/deleteordermobile/{id}", name="delete_orders_mobile", methods={"POST"}, requirements={"id":"\d+"})
+     */
+    public function deleteOrdersMobile(Request $request, $id, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $order = $em->getRepository(Orders::class)->find($id);
+
+        $em->remove($order);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($order, 'json', ['groups' => 'post:read']);
+        return new Response("information deleted" . json_encode($jsonContent));;
+    }
+
+    /**
+     * @Route("/order/updateordermobile/{id}&num={num}", name="update_orders_mobile")
+     */
+    public function updateOrdersMobile(Request $request, $id, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $order = $em->getRepository(Orders::class)->find($id);
+        $order->setName($request->get('num'));
+
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($order, 'json', ['groups' => 'post:read']);
+        return new Response("information updated" . json_encode($jsonContent));;
     }
 }

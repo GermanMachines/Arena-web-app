@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+
 
 /**
  * @Route("/categories")
@@ -98,5 +100,64 @@ class CategoriesController extends AbstractController
         }
 
         return $this->redirectToRoute('app_categories_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+
+    
+    /**
+     * @Route("/category/getcategorymobile", name="getcategorymobile")
+     */
+    public function getcategorymobile(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $commandes = $em->getRepository(Categories::class)->findAll();
+
+        return $this->json($commandes, 200, [], ['groups' => 'post:read']);
+    }
+
+
+    /**
+     * @Route("/category/addcategorymobile/new/{name}&description={description}", name="add_categories_mobile")
+     */
+    public function addCategoriesMobile(Request $request, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $category = new Categories();
+        $category->setName($request->get('name'));
+        $category->setDescription($request->get('description'));
+        $em->persist($category);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($category, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($jsonContent));
+    }
+
+    /**
+     * @Route("/category/deletecategorymobile/{id}", name="delete_categories_mobile", methods={"POST"}, requirements={"id":"\d+"})
+     */
+    public function deleteCategoriesMobile(Request $request, $id, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $category = $em->getRepository(Categories::class)->find($id);
+
+        $em->remove($category);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($category, 'json', ['groups' => 'post:read']);
+        return new Response("information deleted" . json_encode($jsonContent));;
+    }
+
+    /**
+     * @Route("/category/updatecategorymobile/{id}&name={name}&description={description}", name="update_categories_mobile")
+     */
+    public function updateCategoriesMobile(Request $request, $id, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $category = $em->getRepository(Categories::class)->find($id);
+        $category->setName($request->get('name'));
+        $category->setDescription($request->get('description'));
+
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($category, 'json', ['groups' => 'post:read']);
+        return new Response("information updated" . json_encode($jsonContent));;
     }
 }

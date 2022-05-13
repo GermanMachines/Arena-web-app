@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Categories
  *
  * @ORM\Table(name="categories")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\CategoriesRepository")
  */
 class Categories
 {
@@ -18,20 +20,25 @@ class Categories
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $id;
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Name is required")
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $name;
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Description is required")
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $description;
 
@@ -64,7 +71,8 @@ class Categories
         return $this;
     }
 
-    public function __toString() {
-        return strval($this->id);
+    public function __toString()
+    {
+        return (string) $this->name;
     }
 }

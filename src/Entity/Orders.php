@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Orders
  *
- * @ORM\Table(name="orders", indexes={@ORM\Index(name="fk_id_user", columns={"idUser"}), @ORM\Index(name="fk_id_product", columns={"idProduct"})})
- * @ORM\Entity
+ * @ORM\Table(name="orders", indexes={@ORM\Index(name="fk_id_product", columns={"idProduct"}), @ORM\Index(name="fk_id_user", columns={"idUser"})})
+ * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
  */
 class Orders
 {
@@ -18,6 +20,7 @@ class Orders
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $id;
 
@@ -25,20 +28,34 @@ class Orders
      * @var int
      *
      * @ORM\Column(name="num", type="integer", nullable=false)
+     * @Groups("post:read")
      */
     private $num;
+
+    /**
+     * @var \Users
+     *
+     * @ORM\ManyToOne(targetEntity="Users", cascade={"persist"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idUser", referencedColumnName="id")
+     * })
+     * @Groups("post:read")
+     */
+    private $iduser;
 
     /**
      * @var int
      *
      * @ORM\Column(name="productQty", type="integer", nullable=false)
+     * @Groups("post:read")
      */
     private $productqty;
 
     /**
-     * @var \DateTime|null
+     * @var \DateTime
      *
-     * @ORM\Column(name="createdAt", type="date", nullable=true)
+     * @ORM\Column(name="createdAt", type="date", nullable=false)
+     * @Groups("post:read")
      */
     private $createdat;
     public function __construct()
@@ -47,22 +64,13 @@ class Orders
     }
 
     /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idUser", referencedColumnName="id")
-     * })
-     */
-    private $iduser;
-
-    /**
      * @var \Products
      *
      * @ORM\ManyToOne(targetEntity="Products")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idProduct", referencedColumnName="id")
      * })
+     * @Groups("post:read")
      */
     private $idproduct;
 
@@ -79,6 +87,18 @@ class Orders
     public function setNum(int $num): self
     {
         $this->num = $num;
+
+        return $this;
+    }
+
+    public function getIduser(): ?User
+    {
+        return $this->iduser;
+    }
+
+    public function setIduser(User $iduser): self
+    {
+        $this->iduser = $iduser;
 
         return $this;
     }
@@ -100,21 +120,9 @@ class Orders
         return $this->createdat;
     }
 
-    public function setCreatedat(?\DateTimeInterface $createdat): self
+    public function setCreatedat(\DateTimeInterface $createdat): self
     {
         $this->createdat = $createdat;
-
-        return $this;
-    }
-
-    public function getIduser(): ?User
-    {
-        return $this->iduser;
-    }
-
-    public function setIduser(?User $iduser): self
-    {
-        $this->iduser = $iduser;
 
         return $this;
     }
@@ -130,9 +138,9 @@ class Orders
 
         return $this;
     }
+
     public function __toString()
     {
         return (string) $this->createdat;
     }
-
 }
