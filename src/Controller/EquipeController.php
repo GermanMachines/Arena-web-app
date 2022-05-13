@@ -299,4 +299,99 @@ public function __construct(
 
     }
 
+
+      /**
+     * @Route("/allequipes",name="allequipess")
+     */
+    public function AllEquipes(NormalizerInterface $Normalizer)
+    {
+        $repository = $this->getDoctrine()->getRepository(Equipe::class);
+        $users = $repository->findAll();
+        $jsonContent = $Normalizer->normalize($users, 'json', ['groups'=>'post:read']);
+        return new Response(json_encode($jsonContent));
+
+    }
+
+    
+    /**
+     * @Route("/Equipe/{id}",name="equipes")
+     */
+    public function EquipeId(Request $request, $id, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository(Equipe::class)->find($id);
+        $jsonContent = $Normalizer->normalize($user, 'json', ['groups'=>'post:read']);
+        return new Response(json_encode($jsonContent));
+    }
+
+    /**
+     * @Route("/UpdateEquipe/{id}",name="updateuser")
+     */
+    public function UpdateEquipeId(Request $request, NormalizerInterface $Normalizer, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository(Equipe::class)->find($id);
+        $user->setNom($request->get('nom'));
+         $user->setLogo($request->get('logo'));
+         $user->setScore($request->get('score'));
+         $user->setRegion($request->get('region'));
+
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($user, 'json', ['groups'=>'post:read']);
+        return new Response("Information updated successfully".json_encode($jsonContent));
+    }
+    /**
+     * @Route("/DeleteTeam/{id}",name="deleteTeamm")
+     */
+    public function deleteTeamId(Request $request, NormalizerInterface $Normalizer, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $eq = $em->getRepository(Equipe::class)->find($id);
+        
+        $em->remove($eq);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($eq, 'json', ['groups'=>'post:read']);
+        return new Response("Team Deleted successfully".json_encode($jsonContent));
+    }
+    /**
+     * @Route("/AddTeammm",name="addd")
+     */
+    function AddTeam(Request $request)
+    {
+        $user=new Equipe();
+        $session=$request->getSession();
+        $user->setNom($request->get('nom'));
+        $user->setLogo($request->get('logo'));
+        $user->setScore($request->get('score'));
+        $user->setRegion($request->get('region'));
+
+
+
+        $em=$this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+        return new Response("Equipe added succ");
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
 }
