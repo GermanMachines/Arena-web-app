@@ -53,7 +53,6 @@ class CategoryreclamationController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $cat = new Categoryreclamation();
         $cat = $em->getRepository(Categoryreclamation::class)->find($request->get('id'));
-        // dd($request->get('titre'));
         $cat->setNom($request->get('nom'));
 
         $em->flush();
@@ -62,12 +61,12 @@ class CategoryreclamationController extends AbstractController
         return new Response(json_encode($json_content));
     }
     /**
-     * @Route("/deleteCategoriReclamationJSON/{id}",name="delete_cat_reclamation_json" , methods={"GET"})
+     * @Route("/deleteCategorieReclamationJSON",name="delete_cat_reclamation_json" , methods={"GET"})
      */
-    public function deleteReclamationByIdJSON(Request $request, $id, NormalizerInterface $normalizer)
+    public function deleteReclamationByIdJSON(Request $request, NormalizerInterface $normalizer)
     {
         $em = $this->getDoctrine()->getManager();
-
+        $id = $request->get("id");
         $cat = $this->getDoctrine()->getRepository(Categoryreclamation::class)->find($id);
         $em->remove($cat);
         $em->flush();

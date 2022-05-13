@@ -144,12 +144,12 @@ class ReclamationController extends AbstractController
     }
 
     /**
-     * @Route("/deleteReclamationJSON/{id}",name="delete_reclamation_json" , methods={"GET"})
+     * @Route("/deleteReclamationJSON",name="delete_reclamation_json" , methods={"GET"})
      */
-    public function deleteReclamationByIdJSON(Request $request, $id, NormalizerInterface $normalizer)
+    public function deleteReclamationByIdJSON(Request $request, NormalizerInterface $normalizer)
     {
         $em = $this->getDoctrine()->getManager();
-
+        $id = $request->get("id");
         $reclamation = $this->getDoctrine()->getRepository(Reclamation::class)->find($id);
         $em->remove($reclamation);
         $em->flush();
