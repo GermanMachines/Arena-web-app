@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity ;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
@@ -26,6 +27,7 @@ class User implements UserInterface
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $id;
 
@@ -39,6 +41,7 @@ class User implements UserInterface
      *      minMessage = "le surnom doit contenir au minimum {{ limit }} caracteres",
      *      maxMessage = "le surnom doit contenir au plus {{ limit }} caracteres"
      * )
+     * @Groups("post:read")
      */
     private $surnom;
 
@@ -52,6 +55,7 @@ class User implements UserInterface
      *      minMessage = "le nom doit contenir au minimum {{ limit }} caracteres",
      *      maxMessage = "le nom doit contenir au plus {{ limit }} caracteres"
      * )
+     * @Groups("post:read")
      */
     private $nom;
 
@@ -59,6 +63,7 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="Image", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $image;
 
@@ -66,6 +71,7 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $email;
 
@@ -76,11 +82,13 @@ class User implements UserInterface
      *  @Assert\Length(
      *      min = 8,
      *      minMessage = "Votre mot de passe doit comporter au minimum {{ limit }} caractères")
+     * @Groups("post:read")
      */
     private $mdp;
 
     /**
      *  @Assert\EqualTo(propertyPath = "mdp", message="Vous n'avez pas passé le même mot de passe !" )
+     * @Groups("post:read")
      */
     private $confirmpassword;
 
@@ -100,6 +108,7 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="telephone", type="string", length=8, nullable=false)
+     * @Groups("post:read")
      */
     private $telephone;
 
@@ -107,6 +116,7 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="role", type="string", length=15, nullable=false)
+     * @Groups("post:read")
      */
     private $role;
 
@@ -114,6 +124,7 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="block", type="string", length=3, nullable=true)
+     * @Groups("post:read")
      */
     private $block;
 
@@ -124,6 +135,7 @@ class User implements UserInterface
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_equipe", referencedColumnName="idEquipe")
      * })
+     * @Groups("post:read")
      */
     private $idEquipe;
 
@@ -131,11 +143,13 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("post:read")
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("post:read")
      */
     private $roles;
 

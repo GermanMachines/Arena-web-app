@@ -18,6 +18,7 @@ use Symfony\Component\Mime\Email;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use App\Services\QrcodeService;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 
 
@@ -266,6 +267,36 @@ public function __construct(
 }
 
 
+/**
+     * @Route("/mobile/reservationEvenementM", name="add_reservation_evenement_mobile")
+     */
+    public function addparticipatioMobile(Request $request,TournoisRepository $repository): Response
+    {
+        $ide = $request->query->get("id");
+        $equipe = $request->query->get("equipe");
+       // $userid = $request->query->get("userid");
+       // $user1 = $this->get('security.token_storage')->getToken()->getUser();
 
+        $data = "";
+        $Equipe = new Equipe();
+        $Tournois = new Tournois();
+        $Tournois = $this->getDoctrine()->getRepository(Tournois::class)->find($ide);
+        $Equipe = $this->getDoctrine()->getRepository(Equipe::class)->find($equipe);
+       $Equipe->addIdtournoi($Tournois);
+
+        $counter=sizeof($Tournois->getIdequipe());
+
+        $Disponible=$Tournois->getStatus();
+
+        $nbr=$Tournois->getNbrparticipants();
+        
+    
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($Equipe);
+        $em->flush();
+      
+        return $this->json(array('title'=>'successful','message'=> "Reservation Event ajoutée avec succès"),200);
+
+    }
 
 }

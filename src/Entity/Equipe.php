@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Equipe
@@ -20,6 +21,7 @@ class Equipe
      * @ORM\Column(name="idEquipe", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $idequipe;
 
@@ -27,6 +29,7 @@ class Equipe
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $nom;
 
@@ -34,6 +37,7 @@ class Equipe
      * @var string
      *
      * @ORM\Column(name="logo", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $logo;
 
@@ -41,6 +45,7 @@ class Equipe
      * @var int
      *
      * @ORM\Column(name="score", type="integer", nullable=false)
+     * @Groups("post:read")
      */
     private $score;
 
@@ -48,6 +53,7 @@ class Equipe
      * @var string
      *
      * @ORM\Column(name="region", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $region;
 
