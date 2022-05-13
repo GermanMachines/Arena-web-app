@@ -293,7 +293,7 @@ class TournoisController extends AbstractController
         $Tournois->setDescriptiontournois($request->get("descriptiontournois"));
         $Tournois->setType($request->get("type"));
         $Tournois->setNbrparticipants($request->get("nbrparticipants"));
-        $Tournois->setWinner($request->get("winner"));
+        $Tournois->setWinner($request->get("Winner"));
         $Tournois->setStatus($request->get("status"));
 
         $em = $this->getDoctrine()->getManager();
@@ -335,7 +335,7 @@ class TournoisController extends AbstractController
         $commande->setDescriptiontournois($request->get("descriptiontournois"));
         $commande->setType($request->get("type"));
         $commande->setNbrparticipants($request->get("nbrparticipants"));
-        $commande->setWinner($request->get("winner"));
+        $commande->setWinner($request->get("Winner"));
         $commande->setStatus($request->get("status"));
         //$commande->setIdjeux($request->get("idjeux"));
 
@@ -351,4 +351,15 @@ class TournoisController extends AbstractController
         //http://127.0.0.1:8000/ModifierPodcastsMobile?id=8&user=9&produit=6&quantite=10&adresse=ariana
 
     }
+
+
+
+
+
+
+
+
+
+
+
 }

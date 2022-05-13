@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Twilio\Rest\Client;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 
 class UserController extends AbstractController
@@ -258,5 +259,182 @@ class UserController extends AbstractController
         return $this->render("user/updateuser.html.twig", ['f' => $form->createView()]);
 
     }
+
+
+
+
+
+
+/**
+     * @Route("/AllUsers",name="AllUsers")
+     */
+    public function AllUsers(NormalizerInterface $Normalizer)
+    {
+        $repository = $this->getDoctrine()->getRepository(User::class);
+        $users = $repository->findAll();
+        
+        
+
+        $jsonContent = $Normalizer->normalize( $users,  'json', ['groups' => 'post:read']);
+        dump($jsonContent);
+        return new Response(json_encode($jsonContent));
+    }
+
+     /**
+     * @Route("/codename/DeleteUser/{id}",name="deleteuser")
+     */
+    public function deleteUserId(Request $request, NormalizerInterface $Normalizer, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository(User::class)->find($id);
+        $em->remove($user);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($user, 'json', ['groups' => 'post:read']);
+        return new Response("User Deleted successfully" . json_encode($jsonContent));
+    }
+
+     /**
+     * @Route("/AddUserr",name="ad")
+     */
+    function AddUser(Request $request, UserPasswordEncoderInterface $passwordEncoder, NormalizerInterface $Normalizer, \Swift_Mailer $mailer)
+    { $randomString = 55484;
+        $user = new User();
+        $session = $request->getSession();
+        $user->setNom($request->get('nom'));
+        $user->setSurnom($request->get('surnom'));
+        $user->setImage($request->get('image'));
+        $user->setEmail($request->get('email'));
+        $user->setMdp(
+            $passwordEncoder->encodePassword(
+                $user,
+                $request->get('mdp')
+            )
+        );
+
+        $user->setTelephone($request->get('telephone'));
+       // $user->setIdEquipe($request->get("idequipe"));
+        
+        
+        $user->setRole($request->get('role'));
+        $user->setBlock($request->get('block'));
+        $user->setRoles($request->get('roles'));
+        $user->setUsername($request->get('username'));
+       
+
+       
+        $em = $this->getDoctrine()->getManager();
+        $session->set('ok', $user->getPassword());
+        $em->persist($user);
+        $em->flush();
+        $email = (new \Swift_Message('Inscription:' . $user->getNom()))
+        // ->setFrom('mohammedmohsen.khefacha@esprit.tn')
+        // ->setFrom('mohamedaziz.sahnoun@esprit.tn')
+        ->setFrom('nour.boujmil@esprit.tn')
+         ->setTo($user->getEmail())
+         ->setBody($this->render('emails/tousermotdepass.html.twig', [
+            'user' => $user,
+            'randomstring'=>$randomString
+        ]
+    ), 'text/html'
+
+    );
+     $mailer->send($email);
+        return new Response("user added succ");
+
+
+    }
+
+     /**
+     * @Route("/User/{id}",name="Users")
+     */
+    public function UserId(Request $request, $id, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository(User::class)->find($id);
+        $jsonContent = $Normalizer->normalize($user, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($jsonContent));
+    }
+
+
+
+    /**
+     * @Route("/auth",name="auth")
+     */
+    public function auth(Request $request, NormalizerInterface $Normalizer, UserPasswordEncoderInterface $passwordEncoder, UserRepository $rep)
+    { $user = new User();
+        $test = false ;
+        $em = $this->getDoctrine()->getManager();
+        $user = $rep->findByUsername($request->get('username'));
+     //   $nom = $user->getEquipe()->__toString();
+       $x = $request->get('password');
+
+       
+     // echo $user->getPassword();
+      foreach ($user as $y){
+       // echo $y->getPassword();
+        if ( $x == $y->getPassword() ) { $test = true; }
+    }
+  
+     
+        
+       
+ // echo $test;
+       if ($test) {
+        $jsonContent = $Normalizer->normalize($user,  'json', ['groups' => 'post:read']);
+        return new Response(json_encode($jsonContent));
+   } else {
+       return new Response("not connected");
+    }
+
+    
+   
+       // $test = $passwordEncoder->isPasswordValid($user, $request->get('password'));
+       
+
+
+    }
+
+    /**
+     * @Route("/UpdateUser/{id}",name="kavi")
+     */
+    public function UpdateUserId(Request $request, NormalizerInterface $Normalizer): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository(User::class)->find($request->get('id'));
+        $user->setNom($request->get('nom'));
+        $user->setSurnom($request->get('surnom'));
+        $user->setImage($request->get('image'));
+        $user->setEmail($request->get('email'));
+        $user->setTelephone($request->get('telephone'));
+        // $user->setIdEquipe($request->get("idequipe"));
+         
+         
+         $user->setRole($request->get('role'));
+         $user->setBlock($request->get('block'));
+         $user->setRoles($request->get('roles'));
+         $user->setUsername($request->get('username'));
+        
+ 
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($user, 'json', ['groups' => 'post:read']);
+        dump($jsonContent);
+        return new Response("Information updated successfully" . json_encode($jsonContent));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
