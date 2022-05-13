@@ -246,6 +246,38 @@ class TournoisController extends AbstractController
             return $this->render('tournois/test.html.twig', compact('data'));
         }
 
+    /**
+     * @Route("/s/AjouterTournoisMobile", name="AjouterTournoisMobile")
+     */
+    public function AjouterTournoisMobile(Request $request)
+    {
+        $Tournois = new Tournois();
+        $Tournois->setTitre($request->get("titre"));
+
+
+        $Tournois->setDateDebut(\DateTime::createFromFormat('Y-m-d', "2022-05-12"));
+        $Tournois->setDateFin(\DateTime::createFromFormat('Y-m-d', "2022-05-16"));
+        $Tournois->setDescriptiontournois($request->get("descriptiontournois"));
+        $Tournois->setType($request->get("type"));
+        $Tournois->setNbrparticipants($request->get("nbrparticipants"));
+        $Tournois->setWinner($request->get("Winner"));
+        $Tournois->setStatus($request->get("status"));
+
+        $em = $this->getDoctrine()->getManager();
+        $jeux = $this->getDoctrine()->getRepository(Jeux::class)->find($request->get("idjeux"));
+
+        $Tournois->setIdjeux($jeux);
+
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($Tournois);
+            $em->flush();
+
+            return new JsonResponse("Tournois Ajoute!", 200);
+        } catch (\Exception $ex) {
+            return new Response("Execption: " . $ex->getMessage());
+        }
+
 
 
      /**
