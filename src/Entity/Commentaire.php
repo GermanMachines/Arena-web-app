@@ -4,6 +4,10 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+
+
+
 /**
  * Commentaire
  *
@@ -18,6 +22,7 @@ class Commentaire
      * @ORM\Column(name="id_com", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $idCom;
 
@@ -25,6 +30,7 @@ class Commentaire
      * @var string
      * @Assert\NotBlank(message=" description doit etre non vide")
      * @ORM\Column(name="desc_com", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $descCom;
 
@@ -32,6 +38,7 @@ class Commentaire
      * @var string
      * @Assert\Date(message=" date doit etre non vide")
      * @ORM\Column(name="date_com", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $dateCom;
 
@@ -42,6 +49,7 @@ class Commentaire
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_user", referencedColumnName="id")
      * })
+     * @Groups("post:read")
      */
     private $idUser;
 
@@ -52,6 +60,7 @@ class Commentaire
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_post", referencedColumnName="id_post")
      * })
+     * @Groups("post:read")
      */
     private $idPost;
 

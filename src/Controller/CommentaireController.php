@@ -12,6 +12,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\CommentaireRepository;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Entity\User;
+use App\Entity\Post;
+
+
+
+
 /**
  * @Route("/commentaire")
  */
@@ -145,5 +151,82 @@ class CommentaireController extends Controller
 
         return $this->redirectToRoute('app_commentaire_indexfrontc', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
+
+   /**
+     * @Route("/s/AfficherComMobile", name="AfficherComMobile")
+     */
+    public function AfficherComMobile(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $commandes = $em->getRepository(Commentaire::class)->findAll();
+
+        return $this->json($commandes,200,[],['groups'=>'post:read']);
+
+        //http://127.0.0.1:8000/AfficherCategorieMobile
+
+    }
+
+    /**
+     * @Route("/s/getAllComJSONFront",name="getAlComJSONFront" , methods={"GET"})
+     */
+    public function getAlComJSONFront(Request $request, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $idUser = $request->get("iduser");
+
+        $avis = $em
+            ->getRepository(Commentaire::class)
+            ->findBy(array('idUser' => $idUser));
+
+        $json_content = $normalizer->normalize($avis, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($json_content));
+    }
+
+
+    /**
+     * @Route("/s/deleteCommentaireJSON",name="delete_Commentaire_json" , methods={"GET"})
+     */
+    public function deleteCommentaireJSON(Request $request, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->get("idCom");
+
+        $avis = $this->getDoctrine()->getRepository(Commentaire::class)->find($id);
+        $em->remove($avis);
+        $em->flush();
+        $json_content = $normalizer->normalize($avis, 'json', ['groups' => 'post:read']);
+        return new Response("Commentaire Deleted successfuly" . json_encode($json_content));
+    }
+
+
+    /**
+     * @Route("/s/addCommentJSON", name="add_Comment_jsona", methods={"GET"})
+     */
+    public function addCommentJSON(Request $request, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $idUser = $request->get('idUser');
+        $user = $this->getDoctrine()->getRepository(User::class)->find($idUser);
+
+        $idPost = $request->get('idPost');
+        $Post = $this->getDoctrine()->getRepository(Post::class)->find($idPost);
+
+        $Commentaire = new Commentaire();
+        $Commentaire->setDescCom($request->get('descCom'));
+        $Commentaire->setDateCom($request->get('dateCom'));
+        $Commentaire->setIdUser($user); //must pass User
+        $Commentaire->setIdPost($Post);
+
+
+        $em->persist($Commentaire);
+        $em->flush();
+        $json_content = $normalizer->normalize($Commentaire, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($json_content));
+    }
+
 }
 

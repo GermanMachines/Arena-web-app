@@ -100,6 +100,7 @@ class Products
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idCat", referencedColumnName="id")
      * })
+     * @Groups("post:read")
      */
     private $idcat;
 

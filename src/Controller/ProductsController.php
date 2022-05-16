@@ -287,6 +287,32 @@ class ProductsController extends AbstractController
     }
 
 
+
+
+    /**
+     * @Route("/addproductmobile/new", name="add_product_mobile")
+     */
+    public function addProductsMobile(Request $request, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $post = new Products();
+        $post->setName($request->get('name'));
+        $post->setPrice($request->get('price'));
+        $post->setQty($request->get('qty'));
+        $post->setDescription($request->get('description'));
+        $post->setImage("de68f183bb3167cc75a9c32e54e9b5bd.png");
+        $post->setPos1(10.8506);
+        $post->setPos2(39.4365);
+
+
+
+        $em->persist($post);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($post, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($jsonContent));;
+    }
+
+
     /**
      * @Route("/product/updateproductmobile/{id}&name={name}&price={price}&qty={qty}&description={description}", name="update_products_mobile")
      */
@@ -299,25 +325,11 @@ class ProductsController extends AbstractController
         $product->setQty($request->get('qty'));
         $product->setDescription($request->get('description'));
 
+
         $em->flush();
         $jsonContent = $Normalizer->normalize($product, 'json', ['groups' => 'post:read']);
         return new Response("information updated" . json_encode($jsonContent));;
     }
 
-    /**
-     * @Route("/product/addproductmobile/new/{name}&price={price}&qty={qty}&description={description}", name="add_products_mobile")
-     */
-    public function addProductsMobile(Request $request, NormalizerInterface $Normalizer)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $product = new Products();
-        $product->setName($request->get('name'));
-        $product->setPrice($request->get('price'));
-        $product->setQty($request->get('qty'));
-        $product->setDescription($request->get('description'));
-        $em->persist($product);
-        $em->flush();
-        $jsonContent = $Normalizer->normalize($product ,'json' ,['groups'=>'post:read']);
-        return new Response(json_encode($jsonContent));
-    }
+
 }
