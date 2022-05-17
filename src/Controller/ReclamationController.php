@@ -105,6 +105,7 @@ class ReclamationController extends AbstractController
     public function getAllReclamationsFront(Request $request, NormalizerInterface $normalizer)
     {
 
+
         $idUser = $request->get("iduser");
 
         $em = $this->getDoctrine()->getManager();
@@ -115,6 +116,7 @@ class ReclamationController extends AbstractController
             $idUser));
 
         $json_content = $normalizer->normalize($reclamations, 'json', ['groups' => 'post:read']);
+
         return new Response(json_encode($json_content));
     }
 

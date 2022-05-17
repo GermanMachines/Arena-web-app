@@ -76,7 +76,7 @@ class AvisController extends AbstractController
         return new Response(json_encode($json_content));
     }
     /**
-     * @Route("/getAllAvisJSON",name="get_all_avis_json" , methods={"GET"})
+     * @Route("/getAllAvisJSON",name="get_all_avis_json_back" , methods={"GET"})
      */
     public function getAllAvisJSON(Request $request, NormalizerInterface $normalizer)
     {
