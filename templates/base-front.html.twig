@@ -92,7 +92,7 @@
                   
 					
 					
-				  {% if app.user == NULL  %}
+				  {% if (app.user == NULL)   or (app.user.block =="oui") %}
 
 				<nav class="top-nav-area w-100">
 					<div class="user-panel">
@@ -147,7 +147,7 @@
 
 
          <!--Go Gestion Tournois-->
-							{% if app.user != NULL  %}
+							{% if (app.user != NULL)  and (app.user.block =="non") %}
                         	<li><a href="{{ path('app_tournois_indexfront') }}">Tournois</a>
 							<ul class="sub-menu">
 						
@@ -189,7 +189,7 @@
 
  		 <!--Go Gestion Avis-->
        
-			{% if app.user != NULL  %}
+			{% if (app.user != NULL) and (app.user.block =="non") %}
 
 						<li><a href="">Avis</a>
 							<ul class="sub-menu">
@@ -211,7 +211,7 @@
 
 
          <!--Go Gestion reclamation -->
-						{% if app.user != NULL  %}
+						{% if (app.user != NULL)  and (app.user.block =="non") %}
                         	<li><a href="">Reclamation</a>
 							<ul class="sub-menu">
 								<li><a href="{{path('app_reclamation_index_front')}}">Reclame </a></li>
