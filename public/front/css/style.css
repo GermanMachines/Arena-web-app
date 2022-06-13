@@ -332,6 +332,28 @@ ol {
 	float: left;
 }
 
+.site-logo-img {
+	height: 80px;
+	width: 160px;
+	margin: -30px auto auto auto;
+	display: block;
+}
+
+.site-logo-img-admin {
+	height: 100px;
+	width: 160px;
+	margin: 20px auto;
+	display: block;
+}
+
+.logo-wrapper {
+	margin: 50px auto;
+}
+
+.logo-container {
+	margin: 20px auto;
+}
+
 .user-panel {
 	float: right;
 	font-size: 16px;
@@ -638,6 +660,7 @@ ol {
 	/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#501755', endColorstr='#2d1854', GradientType=1);
 	/* IE6-9 fallback on horizontal gradient */
+	min-width: 1200px;
 }
 
 .blog-section .section-title {
